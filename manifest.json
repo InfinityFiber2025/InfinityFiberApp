@@ -1,10 +1,11 @@
 {
-  "name": "Infinity Fiber Ltda \u2014 CNPJ: 28.430.524/0001-31",
-  "short_name": "InfinityFiber",
-  "start_url": "Infinity_Fiber_Versao_1m_PWA.html",
+  "name": "Infinity Fiber - Banco Digital",
+  "short_name": "InfinityBank",
+  "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
+  "background_color": "#0a0f2c",
+  "theme_color": "#0a0f2c",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
