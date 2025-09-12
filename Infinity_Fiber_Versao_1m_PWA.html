@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, viewport-fit=cover" name="viewport"/>
+<title>Infinity Fiber — Versão 1b</title>
+<!-- TailwindCSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0f172a">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
+<!-- LOGIN -->
+<div class="flex-1 flex items-center justify-center p-6" id="login">
+<div class="w-full max-w-sm bg-slate-900/80 rounded-2xl p-6 shadow-xl">
+<div class="flex flex-col items-center mb-6">
+<!-- Logo infinito -->
+<svg class="drop-shadow mb-2" height="56" viewbox="0 0 64 32" width="56">
+<defs>
+<lineargradient id="g" x1="0" x2="64" y1="0" y2="32">
+<stop offset="0%" stop-color="#22d3ee"></stop>
+<stop offset="100%" stop-color="#6366f1"></stop>
+</lineargradient>
+</defs>
+<path d="M50 24c-8 0-12-16-18-16S22 24 14 24C7 24 2 19 2 12S7 0 14 0c8 0 12 16 18 16S42 0 50 0c7 0 12 5 12 12s-5 12-12 12Z" fill="url(#g)" opacity="0.30"></path>
+<path d="M14 22c-5 0-9-4-9-10s4-10 9-10c8 0 12 16 18 16S48 2 50 2c5 0 9 4 9 10s-4 10-9 10c-6 0-10-5-18-10-8 5-12 10-18 10Z" fill="none" stroke="url(#g)" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<h1 class="text-lg font-bold">Infinity Fiber</h1>
+<p class="text-xs text-slate-400">Gestão de Pagamento • Mobile</p>
+</div>
+<label class="text-xs">Usuário</label>
+<input class="w-full mt-1 mb-3 px-4 py-2 rounded-lg bg-slate-800 text-slate-100 outline-none" id="u" placeholder="DanielKascher"/>
+<label class="text-xs">Senha</label>
+<input autocomplete="off" class="w-full mt-1 mb-4 px-4 py-2 rounded-lg bg-slate-800 text-slate-100 outline-none" id="p" placeholder="Digite aqui..." type="password"/>
+<button class="w-full py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-500 font-semibold" onclick="doLogin()">Entrar</button>
+<p class="text-red-400 text-xs mt-2 hidden" id="le">Usuário ou senha inválidos.</p>
+<p class="text-[11px] text-slate-500 mt-3">Use <b>DanielKascher</b> / <b>K@scher123</b></p>
+</div>
+</div>
+<!-- APP -->
+<div class="hidden flex-1 flex flex-col" id="app">
+<!-- Topbar compacta -->
+<header class="px-4 py-3 border-b border-white/10 bg-slate-950/90 backdrop-blur flex items-center gap-3">
+<svg height="26" viewbox="0 0 64 32" width="26">
+<defs>
+<lineargradient id="g2" x1="0" x2="64" y1="0" y2="32">
+<stop offset="0%" stop-color="#22d3ee"></stop>
+<stop offset="100%" stop-color="#6366f1"></stop>
+</lineargradient>
+</defs>
+<path d="M50 24c-8 0-12-16-18-16S22 24 14 24C7 24 2 19 2 12S7 0 14 0c8 0 12 16 18 16S42 0 50 0c7 0 12 5 12 12s-5 12-12 12Z" fill="url(#g2)" opacity="0.35"></path>
+<path d="M14 22c-5 0-9-4-9-10s4-10 9-10c8 0 12 16 18 16S48 2 50 2c5 0 9 4 9 10s-4 10-9 10c-6 0-10-5-18-10-8 5-12 10-18 10Z" fill="none" stroke="url(#g2)" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase text-slate-400">Infinity Fiber</span>
+<span class="text-sm font-semibold">Gestão de Pagamento</span>
+</div>
+<div class="ml-auto text-right text-xs">
+<div>Saldo</div>
+<div class="text-base font-bold text-cyan-300 valorFinanceiro" data-valor="R$ 37,743,623,000">****</div>
+</div>
+</header>
+<!-- Conteúdo -->
+<main class="flex-1 overflow-y-auto pb-24" id="content">
+<section class="p-4 space-y-3" id="t-saldo">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow text-slate-100">
+<h2 class="text-lg font-semibold mb-2">Minha Conta</h2>
+<p class="text-sm mb-2">Saldo disponível:</p>
+<p class="valorFinanceiro text-2xl font-bold" id="valorSaldo">****</p>
+<button class="btnToggleValor mt-2 py-2 px-4 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-lg text-white" onclick="toggleValores()">👁 Mostrar Valores</button>
+</div>
+</section>
+<!-- Telas -->
+<section class="p-4 space-y-3" id="t-home">
+<div class="rounded-2xl p-5 bg-gradient-to-r from-cyan-500 to-indigo-600 shadow">
+<div class="text-xs">Saldo disponível</div>
+<div class="text-2xl font-extrabold valorFinanceiro" data-valor="R$ 37,743,623,000">****</div>
+</div>
+<div class="grid grid-cols-2 gap-3">
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-visaogeral')"><div class="text-sm font-semibold">Visão Geral</div><div class="text-[11px] text-slate-400">Fundo e gráficos</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-repasse')"><div class="text-sm font-semibold">Repasse</div><div class="text-[11px] text-slate-400">Split e ordens</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-reembolsos')"><div class="text-sm font-semibold">Reembolsos</div><div class="text-[11px] text-slate-400">Entradas &amp; saídas</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-pagamentos')"><div class="text-sm font-semibold">Pagamentos</div><div class="text-[11px] text-slate-400">Clientes &amp; fornecedores</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="openModal('m-gateway')"><div class="text-sm font-semibold">Gateway Bancário</div><div class="text-[11px] text-slate-400">Ambiente seguro</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="openModal('m-ativo')"><div class="text-sm font-semibold">Transferência de Ativo</div><div class="text-[11px] text-slate-400">Assinatura digital</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-impostos')"><div class="text-sm font-semibold">Impostos</div><div class="text-[11px] text-slate-400">Tributos &amp; encargos</div></button>
+<button class="rounded-xl p-4 bg-slate-900/60 text-left shadow" onclick="nav('t-beneficios')"><div class="text-sm font-semibold">Benefícios</div><div class="text-[11px] text-slate-400">Cartão &amp; vantagens</div></button>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-visaogeral">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-1">Total do Fundo</div>
+<div class="text-lg font-bold">R$ 44,200,000,000</div>
+<button class="text-xs text-cyan-300 mt-2" onclick="toggle('op-list')">Ver Operadoras</button>
+<ul class="hidden text-xs mt-2 space-y-1 text-slate-300" id="op-list">
+<li>VIVO — R$ 24,200,000,000</li>
+<li>CLARO — R$ 8,000,000,000</li>
+<li>TIM — R$ 12,000,000,000</li>
+</ul>
+</div>
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Gráfico: Distribuição por Operadora</div>
+<div style="max-width:300px;margin:auto;"><canvas height="140" id="c-op"></canvas></div>
+</div>
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Gráfico: Percentuais de Repasse</div>
+<div style="max-width:300px;margin:auto;"><canvas height="140" id="c-rp"></canvas></div>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-repasse">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold">Valores a repassar</div>
+<ul class="text-xs mt-2 space-y-1">
+<li>ANATEL — R$ 1,679,600,000</li>
+<li>OI S.A. — R$ 1,193,400,000</li>
+<li>Reserva de Credores — R$ 3,536,000,000</li>
+</ul>
+<div class="text-xs text-slate-400 mt-2">Saldo líquido IF: <b class="text-cyan-300">R$ 37,791,000,000</b></div>
+<div class="grid grid-cols-2 gap-2 mt-3">
+<button class="rounded-lg py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 text-sm font-semibold" onclick="gerarOrdem()">Gerar Ordem</button>
+<button class="rounded-lg py-2 bg-white/10 text-sm font-semibold" onclick="exportarPDF()">Exportar PDF</button>
+</div>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-reembolsos">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-1">Reembolsos de Terceiros</div>
+<div class="text-xs text-slate-400">Depósito ANATEL: <b class="text-slate-200">R$ 47,400,000</b></div>
+<ul class="text-xs mt-2 space-y-1">
+<li>Daniel — R$ 13,000,000</li>
+<li>Reembolso de Impostos — R$ 877,000</li>
+<li>Reembolso JPMorgan — R$ 1,300,000</li>
+<li>Diferença de saldo — R$ 32,200,000</li>
+</ul>
+<div class="text-xs text-slate-400 mt-2">Saldo Final IF: <b class="text-cyan-300 valorFinanceiro" data-valor="R$ 37,743,623,000">****</b></div>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-pagamentos">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Acesso de Clientes &amp; Fornecedores</div>
+<input class="w-full px-3 py-2 rounded-lg bg-slate-800 text-xs mb-2" placeholder="Nome/Razão Social"/>
+<input class="w-full px-3 py-2 rounded-lg bg-slate-800 text-xs mb-2" placeholder="E-mail" type="email"/>
+<input class="w-full px-3 py-2 rounded-lg bg-slate-800 text-xs mb-2" placeholder="CNPJ/CPF"/>
+<div class="grid grid-cols-2 gap-2">
+<input class="px-3 py-2 rounded-lg bg-slate-800 text-xs" placeholder="Usuário"/>
+<input autocomplete="off" class="px-3 py-2 rounded-lg bg-slate-800 text-xs" placeholder="Digite aqui..." type="password"/>
+</div>
+<button class="mt-3 w-full rounded-lg py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 text-sm font-semibold" onclick="alert('Cadastro enviado para análise.');">Cadastrar Acesso</button>
+</div>
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Regras para estar apto a receber</div>
+<ul class="text-xs space-y-1">
+<li>Certidões Negativas (Federal, Estadual, Municipal)</li>
+<li>Regularidade Trabalhista (FGTS, GFIP, eSocial)</li>
+<li>Regularidade Fiscal (Receita, INSS)</li>
+<li>PLD/FT (Lei 9.613/1998) — validação KYC e listas de sanções</li>
+<li>Sem restrições (Serasa, SPC, BacenJud)</li>
+<li>Assinatura eletrônica de contrato</li>
+<li>Capacidade técnica comprovada e dados bancários válidos</li>
+</ul>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-impostos">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Tributos e Encargos (Telecom)</div>
+<ul class="text-xs space-y-1">
+<li><b>Federais:</b> IRPJ, CSLL, PIS, COFINS, CIDE</li>
+<li><b>Estaduais:</b> ICMS (com regras específicas para telecom)</li>
+<li><b>Municipais:</b> ISS</li>
+<li><b>Trabalhistas/Previdenciários:</b> FGTS, INSS Patronal, eSocial/GFIP</li>
+<li><b>Fundos Setoriais:</b> FUST, FUNTTEL</li>
+<li><b>Contribuições:</b> Sistema S (SENAI, SENAC, etc.)</li>
+</ul>
+<p class="text-[11px] text-slate-400 mt-2">Observação: a incidência e alíquotas podem variar conforme regime tributário e legislação vigente do estado/município.</p>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-beneficios">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow">
+<div class="text-sm font-semibold mb-2">Benefícios Infinity Fiber</div>
+<ul class="text-xs space-y-1">
+<li><b>Cartão Infinity</b>: débito e crédito com controle no app</li>
+<li><b>Programa de Vantagens</b>: cashback e descontos em parceiros</li>
+<li><b>Open Finance</b>: trazer saldos e extratos de outras contas</li>
+<li><b>Pagamentos Automáticos</b>: contas de consumo e serviços</li>
+<li><b>Serviços</b>: seguros (celular, viagem), assistências e saúde</li>
+</ul>
+<button class="mt-3 w-full rounded-lg py-2 bg-gradient-to-r from-emerald-500 to-green-600 text-sm font-semibold" onclick="alert('Solicitação de cartão enviada.')">Solicitar Cartão Infinity</button>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-contrato">
+<div class="rounded-xl bg-slate-900/60 p-4 shadow text-slate-100">
+<h2 class="text-lg font-semibold mb-2">Contrato de Conta Digital</h2>
+<p class="text-sm mb-2">Simulação de contrato com cláusulas e tarifas médias praticadas no mercado.</p>
+<textarea class="w-full h-80 p-3 rounded bg-slate-800 text-xs mb-3" readonly="">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE CONTA DIGITAL
+
+Pelo presente instrumento particular, de um lado:
+Infinity Fiber Ltda., inscrita no CNPJ sob nº 28.430.524/0001-31, com sede na Rua do México, 31 — Centro, Rio de Janeiro/RJ, doravante denominada CONTRATADA;
+
+E, de outro lado:
+[NOME_DO_CLIENTE], inscrito no CPF/CNPJ sob nº [CPF_DO_CLIENTE], residente/sediado em [ENDERECO_DO_CLIENTE], doravante denominado CONTRATANTE;
+
+Cláusula 1ª — Objeto
+Prestação de serviços de conta digital, com pacotes de tarifas conforme simulação abaixo.
+
+Cláusula 2ª — Pacotes e Tarifas
+- Pacote Básico: R$ 0,00/mês — PIX ilimitado, consultas de saldo grátis.
+- Pacote Intermediário: R$ 19,90/mês — inclui 10 TEDs/boletos grátis por mês.
+- Pacote Premium: R$ 39,90/mês — TEDs/boletos ilimitados, cartão físico incluso.
+- Manutenção de Conta: R$ 12,90/mês (isenta no pacote Premium).
+
+Cláusula 3ª — Obrigações da CONTRATADA
+a) Cumprir requisitos regulatórios (BACEN, ANATEL, LGPD);
+b) Garantir infraestrutura segura;
+c) Divulgar periodicamente tabela de tarifas.
+
+Cláusula 4ª — Obrigações do CONTRATANTE
+a) Fornecer informações corretas;
+b) Efetuar pagamentos das tarifas e serviços contratados;
+c) Manter uso lícito da conta.
+
+Cláusula 5ª — Movimentação Financeira
+Serviços incluem pagamentos, transferências e recebimentos, sujeitos a limites de segurança.
+
+Cláusula 6ª — Segurança e Autenticação
+Operações devem ser confirmadas por senha, token, biometria ou meio equivalente. O CONTRATANTE é responsável por suas credenciais.
+
+Cláusula 7ª — Encerramento de Conta
+A conta poderá ser encerrada a pedido do CONTRATANTE ou pela CONTRATADA em casos de descumprimento contratual, inatividade ou ordem legal. Saldos serão devolvidos em até 10 (dez) dias úteis.
+
+Cláusula 8ª — Atendimento e Suporte
+Suporte via canais digitais da CONTRATADA em horário comercial; bloqueios emergenciais disponíveis 24h/dia.
+
+Cláusula 9ª — Foro
+Fica eleito o foro da Comarca do Rio de Janeiro/RJ.
+
+E por estarem de pleno acordo, firmam o presente instrumento.
+-------------------------------------------------
+Infinity Fiber Ltda. — CONTRATADA
+-------------------------------------------------
+[NOME_DO_CLIENTE] — CONTRATANTE</textarea>
+<div class="flex items-center space-x-2 mb-3">
+<input id="chkContrato2" type="checkbox"/>
+<label class="text-sm" for="chkContrato2">Li e aceito os termos do contrato</label>
+</div>
+<button class="hidden w-full py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-lg text-white" id="btnPdf2" onclick="gerarContratoPDF2()">Baixar Contrato em PDF</button>
+</div>
+</section>
+<section class="hidden p-4 space-y-3" id="t-restrito">
+<div class="rounded-xl bg-red-900/60 p-4 shadow text-slate-100">
+<h2 class="text-lg font-semibold mb-2">Área de Acesso Restrito</h2>
+<p class="text-sm mb-3">Somente administradores podem conceder permissões para gestores e usuários.</p>
+<div id="restrito-content">
+<h3 class="font-semibold mb-2">Gerenciar Usuários</h3>
+<p class="text-sm mb-2">Somente administradores podem atribuir permissões.</p>
+<table class="w-full text-sm border border-slate-700">
+<thead class="bg-slate-800">
+<tr>
+<th class="p-2 text-left">Usuário</th>
+<th class="p-2 text-left">Nível</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-700" id="usuariosLista">
+<tr>
+<td class="p-2">João</td>
+<td class="p-2">
+<select class="nivelSelect w-full p-1 rounded bg-slate-900 text-white" data-user="joao">
+<option value="user">Usuário</option>
+<option value="gestor">Gestor</option>
+<option value="admin">Admin</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="p-2">Maria</td>
+<td class="p-2">
+<select class="nivelSelect w-full p-1 rounded bg-slate-900 text-white" data-user="maria">
+<option value="user">Usuário</option>
+<option value="gestor">Gestor</option>
+<option value="admin">Admin</option>
+</select>
+</td>
+</tr>
+<tr>
+<td class="p-2">Pedro</td>
+<td class="p-2">
+<select class="nivelSelect w-full p-1 rounded bg-slate-900 text-white" data-user="pedro">
+<option value="user">Usuário</option>
+<option value="gestor">Gestor</option>
+<option value="admin">Admin</option>
+</select>
+</td>
+</tr>
+</tbody>
+</table>
+<button class="w-full mt-3 py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-lg text-white" onclick="salvarPermissoes()">Salvar Permissões</button>
+</div>
+</div>
+</section>
+
+<section class="hidden p-4 space-y-3" id="t-ciclos">
+  <div class="rounded-xl bg-slate-900/60 p-4 shadow text-slate-100">
+    <h2 class="text-lg font-semibold mb-2">Ciclos de Pagamento</h2>
+    <p class="text-sm mb-1"><b>Valor:</b> R$ 4,3 Bilhões</p>
+    <p class="text-sm"><b>Data:</b> 16/09/2025</p>
+  </div>
+</section>
+
+
+<section class="hidden p-4 space-y-3" id="t-facial">
+  <div class="rounded-xl bg-slate-900/60 p-4 shadow text-slate-100">
+    <h2 class="text-lg font-semibold mb-2">Módulo Obrigatório Facial</h2>
+    <p class="text-sm mb-4">⚠️ Para liberar do saldo em conta para transferência e movimentações — incluindo transferência para agência e conta de terceiro — é obrigatória a leitura facial.</p>
+    
+    
+<label class="w-full">
+  <input type="file" accept="image/*" capture="user" id="selfieInput" style="display:none">
+  <button type="button" class="w-full py-2 mb-2 bg-emerald-600 rounded-lg text-white">📸 Cadastro Selfie</button>
+</label>
+
+    
+<label class="w-full">
+  <input type="file" accept="image/*" capture="user" id="facialCheckInput" style="display:none">
+  <button type="button" class="w-full py-2 bg-blue-600 rounded-lg text-white">👁 Executar Leitura Facial</button>
+</label>
+
+    
+    <p class="text-xs text-slate-400 mt-3">Este é um ambiente de simulação local — nenhuma foto é enviada ao servidor.</p>
+  </div>
+</section>
+
+<main id=\"integracao-bancaria\" class=\"hidden\" class="hidden max-w-6xl mx-auto mt-6 px-3">
+    <header class="mb-4">
+      <h2 class="text-xl font-semibold">Integração Bancária — Importado</h2>
+      <p class="text-sm text-white/60">Módulos: Gateway, Contratos, Contas com permissão, Atendimento IA</p>
+    </header>
+
+    <!-- Abas (conteúdo) -->
+    <div id="aba-home" class="p-4 rounded-2xl glass">
+      <h3 class="text-lg font-semibold mb-2">Início</h3>
+      <p class="text-white/80">Bem-vindo ao ambiente de testes. Use o menu inferior para navegar.</p>
+      <div class="mt-4 grid sm:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-slate-800/50 border border-white/10">
+          <div class="text-sm text-white/70">Saldo disponível</div>
+          <div class="mt-1 text-2xl font-semibold valorFinanceiro" data-valor="R$ 37.743.623.000">****</div>
+          <button class="mt-3 px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 btnToggleValor" onclick="toggleValores()">👁 Mostrar Valores</button>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-800/50 border border-white/10">
+          <div class="text-sm text-white/70">Atalhos</div>
+          <div class="mt-2 flex gap-2 flex-wrap">
+            <button class="px-3 py-1.5 rounded bg-sky-700 hover:bg-sky-600" onclick="openModal('modal-gateway')">Ir para Gateway</button>
+            <button class="px-3 py-1.5 rounded bg-teal-700 hover:bg-teal-600" onclick="openModal('modal-contas')">Contas com permissão</button>
+            <button class="px-3 py-1.5 rounded bg-indigo-700 hover:bg-indigo-600" onclick="openModal('modal-ia')">Atendimento IA</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Gateway Bancário -->
+    <div id="aba-gateway" class="hidden p-4 rounded-2xl glass">
+      <h3 class="text-lg font-semibold mb-3">Gateway Bancário</h3>
+      <div class="grid md:grid-cols-2 gap-4">
+        <form id="form-transfer" class="p-4 rounded-xl bg-slate-800/50 border border-white/10 grid gap-3" onsubmit="enviarTransferenciaGuardada(event)">
+          <div class="grid gap-1">
+            <label class="text-sm">Valor</label>
+            <input id="tx-valor" type="number" step="0.01" min="0" class="px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="0,00" required="">
+          </div>
+
+          <div class="grid gap-1">
+            <label class="text-sm">Destino (somente contas com permissão)</label>
+            <select id="beneficiarioSelect" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" disabled=""><option value="">Cadastre contas com permissão na aba correspondente</option></select>
+            <p class="text-xs text-white/60">Cadastre até 3 contas na aba “Contas permissão para transferência”.</p>
+          </div>
+
+          <div class="grid md:grid-cols-3 gap-3">
+            <div>
+              <label class="text-sm">Banco</label>
+              <input id="dest-banco" class="w-full px-3 py-2 rounded bg-slate-900 text-white border border-white/10" readonly="">
+            </div>
+            <div>
+              <label class="text-sm">Agência</label>
+              <input id="dest-agencia" class="w-full px-3 py-2 rounded bg-slate-900 text-white border border-white/10" readonly="">
+            </div>
+            <div>
+              <label class="text-sm">Conta</label>
+              <input id="dest-conta" class="w-full px-3 py-2 rounded bg-slate-900 text-white border border-white/10" readonly="">
+            </div>
+          </div>
+          <div class="grid gap-1">
+            <label class="text-sm">CPF do destinatário</label>
+            <input id="dest-cpf" class="w-full px-3 py-2 rounded bg-slate-900 text-white border border-white/10" readonly="">
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Transferir</button>
+            <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="abrirAjudaIA(&#39;transferência&#39;)">Ajuda</button>
+          </div>
+        </form>
+
+        <div class="p-4 rounded-xl bg-slate-800/50 border border-white/10">
+          <h4 class="font-medium mb-2">Regras de segurança</h4>
+          <ul class="list-disc pl-5 text-sm text-white/80 space-y-1">
+            <li>Somente contas previamente cadastradas poderão receber transferências.</li>
+            <li>Validação de CPF e registro de hash do comprovante de residência.</li>
+            <li>Logs e auditoria recomendados no backend (IP, usuário, timestamp).</li>
+          </ul>
+          <div class="mt-4">
+            <button class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="openModal('modal-contas')">Cadastrar contas com permissão</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contas com permissão para transferência (até 3) -->
+    </div>
+
+      <hr class="my-4 border-white/10">
+
+      <form id="form-beneficiario" class="grid gap-3 max-w-2xl" onsubmit="salvarBeneficiario(event)">
+        <h4 class="font-medium">Cadastrar nova conta com permissão</h4>
+
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm">Nome completo</label>
+            <input id="b-nome" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+          <div>
+            <label class="text-sm">CPF</label>
+            <input id="b-cpf" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="000.000.000-00" required="">
+          </div>
+          <div>
+            <label class="text-sm">Identidade (RG)</label>
+            <input id="b-rg" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+          <div>
+            <label class="text-sm">Endereço</label>
+            <input id="b-end" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-3">
+          <div>
+            <label class="text-sm">Banco</label>
+            <input id="b-banco" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="Ex.: 237 - Bradesco" required="">
+          </div>
+          <div>
+            <label class="text-sm">Agência</label>
+            <input id="b-agencia" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+          <div>
+            <label class="text-sm">Conta</label>
+            <input id="b-conta" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+        </div>
+
+        <div class="grid gap-2">
+          <label class="text-sm">Comprovante de residência (PDF/JPG/PNG)</label>
+          <input id="b-anexo" type="file" accept=".pdf,image/*" class="w-full text-sm file:mr-2 file:px-3 file:py-1.5 file:rounded file:border-0 file:bg-slate-700 file:text-white">
+          <p class="text-xs text-white/60">O arquivo fica local nesta sessão; salvamos hash/metadata. Em produção, envie ao servidor.</p>
+          <div id="b-preview" class="text-sm text-white/80"></div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="btn-add-benef" class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50">Salvar &amp; Novo</button>
+          <button type="button" onclick="salvarBeneficiarioSimples()" class="px-4 py-2 rounded bg-sky-600 hover:bg-sky-500">Salvar</button>
+          <button type="button" onclick="exportarBeneficiariosJSON()" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">Exportar JSON</button>
+          <button type="button" onclick="exportarBeneficiariosCSV()" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">Exportar CSV</button>
+          <label class="ml-auto text-sm flex items-center gap-2 cursor-pointer">
+            <span class="px-3 py-2 rounded bg-slate-700 hover:bg-slate-600">Importar JSON</span>
+            <input id="import-json" type="file" accept="application/json" class="hidden" onchange="importarBeneficiariosJSON(this)">
+          </label>
+          <span id="limite-msg" class="text-sm text-white/70"></span>
+        </div>
+      </form>
+    </div>
+
+    <!-- Atendimento IA -->
+    
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-3">
+        <div class="grid gap-2">
+          <label class="text-sm">Buscar dúvida</label>
+          <input id="ia-busca" class="px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="Digite palavras-chave (ex.: cadastro, facial, contrato)" oninput="iaBuscar()">
+          <div class="text-xs text-white/60">A busca considera título, pergunta, resposta e tags.</div>
+        </div>
+        <div class="grid gap-2">
+          <label class="text-sm">Filtrar por tag</label>
+          <input id="ia-tag" class="px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="Ex.: segurança, gateway, contrato" oninput="iaBuscar()">
+          <div class="text-xs text-white/60">Use uma tag por vez para filtrar.</div>
+        </div>
+      </div>
+
+      <div id="ia-resultados" class="grid gap-3"><div class="rounded-xl border border-white/10 p-3 bg-slate-800/50">
+        <div class="flex justify-between items-start gap-3">
+          <div>
+            <div class="font-medium">Cadastro → Contrato automático</div>
+            <div class="text-sm text-white/80 mt-1">Como o cadastro preenche o contrato de forma automática?</div>
+            <div class="text-sm text-white/90 mt-2">Ao finalizar o formulário de cadastro, os campos são mapeados para placeholders do contrato e geramos o PDF final com os dados validados (CPF, RG, endereço).</div>
+            <div class="text-xs text-white/50 mt-2">Tags: cadastro, contrato, pdf · 10/09/2025, 16:44:46</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="iaEditar(&#39;419675c2-8469-42e3-a584-bed2f2643c65&#39;)">Editar</button>
+            <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-sm" onclick="iaRemover(&#39;419675c2-8469-42e3-a584-bed2f2643c65&#39;)">Remover</button>
+          </div>
+        </div>
+      </div><div class="rounded-xl border border-white/10 p-3 bg-slate-800/50">
+        <div class="flex justify-between items-start gap-3">
+          <div>
+            <div class="font-medium">Gateway: transferência apenas para contas permitidas</div>
+            <div class="text-sm text-white/80 mt-1">Como restringir transferência para contas não autorizadas?</div>
+            <div class="text-sm text-white/90 mt-2">Use a aba ‘Contas permissão para transferência’ para cadastrar até 3 contas. O Gateway valida o destino contra essa whitelist antes de enviar.</div>
+            <div class="text-xs text-white/50 mt-2">Tags: gateway, segurança, transferência · 10/09/2025, 16:44:46</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="iaEditar(&#39;ec83a641-def2-4db8-b49e-3fbe807112fa&#39;)">Editar</button>
+            <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-sm" onclick="iaRemover(&#39;ec83a641-def2-4db8-b49e-3fbe807112fa&#39;)">Remover</button>
+          </div>
+        </div>
+      </div><div class="rounded-xl border border-white/10 p-3 bg-slate-800/50">
+        <div class="flex justify-between items-start gap-3">
+          <div>
+            <div class="font-medium">Login + Leitura Facial (simulado)</div>
+            <div class="text-sm text-white/80 mt-1">A leitura facial falhou. O que conferir?</div>
+            <div class="text-sm text-white/90 mt-2">Verifique se os utilitários de imagem/hash carregaram antes dos listeners, se a câmera está liberada e se a função de fallback está ativa quando a câmera não existir.</div>
+            <div class="text-xs text-white/50 mt-2">Tags: segurança, facial, login · 10/09/2025, 16:44:46</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="iaEditar(&#39;c6b1a858-9d88-4846-8ab5-47c4666a7161&#39;)">Editar</button>
+            <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-sm" onclick="iaRemover(&#39;c6b1a858-9d88-4846-8ab5-47c4666a7161&#39;)">Remover</button>
+          </div>
+        </div>
+      </div><div class="rounded-xl border border-white/10 p-3 bg-slate-800/50">
+        <div class="flex justify-between items-start gap-3">
+          <div>
+            <div class="font-medium">PWA e tema</div>
+            <div class="text-sm text-white/80 mt-1">Como aplicar tema e deixar a experiência PWA melhor?</div>
+            <div class="text-sm text-white/90 mt-2">Inclua &lt;meta name='theme-color'&gt; no head, ícones adequados e registre o service worker para cache offline controlado.</div>
+            <div class="text-xs text-white/50 mt-2">Tags: pwa, ui, tema · 10/09/2025, 16:44:46</div>
+          </div>
+          <div class="flex flex-col gap-2">
+            <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="iaEditar(&#39;e0666f76-9419-4d67-b667-dc24b7b2c21b&#39;)">Editar</button>
+            <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-sm" onclick="iaRemover(&#39;e0666f76-9419-4d67-b667-dc24b7b2c21b&#39;)">Remover</button>
+          </div>
+        </div>
+      </div></div>
+
+      <hr class="border-white/10">
+
+      <form id="ia-form" class="grid gap-3" onsubmit="iaSalvarItem(event)">
+        <h4 class="font-medium">Cadastrar/editar resposta rápida</h4>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm">Título</label>
+            <input id="ia-titulo" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required="">
+          </div>
+          <div>
+            <label class="text-sm">Tags (separadas por vírgula)</label>
+            <input id="ia-tags" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" placeholder="ex.: cadastro, segurança, gateway">
+          </div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-3">
+          <div>
+            <label class="text-sm">Pergunta</label>
+            <textarea id="ia-pergunta" rows="3" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required=""></textarea>
+          </div>
+          <div>
+            <label class="text-sm">Resposta</label>
+            <textarea id="ia-resposta" rows="3" class="w-full px-3 py-2 rounded bg-slate-800 text-white border border-white/10" required=""></textarea>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-3">
+          <button class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Salvar</button>
+          <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaNovo()">Novo</button>
+          <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaExportJSON()">Exportar JSON</button>
+          <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaExportCSV()">Exportar CSV</button>
+          <label class="ml-auto text-sm flex items-center gap-2 cursor-pointer">
+            <span class="px-3 py-2 rounded bg-slate-700 hover:bg-slate-600">Importar JSON</span>
+            <input id="ia-import" type="file" accept="application/json" class="hidden" onchange="iaImportJSON(this)">
+          </label>
+        </div>
+      </form>
+    </div>
+
+    <!-- Placeholders para outras abas do seu app -->
+    <div id="aba-contrato" class="hidden p-4 rounded-2xl glass">
+      <h3 class="text-lg font-semibold">Contrato (placeholder)</h3>
+      <p class="text-white/70 text-sm">Integre aqui seu fluxo de contrato automático existente.</p>
+    </div>
+  
+<div id="aba-facial" class="hidden p-4 rounded-2xl glass">
+  <h3 class="text-lg font-semibold mb-3">Validação Facial</h3>
+  <p class="text-sm text-white/70 mb-4">Escolha a ação:</p>
+
+  <div class="flex gap-4">
+    <button onclick="abrirCamera()" class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">
+      📸 Cadastrar Selfie
+    </button>
+
+    <button onclick="executarLeituraFacial()" class="px-4 py-2 rounded bg-sky-600 hover:bg-sky-500">
+      🔍 Executar Leitura Facial
+    </button>
+  </div>
+
+  <div id="cameraContainer" class="mt-4 hidden">
+    <video id="cameraPreview" autoplay playsinline class="rounded-xl border border-white/10"></video>
+    <button onclick="capturarFoto()" class="mt-3 px-4 py-2 rounded bg-red-600 hover:bg-red-500">
+      Tirar Foto
+    </button>
+  </div>
+
+  <div id="fotoContainer" class="mt-4 hidden">
+    <h4 class="text-sm font-medium mb-2">Foto Capturada:</h4>
+    <canvas id="fotoCanvas" class="rounded-xl border border-white/10"></canvas>
+  </div>
+</div>
+
+</main>
+
+
+
+  <div id="cameraContainer" class="mt-4 hidden">
+    <video id="cameraPreview" autoplay playsinline class="rounded-xl border border-white/10"></video>
+    <button onclick="capturarFoto()" class="mt-3 px-4 py-2 rounded bg-red-600 hover:bg-red-500">
+      Tirar Foto
+    </button>
+  </div>
+
+  <div id="fotoContainer" class="mt-4 hidden">
+    <h4 class="text-sm font-medium mb-2">Foto Capturada:</h4>
+    <canvas id="fotoCanvas" class="rounded-xl border border-white/10"></canvas>
+  </div>
+</div>
+
+</main>
+<!-- Bottom Nav (tab bar) -->
+<nav class="fixed bottom-0 inset-x-0 z-20 bg-slate-900/80 backdrop-blur border-t border-white/10">
+<div class="grid grid-cols-7 text-xs">
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-home')">🏠<span>Início</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-visaogeral')">📊<span>Geral</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-repasse')">🔁<span>Repasse</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-reembolsos')">↔️<span>Reemb.</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="openModal('m-gateway')">🏦<span>Gateway</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-contrato')">📄<span>Contrato</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-restrito')">🔒<span>Restrito</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-ciclos')">📅<span>Ciclos Pgto</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('t-facial')">🧑‍🦱<span>Facial</span></button>
+<button class="py-3 flex flex-col items-center gap-1" onclick="nav('integracao-bancaria')">📊<span>Integração Bancária</span></button>
+</div>
+</nav>
+<!-- FABs (ações rápidas) -->
+<div class="fixed bottom-24 right-4 flex flex-col gap-2">
+<button class="rounded-full px-4 py-3 bg-white/10 backdrop-blur shadow text-xs" onclick="exportarPDF()">Exportar PDF</button>
+<button class="rounded-full px-4 py-3 bg-gradient-to-r from-cyan-500 to-indigo-500 shadow text-xs" onclick="gerarOrdem()">Gerar Ordem</button>
+</div>
+</div>
+<!-- Modais -->
+<div class="hidden fixed inset-0 bg-black/70 z-30 items-end sm:items-center justify-center" id="m-gateway">
+<div class="bg-slate-900 rounded-t-2xl sm:rounded-2xl w-full sm:w-[480px] p-4">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-base font-semibold">Gateway Bancário</h3>
+<button class="text-slate-300" onclick="closeModal('m-gateway')">✕</button>
+</div>
+<p class="text-xs text-slate-400">Clique em um banco para acessar o ambiente seguro:</p>
+<div class="grid grid-cols-2 gap-2 mt-3 text-sm">
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.bb.com.br" target="_blank">🏦 Banco do Brasil</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.caixa.gov.br" target="_blank">🏦 Caixa</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.itau.com.br" target="_blank">🏦 Itaú</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://banco.bradesco" target="_blank">🏦 Bradesco</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.santander.com.br" target="_blank">🏦 Santander</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.btgpactual.com" target="_blank">🏦 BTG Pactual</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.bancointer.com.br" target="_blank">🏦 Banco Inter</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://nubank.com.br" target="_blank">🏦 Nubank</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.c6bank.com.br" target="_blank">🏦 C6 Bank</a>
+<a class="rounded-lg bg-white/10 p-3 text-left" href="https://www.jpmorgan.com" target="_blank">🏦 JP Morgan</a>
+<button class="rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-500 p-3 text-left" onclick="openModal('m-cadastro')">🏦 Infinity Banco Digital</button>
+
+<div id="uploadContainer" class="mt-4">
+  <h4 class="text-sm font-medium mb-2">Ou selecione uma foto:</h4>
+  <input type="file" id="fotoUpload" accept="image/*" class="mb-3 text-sm">
+  <div id="uploadPreview" class="hidden">
+    <h4 class="text-sm font-medium mb-2">Foto Selecionada:</h4>
+    <img id="uploadImg" class="rounded-xl border border-white/10 max-w-xs"/>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+<div class="hidden fixed inset-0 bg-black/70 z-30 items-end sm:items-center justify-center" id="m-ativo">
+<div class="bg-slate-900 rounded-t-2xl sm:rounded-2xl w-full sm:w-[460px] p-4">
+<div class="flex items-center justify-between mb-2">
+<h3 class="text-base font-semibold">Transferência de Ativo</h3>
+<button class="text-slate-300" onclick="closeModal('m-ativo')">✕</button>
+</div>
+<ul class="text-xs space-y-1 text-slate-300">
+<li>Assinatura digital com duplo fator</li>
+<li>Autorização multi-administradores</li>
+<li>Registro contábil e compliance (ANATEL/CADE)</li>
+<li>Validação de titularidade e inexistência de ônus</li>
+</ul>
+<button class="mt-3 w-full rounded-lg py-2 bg-gradient-to-r from-fuchsia-500 to-pink-600 text-xs font-semibold" onclick="alert('Solicitação enviada.')">Solicitar Transferência</button>
+</div>
+</div>
+
+<!-- Modal Cadastro Infinity Banco Digital -->
+<div class="hidden fixed inset-0 bg-black/70 z-40 items-center justify-center" id="m-cadastro">
+<div class="bg-slate-900 rounded-2xl w-full max-w-md p-6 overflow-y-auto max-h-[90vh]">
+<h3 class="text-base font-semibold mb-2">Cadastro - Infinity Banco Digital</h3>
+<button class="absolute top-4 right-4 text-slate-300" onclick="closeModal('m-cadastro')">✕</button>
+<form class="space-y-2 text-xs" id="cadForm">
+<input class="w-full px-3 py-2 rounded bg-slate-800" id="cadNome" placeholder="Nome Completo" required=""/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" id="cadCpf" placeholder="CPF" required=""/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" required="" type="date"/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" id="cadEndereco" placeholder="Endereço" required=""/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" placeholder="CEP" required=""/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" placeholder="Telefone Celular" required=""/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" placeholder="E-mail" required="" type="email"/>
+<input class="w-full px-3 py-2 rounded bg-slate-800" placeholder="Renda Mensal" required=""/>
+<select class="w-full px-3 py-2 rounded bg-slate-800" required="">
+<option>Uso Pessoal</option>
+<option>Empresarial</option>
+</select>
+<label class="flex items-center space-x-2"><input required="" type="checkbox"/> <span>Aceito os Termos &amp; Condições</span></label>
+<label class="flex items-center space-x-2"><input required="" type="checkbox"/> <span>Aceito Política PLD/FT</span></label>
+<button class="w-full py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-lg" onclick="processarCadastro()" type="submit">Enviar Cadastro</button>
+<button class="w-full py-2 bg-slate-700 rounded-lg text-white" id="btnContrato" type="button">📄 Ler Contrato</button></form>
+<p class="hidden text-green-400 text-xs mt-3" id="cadMsg">Cadastro enviado para análise. Sua conta será ativada em até 48h úteis.</p>
+</div>
+</div>
+<!-- Modal Infinity Banco Digital Login -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="modalInfinityLogin">
+<div class="bg-white text-black rounded-lg shadow-lg w-96 p-6">
+<h2 class="text-xl font-bold mb-4">Infinity Banco Digital - Login</h2>
+<form id="infinityLoginForm">
+<label class="block mb-2">Usuário</label>
+<input autocomplete="off" class="w-full border rounded p-2 mb-3" id="infinityUser" placeholder="Digite aqui..." type="text"/>
+<label class="block mb-2">Senha</label>
+<input autocomplete="off" class="w-full border rounded p-2 mb-3" id="infinityPass" placeholder="Digite aqui..." type="password"/>
+<button class="w-full bg-blue-600 text-white rounded p-2" type="submit">Entrar</button>
+<p class="text-red-600 text-sm mt-2 hidden" id="loginError">Usuário ou senha inválidos</p>
+</form>
+<div id="faceLoginControls" style="margin-top:12px; display:flex; gap:8px; flex-wrap:wrap;">
+  <button id="btnFaceLogin" type="button" style="padding:10px 14px;border:0;border-radius:8px;background:#0d6efd;color:#fff;cursor:pointer;">
+    Entrar com Reconhecimento Facial (Simulado)
+  </button>
+  <button id="btnFaceEnroll" type="button" style="padding:10px 14px;border:0;border-radius:8px;background:#198754;color:#fff;cursor:pointer;">
+    Cadastrar/Atualizar Foto de Referência
+  </button>
+  <label style="display:flex;align-items:center;gap:6px;font-size:14px">
+    <input id="forceFail" type="checkbox"> Forçar falha (teste)
+  </label>
+  <label style="display:flex;align-items:center;gap:6px;font-size:14px">
+    Limite de similaridade:
+    <input id="threshold" type="number" min="0" max="64" step="1" value="18" style="width:72px;margin-left:6px;">
+  </label>
+  <div id="faceRequirement" style="font-size:13px;color:#b02a37;display:flex;align-items:center;">⚠️ Reconhecimento facial obrigatório para entrar.</div>
+</div>
+
+<button class="mt-4 w-full bg-gray-400 text-white rounded p-2" onclick="closeInfinityLogin()">Cancelar</button>
+</div>
+</div>
+<!-- Modal de Boas-vindas após login -->
+<div class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" id="modalInfinityWelcome">
+<div class="bg-white text-black rounded-lg shadow-lg w-96 p-6 text-center">
+<h2 class="text-xl font-bold mb-4">Bem-vindo ao Infinity Banco Digital</h2>
+<p class="mb-4">Acesso liberado ao ambiente seguro do banco.</p>
+<button class="bg-green-600 text-white rounded p-2 px-4" onclick="closeInfinityWelcome()">Continuar</button>
+</div>
+</div>
+<div class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center" id="m-contrato">
+<div class="bg-slate-900 rounded-2xl w-full max-w-2xl p-6 overflow-y-auto max-h-[90vh] text-slate-100">
+<h3 class="text-lg font-semibold mb-2">Contrato Jurídico</h3>
+<button class="absolute top-4 right-4 text-slate-300" onclick="closeModal('m-contrato')">✕</button>
+<textarea class="w-full h-80 p-3 rounded bg-slate-800 text-xs mb-3" readonly="">CONTRATO DE PRESTAÇÃO DE SERVIÇOS DE TECNOLOGIA E CONTA DIGITAL
+
+Pelo presente instrumento particular, de um lado:
+Infinity Fiber Ltda., inscrita no CNPJ sob nº 28.430.524/0001-31, com sede na Rua do México, 31 — Centro, Rio de Janeiro/RJ, doravante denominada CONTRATADA;
+
+E, de outro lado:
+[NOME DO CLIENTE], inscrito no CPF/CNPJ sob nº [●], residente/sediado em [●], doravante denominado CONTRATANTE;
+
+Cláusula 1ª — Objeto
+A CONTRATADA prestará ao CONTRATANTE os serviços de desenvolvimento, manutenção e suporte do Sistema Mobile (PWA) e disponibilização de conta digital.
+
+Cláusula 2ª — Vigência
+Vigência inicial de 12 meses, renovável automaticamente.
+
+Cláusula 3ª — Obrigações da CONTRATADA
+a) Cumprir requisitos ANATEL, BACEN e LGPD;
+b) Manter confidencialidade;
+c) Disponibilizar suporte técnico e operacional.
+
+Cláusula 4ª — Obrigações do CONTRATANTE
+a) Fornecer informações corretas;
+b) Efetuar pagamentos e tarifas contratadas;
+c) Usar conforme legislação e regulamentos.
+
+Cláusula 5ª — Confidencialidade
+As partes comprometem-se a não divulgar informações sigilosas.
+
+Cláusula 6ª — LGPD
+A CONTRATADA adotará medidas para proteção dos dados pessoais.
+
+Cláusula 7ª — Rescisão
+Rescisão por descumprimento contratual ou a pedido de qualquer das partes.
+
+Cláusula 8ª — Foro
+Fica eleito o foro da Comarca do Rio de Janeiro/RJ.
+
+Cláusula 9ª — Tarifas de Pacotes de Serviços
+A CONTRATANTE terá acesso a pacotes de serviços digitais, podendo haver cobrança de tarifas mensais conforme tabela vigente.
+
+Cláusula 10ª — Manutenção da Conta
+A manutenção da conta digital será gratuita no plano básico, podendo ser cobrada taxa em pacotes superiores escolhidos pelo CONTRATANTE.
+
+Cláusula 11ª — Movimentação Financeira
+O uso da conta digital inclui pagamentos, transferências e recebimentos, sujeitos a limites de segurança e operação definidos pela CONTRATADA.
+
+Cláusula 12ª — Segurança e Autenticação
+Operações devem ser confirmadas via senha, token, biometria ou outro meio seguro. O CONTRATANTE deve manter sigilo de suas credenciais.
+
+Cláusula 13ª — Encerramento de Conta
+A conta poderá ser encerrada pelo CONTRATANTE ou pela CONTRATADA em casos de descumprimento, inatividade ou ordem legal. Saldos serão devolvidos em até 10 dias úteis.
+
+Cláusula 14ª — Atendimento e Suporte
+O suporte será prestado por canais digitais da CONTRATADA em horário comercial, exceto bloqueios emergenciais de conta, disponíveis 24h/dia.
+
+-------------------------------------------------
+Infinity Fiber Ltda. — CONTRATADA
+-------------------------------------------------
+[Nome do Cliente] — CONTRATANTE
+</textarea>
+<div class="flex items-center space-x-2 mb-3">
+<input class="" id="chkContrato" type="checkbox"/>
+<label class="text-sm" for="chkContrato">Li e aceito os termos do contrato</label>
+</div>
+<button class="hidden w-full py-2 bg-gradient-to-r from-cyan-500 to-indigo-500 rounded-lg text-white" id="btnPdf" onclick="gerarContratoPDF()">Baixar Contrato em PDF</button>
+</div>
+</div>
+
+
+
+<!-- Modal de Câmera para Reconhecimento Facial (Simulado) -->
+<div id="faceModal" style="position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:9999;">
+  <div style="background:#fff;padding:16px;border-radius:12px;max-width:720px;width:95%;box-shadow:0 10px 30px rgba(0,0,0,.2)">
+    <h3 style="margin:8px 0 12px 0">Reconhecimento Facial — DEMO (Somente Simulação Local)</h3>
+    <p style="margin:0 0 8px 0;font-size:14px;color:#555">Este recurso é uma <b>simulação</b> para testes de UX. Nenhum dado é enviado ao servidor.</p><div id="httpsHint" style="display:none;margin:8px 0;padding:8px;border-radius:8px;background:#fff3cd;color:#664d03;font-size:13px;">⚠️ Para abrir a câmera, o navegador exige <b>HTTPS</b> ou <b>localhost</b>.<br>Abra o arquivo com um servidor local. Exemplo (Python): <code>python -m http.server 8000</code> e acesse <code>http://localhost:8000/</code></div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;">
+      <div style="flex:1 1 320px;">
+        <video id="faceVideo" autoplay playsinline style="width:100%;border-radius:8px;background:#000"></video>
+        <div style="display:flex;gap:8px;margin-top:8px;">
+          <button id="btnFaceCapture" type="button" style="padding:8px 12px;border:0;border-radius:8px;background:#0d6efd;color:#fff;cursor:pointer;">Capturar</button>
+          <button id="btnFaceClose" type="button" style="padding:8px 12px;border:0;border-radius:8px;background:#6c757d;color:#fff;cursor:pointer;">Cancelar</button>
+          <button id="btnFaceUploadCapture" type="button" style="padding:8px 12px;border:0;border-radius:8px;background:#17a2b8;color:#fff;cursor:pointer;">Usar foto no lugar da câmera</button>
+        </div>
+      </div>
+      <div style="flex:1 1 320px;">
+        <canvas id="snapshot" width="0" height="0" style="width:100%;border-radius:8px;background:#f2f2f2"></canvas>
+        <div style="margin-top:8px;font-size:14px;color:#333">
+          <div>Similaridade (aHash Δ): <span id="similarity">—</span></div>
+          <div>Status: <span id="faceStatus">Aguardando captura…</span></div>
+        </div>
+        <details style="margin-top:6px;">
+          <summary>Como funciona esta simulação?</summary>
+          <p style="font-size:13px;color:#555;margin-top:6px">
+            Geramos um <i>aHash</i> (8×8 em escala de cinza) da sua foto de referência e da captura.
+            Comparamos a distância de Hamming. Valores menores indicam maior similaridade. Use o limite para simular maior/menor rigor.
+          </p>
+        </details>
+      </div>
+    </div>
+  </div>
+</div>
+
+<input id="enrollInput" type="file" accept="image/*" style="display:none">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Modal Gateway Bancário -->
+<div id="modal-gateway" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center">
+  <div class="bg-slate-900 rounded-2xl w-full max-w-lg p-6 text-white">
+    <h2 class="text-lg font-semibold mb-3">Gateway Bancário</h2>
+    <form class="grid gap-3">
+      <div>
+        <label class="text-sm">Valor</label>
+        <input type="number" placeholder="0,00" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/20">
+      </div>
+      <div>
+        <label class="text-sm">Destino (somente contas com permissão)</label>
+        <input type="text" placeholder="Conta destino" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/20">
+      </div>
+      <div>
+        <label class="text-sm">CPF do destinatário</label>
+        <input type="text" placeholder="000.000.000-00" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/20">
+      </div>
+      <div class="flex gap-3 mt-3">
+        <button type="submit" class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Transferir</button>
+        <button type="button" onclick="closeModal('modal-gateway')" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">Fechar</button>
+      </div>
+    </form>
+    <p class="text-xs text-slate-400 mt-3">⚠️ Somente contas cadastradas podem receber transferências. Logs de auditoria recomendados.</p>
+  </div>
+</div>
+
+<!-- Modal Contas com Permissão -->
+<div id="modal-contas" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center overflow-y-auto">
+  <div class="bg-slate-900 rounded-2xl w-full max-w-2xl p-6 text-white">
+    <h2 class="text-lg font-semibold mb-3">Contas com Permissão</h2>
+    <form class="grid gap-3">
+      <input placeholder="Nome completo" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+      <input placeholder="CPF" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+      <input placeholder="RG" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+      <input placeholder="Endereço" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+      <div class="grid grid-cols-3 gap-2">
+        <input placeholder="Banco" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+        <input placeholder="Agência" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+        <input placeholder="Conta" class="px-3 py-2 rounded bg-slate-800 border border-white/20">
+      </div>
+      <label class="text-sm">Comprovante de residência</label>
+      <input type="file" accept=".pdf,image/*" class="w-full text-sm">
+      <div class="flex gap-3 mt-3">
+        <button type="submit" class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Salvar</button>
+        <button type="button" onclick="closeModal('modal-contas')" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">Fechar</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Modal Atendimento IA -->
+<div id="modal-ia" class="hidden fixed inset-0 bg-black/70 z-50 items-center justify-center overflow-y-auto">
+  <div class="bg-slate-900 rounded-2xl w-full max-w-2xl p-6 text-white">
+    <h2 class="text-lg font-semibold mb-4">Atendimento IA — Autoajuda</h2>
+    <div class="space-y-3">
+      <details class="bg-slate-800 rounded p-3">
+        <summary class="cursor-pointer font-medium">Como abrir uma conta digital?</summary>
+        <p class="text-sm mt-2">Preencha o cadastro no módulo “Infinity Banco Digital”, anexe RG, CPF e comprovante de residência e aguarde validação em até 48h úteis.</p>
+      </details>
+      <details class="bg-slate-800 rounded p-3">
+        <summary class="cursor-pointer font-medium">Quais documentos são necessários?</summary>
+        <p class="text-sm mt-2">RG, CPF, comprovante de residência atualizado (últimos 3 meses) e selfie para validação facial.</p>
+      </details>
+      <details class="bg-slate-800 rounded p-3">
+        <summary class="cursor-pointer font-medium">Como funciona a leitura facial?</summary>
+        <p class="text-sm mt-2">A leitura facial é obrigatória para liberar transferências e movimentações. É rápida e feita via câmera do celular, garantindo segurança.</p>
+      </details>
+      <details class="bg-slate-800 rounded p-3">
+        <summary class="cursor-pointer font-medium">Quais tarifas existem?</summary>
+        <p class="text-sm mt-2">Pacote Básico: gratuito (PIX ilimitado). Intermediário: R$19,90/mês. Premium: R$39,90/mês (TEDs ilimitados + cartão físico).</p>
+      </details>
+      <details class="bg-slate-800 rounded p-3">
+        <summary class="cursor-pointer font-medium">Como falar com suporte humano?</summary>
+        <p class="text-sm mt-2">Atendimento humano em horário comercial via chat do app ou pelo e-mail suporte@infinityfiber.com.</p>
+      </details>
+    </div>
+    <div class="flex justify-end mt-4">
+      <button onclick="closeModal('modal-ia')" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600">Fechar</button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<script>
+// ====== CONFIGURAÇÕES BÁSICAS ======
+const CRED_USER = "DanielKascher";
+const CRED_PASS = "K@scher123";
+
+// ====== LOGIN ======
+function doLogin(){
+  const user = document.getElementById('u')?.value?.trim();
+  const pass = document.getElementById('p')?.value?.trim();
+  const erro = document.getElementById('le');
+
+  if(user === CRED_USER && pass === CRED_PASS){
+    document.getElementById('login')?.classList.add('hidden');
+    document.getElementById('app')?.classList.remove('hidden');
+    // Abre a tela inicial
+    try { nav('t-home'); } catch(e) {}
+    // Inicializa gráficos se existirem
+    setTimeout(() => { try { initCharts(); } catch(e) {} }, 50);
+    if(erro) erro.classList.add('hidden');
+  } else {
+    if(erro) erro.classList.remove('hidden');
+  }
+}
+
+// ====== NAVEGAÇÃO ======
+function hideAll(){
+  // Esconde todas as sections do conteúdo principal
+  document.querySelectorAll('#content > section').forEach(s => s.classList.add('hidden'));
+  // Esconde a Integração Bancária (fora do #content)
+  const integ = document.getElementById('integracao-bancaria');
+  if(integ) integ.classList.add('hidden');
+}
+
+function nav(id){
+  hideAll();
+  const alvo = document.getElementById(id);
+  if(alvo){
+    alvo.classList.remove('hidden');
+    // Rola para o topo do container principal se existir
+    const cont = document.getElementById('content');
+    if(cont){ cont.scrollTop = 0; }
+    // Caso esteja abrindo Integração Bancária, rolar tela raiz para topo
+    if(id === 'integracao-bancaria'){ window.scrollTo(0,0); }
+  }
+}
+
+// ====== MOSTRAR/OCULTAR VALORES ======
+function toggleValores(){
+  const els = document.querySelectorAll('.valorFinanceiro');
+  els.forEach(el => {
+    const v = el.getAttribute('data-valor') || el.textContent;
+    if(el.textContent.includes('*')){
+      el.textContent = v.replaceAll('.', ','); // apenas estética
+    } else {
+      el.textContent = '****';
+    }
+  });
+  // Atualiza texto de botões que tenham a classe btnToggleValor (se desejar)
+  document.querySelectorAll('.btnToggleValor').forEach(btn => {
+    btn.textContent = (btn.textContent.includes('Mostrar') ? '🙈 Ocultar Valores' : '👁 Mostrar Valores');
+  });
+}
+
+// ====== MODAIS ======
+function openModal(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.remove('hidden');
+  el.classList.add('flex');
+}
+function closeModal(id){
+  const el = document.getElementById(id);
+  if(!el) return;
+  el.classList.add('hidden');
+  el.classList.remove('flex');
+}
+
+// ====== AÇÕES (PDF / ORDEM) ======
+function gerarOrdem(){
+  const ordem = {
+    referencia: 'IF-' + Date.now(),
+    data: new Date().toLocaleString(),
+    destino: [
+      { entidade: 'ANATEL', valor: 1679600000 },
+      { entidade: 'OI S.A.', valor: 1193400000 },
+      { entidade: 'Reserva Credores', valor: 3536000000 }
+    ],
+    total: 6409000000
+  };
+  const blob = new Blob([JSON.stringify(ordem,null,2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'ordem_repasse.json';
+  a.click();
+}
+
+function exportarPDF(){
+  if(!window.jspdf){ alert('jsPDF não carregado.'); return; }
+  const { jsPDF } = window.jspdf;
+  const doc = new jsPDF();
+  doc.setFontSize(14);
+  doc.text('Relatório - Infinity Fiber (Mobile)', 14, 16);
+  doc.setFontSize(11);
+  doc.text('Resumo Fundo: R$ 44.200.000.000', 14, 30);
+  doc.text('Total Repasse: R$ 6.409.000.000', 14, 38);
+  doc.text('Saldo Líquido: R$ 37.791.000.000', 14, 46);
+  doc.text('Repasses:', 14, 62);
+  doc.text('ANATEL - R$ 1.679.600.000', 22, 70);
+  doc.text('OI S.A. - R$ 1.193.400.000', 22, 78);
+  doc.text('Reserva - R$ 3.536.000.000', 22, 86);
+  doc.save('relatorio_infinityfiber_mobile.pdf');
+}
+
+// Contrato PDFs (fallback simples)
+function gerarContratoPDF(){
+  if(!window.jspdf){ alert('jsPDF não carregado.'); return; }
+  const { jsPDF } = window.jspdf;
+  const area = document.querySelector("#m-contrato textarea");
+  const texto = area ? area.value : "Contrato não encontrado.";
+  const doc = new jsPDF();
+  const linhas = doc.splitTextToSize(texto, 180);
+  doc.text(linhas, 15, 20);
+  doc.save("Contrato_InfinityFiber.pdf");
+}
+function gerarContratoPDF2(){
+  if(!window.jspdf){ alert('jsPDF não carregado.'); return; }
+  const { jsPDF } = window.jspdf;
+  const area = document.querySelector("#t-contrato textarea");
+  const texto = area ? area.value : "Contrato não encontrado.";
+  const doc = new jsPDF();
+  const linhas = doc.splitTextToSize(texto, 180);
+  doc.text(linhas, 15, 20);
+  doc.save("Contrato_InfinityFiber_Tarifas.pdf");
+}
+
+// ====== GRÁFICOS ======
+function initCharts(){
+  // Pie de Operadoras
+  const co = document.getElementById('c-op');
+  if(co && window.Chart){
+    new Chart(co, {
+      type: 'pie',
+      data: {
+        labels: ['VIVO (24,2 bi)','CLARO (8 bi)','TIM (12 bi)'],
+        datasets: [{ data: [24200000000,8000000000,12000000000] }]
+      },
+      options: { plugins: { legend: { labels: { color: '#e5e7eb', boxWidth: 10, font: { size: 10 } } } } }
+    });
+  }
+  // Pie de Repasse
+  const cr = document.getElementById('c-rp');
+  if(cr && window.Chart){
+    new Chart(cr, {
+      type: 'pie',
+      data: {
+        labels: ['ANATEL 3,8%','OI 2,7%','Reserva 8%'],
+        datasets: [{ data: [3.8,2.7,8.0] }]
+      },
+      options: { plugins: { legend: { labels: { color: '#e5e7eb', boxWidth: 10, font: { size: 10 } } } } }
+    });
+  }
+}
+
+// ====== CÂMERA & FALLBACK UPLOAD ======
+let stream;
+
+// Abrir câmera para cadastro de selfie (preview)
+function abrirCamera() {
+  const container = document.getElementById("cameraContainer");
+  const video = document.getElementById("cameraPreview");
+  const upContainer = document.getElementById("uploadContainer");
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(s => {
+      stream = s;
+      if(container) container.classList.remove("hidden");
+      if(video) video.srcObject = s;
+      if(upContainer) upContainer.classList.add("hidden");
+    })
+    .catch(err => {
+      // alert desabilitado, upload já está disponível sempre.
+      if(upContainer) upContainer.classList.remove("hidden");
+    });
+}
+
+// Capturar foto da câmera (somente preview na tela)
+function capturarFoto() {
+  const video = document.getElementById("cameraPreview");
+  const canvas = document.getElementById("fotoCanvas");
+  if(!video || !canvas) return;
+  const ctx = canvas.getContext("2d");
+
+  canvas.width = video.videoWidth || 640;
+  canvas.height = video.videoHeight || 480;
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+  const fotoC = document.getElementById("fotoContainer");
+  if(fotoC) fotoC.classList.remove("hidden");
+
+  if(stream){
+    stream.getTracks().forEach(track => track.stop());
+  }
+}
+
+// Executar leitura facial (captura + download)
+function executarLeituraFacial() {
+  const video = document.getElementById("cameraPreview");
+  const container = document.getElementById("cameraContainer");
+  const upContainer = document.getElementById("uploadContainer");
+
+  navigator.mediaDevices.getUserMedia({ video: true })
+    .then(stream => {
+      if(container) container.classList.remove("hidden");
+      if(video){
+        video.srcObject = stream;
+        video.play();
+      }
+    })
+    .catch(() => {
+      if(upContainer) upContainer.classList.remove("hidden");
+    });
+}
+
+
+// Fallback de upload (pré-visualização)
+document.addEventListener("DOMContentLoaded", () => {
+  const uploadInput = document.getElementById("fotoUpload");
+  if(uploadInput){
+    uploadInput.addEventListener("change", function(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.getElementById("uploadImg");
+          if(img){
+            img.src = e.target.result;
+            const prev = document.getElementById("uploadPreview");
+            if(prev) prev.classList.remove("hidden");
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+});
+</script>
+
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(reg => console.log('Service Worker registrado:', reg.scope))
+      .catch(err => console.error('Erro ao registrar SW:', err));
+  });
+}
+</script>
+</body>
+
+</html>
