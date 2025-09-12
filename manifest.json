@@ -1,10 +1,10 @@
 {
-  "name": "Infinity Fiber - Banco Digital",
-  "short_name": "InfinityBank",
+  "name": "Infinity Fiber — Banco Digital v4.0",
+  "short_name": "IFiber 4.0",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#0a0f2c",
-  "theme_color": "#0a0f2c",
+  "background_color": "#0b1240",
+  "theme_color": "#0b1240",
   "orientation": "portrait",
   "icons": [
     {

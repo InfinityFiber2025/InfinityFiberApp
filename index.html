@@ -1,109 +1,203 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infinity Fiber - Login Seguro</title>
-
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#0a0f2c">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infinity Fiber — Banco Digital v4.0</title>
+  <meta name="theme-color" content="#0b1240" />
+  <link rel="manifest" href="manifest.json" />
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-      background: linear-gradient(135deg, #0a0f2c, #1a3d7c);
-      color: white;
-      text-align: center;
+    :root{
+      --bg1:#0b1240; --bg2:#0f6b6b;
+      --brand:#1260f4; --ok:#28a745; --danger:#e53935; --text:#0b1240;
+      --card:#ffffff; --muted:#6b7280;
     }
-    h1 { margin-bottom: 20px; }
-    button, a {
-      background-color: #007BFF;
-      border: none;
-      padding: 12px 25px;
-      margin: 10px;
-      color: white;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: 0.3s;
-      text-decoration: none;
-    }
-    button:hover, a:hover { background-color: #0056b3; }
-    video, canvas {
-      margin-top: 20px;
-      border-radius: 12px;
-      max-width: 90%;
-      border: 2px solid white;
-      display: none;
-    }
-    #download {
-      display: none;
-      margin-top: 15px;
-      background: #28a745;
-    }
-    #download:hover {
-      background: #1e7e34;
-    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Arial,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));min-height:100vh;color:#fff;}
+    a{color:inherit}
+
+    /* Login */
+    #login{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px}
+    .login-card{width:100%;max-width:360px;background:var(--card);color:var(--text);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:28px;text-align:center}
+    .logo{width:84px;height:84px;border-radius:18px;background:#0b1240 url('icon-192.png') center/70% no-repeat;margin:0 auto 12px}
+    h1{font-size:22px;margin:6px 0 18px}
+    .field{display:flex;align-items:center;border:1px solid #e5e7eb;border-radius:10px;padding:10px 12px;margin:8px 0;background:#f8fafc}
+    .field input{border:none;outline:none;background:transparent;width:100%;font-size:15px}
+    .field .ico{opacity:.6;margin-right:8px}
+    .btn{display:block;width:100%;padding:12px 14px;border:none;border-radius:10px;background:var(--brand);color:#fff;font-weight:600;font-size:16px;cursor:pointer;margin-top:12px}
+    .btn:hover{filter:brightness(.95)}
+    .hint{color:var(--muted);font-size:12px;margin-top:10px}
+
+    /* App */
+    #app{display:none}
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:rgba(0,0,0,.25);backdrop-filter:blur(6px)}
+    header .title{font-weight:700}
+    header .actions button{margin-left:8px}
+    .page{padding:16px}
+    .grid{display:grid;grid-template-columns:1fr;gap:14px}
+    @media(min-width:720px){.grid{grid-template-columns:1.3fr 1fr}}
+
+    .card{background:var(--card);color:var(--text);border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.15);padding:18px}
+    .card h2{margin:0 0 10px;font-size:18px;color:#0b1240}
+    .saldo{font-size:28px;font-weight:800;color:var(--ok)}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .btn-secondary{background:#0b1240;color:#fff;border:none;border-radius:10px;padding:10px 14px;cursor:pointer}
+    .btn-facil{background:#1260f4;color:#fff;border:none;border-radius:12px;padding:12px 16px;font-weight:700;cursor:pointer;width:100%}
+    .tx{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f7}
+    .muted{color:var(--muted);font-size:13px}
+
+    /* Modal Biometria */
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:16px;z-index:50}
+    .modal .modal-card{background:#0b1240;color:#fff;border-radius:16px;width:100%;max-width:460px;padding:18px;border:1px solid rgba(255,255,255,.1)}
+    .modal .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+    .modal .header h3{margin:0}
+    .modal .close{background:transparent;border:none;color:#fff;font-size:22px;cursor:pointer}
+    .modal .btn{background:#0f6b6b}
+    video,canvas{width:100%;max-height:320px;border-radius:12px;border:2px solid rgba(255,255,255,.25);display:none;margin-top:10px}
+
+    /* Toast */
+    .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#111827;color:#fff;padding:10px 14px;border-radius:10px;display:none;z-index:60}
   </style>
 </head>
 <body>
-  <h1>Infinity Fiber - Banco Digital</h1>
-  <p>Autenticação Segura</p>
-  
-  <button onclick="abrirCamera()">Reconhecimento Facial</button>
-  <button onclick="capturarFoto()">Capturar Foto</button>
-  <a id="download" download="foto_infinityfiber.png">Salvar Foto</a>
-  
-  <video id="camera" autoplay></video>
-  <canvas id="foto"></canvas>
+  <!-- LOGIN -->
+  <section id="login">
+    <div class="login-card">
+      <div class="logo"></div>
+      <h1>Infinity Fiber — Banco Digital</h1>
+      <div class="field"><span class="ico">👤</span><input id="user" placeholder="Usuário" /></div>
+      <div class="field"><span class="ico">🔒</span><input id="pass" type="password" placeholder="Senha" /></div>
+      <button class="btn" onclick="login()">Entrar</button>
+      <div class="hint">Usuário: <b>DanielKascher</b> • Senha: <b>K@scheer123</b></div>
+    </div>
+  </section>
+
+  <!-- APP -->
+  <section id="app">
+    <header>
+      <div class="title">Infinity Fiber v4.0</div>
+      <div class="actions">
+        <button class="btn-secondary" onclick="toggleSaldo()">👁 Saldo</button>
+        <button class="btn-secondary" onclick="openBiometria()">📷 Fácil</button>
+      </div>
+    </header>
+
+    <div class="page">
+      <div class="grid">
+        <div class="card">
+          <h2>Saldo disponível</h2>
+          <div id="saldo" class="saldo">R$ ••••••</div>
+          <div class="muted">Atualizado agora</div>
+        </div>
+
+        <div class="card">
+          <h2>Autenticação</h2>
+          <p>Para validar operações, use o botão <b>Fácil</b> (biometria facial).</p>
+          <button class="btn-facil" onclick="openBiometria()">Fácil — Validar com câmera</button>
+        </div>
+
+        <div class="card" style="grid-column:1/-1">
+          <h2>Últimas transações</h2>
+          <div class="tx"><span>Pagamento</span><b>- R$ 1.200,00</b></div>
+          <div class="tx"><span>Transferência</span><b>- R$ 800,00</b></div>
+          <div class="tx"><span>Depósito</span><b>+ R$ 2.500,00</b></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MODAL BIOMETRIA -->
+  <div id="biometria" class="modal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="header">
+        <h3>Biometria Facial</h3>
+        <button class="close" onclick="closeBiometria()">×</button>
+      </div>
+      <p class="muted">Use sua câmera para validar a operação.</p>
+      <button class="btn" onclick="abrirCamera()">Reconhecimento Facial</button>
+      <button class="btn" onclick="capturarFoto()">Capturar Foto</button>
+      <a id="download" class="btn" download="foto_infinityfiber.png" style="display:none">Salvar Foto</a>
+      <video id="camera" autoplay playsinline></video>
+      <canvas id="foto"></canvas>
+      <p class="muted">Demonstração local. Para produção, integre com uma API de biometria.</p>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
 
   <script>
+    // LOGIN
+    function login(){
+      const u=document.getElementById('user').value;
+      const p=document.getElementById('pass').value;
+      if(u==='DanielKascher' && p==='K@scheer123'){
+        document.getElementById('login').style.display='none';
+        document.getElementById('app').style.display='block';
+        showToast('Login efetuado');
+      }else{
+        showToast('Usuário ou senha incorretos');
+      }
+    }
+
+    // SALDO
+    let saldoVisivel=false;
+    function toggleSaldo(){
+      saldoVisivel=!saldoVisivel;
+      document.getElementById('saldo').textContent = saldoVisivel? 'R$ 37.743.623,00' : 'R$ ••••••';
+    }
+
+    // MODAL
+    function openBiometria(){ document.getElementById('biometria').style.display='flex'; }
+    function closeBiometria(){
+      document.getElementById('biometria').style.display='none';
+      const v=document.getElementById('camera');
+      if(v.srcObject){ v.srcObject.getTracks().forEach(t=>t.stop()); }
+      v.srcObject=null; v.style.display='none';
+      document.getElementById('foto').style.display='none';
+      document.getElementById('download').style.display='none';
+    }
+
+    // BIOMETRIA
     let stream;
-
-    async function abrirCamera() {
-      const video = document.getElementById('camera');
-      try {
-        stream = await navigator.mediaDevices.getUserMedia({ video: true });
-        video.srcObject = stream;
-        video.style.display = 'block';
-      } catch (err) {
-        alert("Não foi possível acessar a câmera: " + err);
+    async function abrirCamera(){
+      const video=document.getElementById('camera');
+      try{
+        stream=await navigator.mediaDevices.getUserMedia({video:true});
+        video.srcObject=stream;
+        video.style.display='block';
+        showToast('Câmera iniciada');
+      }catch(err){
+        if(err.name==='NotAllowedError'){ showToast('Permissão de câmera negada'); }
+        else if(err.name==='NotFoundError'){ showToast('Nenhuma câmera detectada'); }
+        else{ showToast('Erro de câmera: '+err.message); }
       }
     }
-
-    function capturarFoto() {
-      const video = document.getElementById('camera');
-      const canvas = document.getElementById('foto');
-      const context = canvas.getContext('2d');
-      const downloadLink = document.getElementById('download');
-
-      if (!stream) {
-        alert("Primeiro ative a câmera.");
-        return;
-      }
-
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
-      context.drawImage(video, 0, 0, canvas.width, canvas.height);
-      canvas.style.display = 'block';
-
-      // Converte a imagem para base64 e gera link de download
-      const dataURL = canvas.toDataURL("image/png");
-      downloadLink.href = dataURL;
-      downloadLink.style.display = 'inline-block';
-      downloadLink.textContent = "Salvar Foto";
+    function capturarFoto(){
+      const video=document.getElementById('camera');
+      const canvas=document.getElementById('foto');
+      const ctx=canvas.getContext('2d');
+      const link=document.getElementById('download');
+      if(!stream){ showToast('Ative a câmera primeiro'); return; }
+      canvas.width=video.videoWidth; canvas.height=video.videoHeight;
+      ctx.drawImage(video,0,0,canvas.width,canvas.height);
+      canvas.style.display='block';
+      const dataURL=canvas.toDataURL('image/png');
+      link.href=dataURL; link.style.display='inline-block';
+      showToast('Foto capturada');
     }
 
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service-worker.js')
-      .then(() => console.log("Service Worker registrado com sucesso!"))
-      .catch(err => console.log("Erro ao registrar Service Worker:", err));
+    // TOAST
+    let toastTimer;
+    function showToast(msg){
+      const t=document.getElementById('toast');
+      t.textContent=msg; t.style.display='block';
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>t.style.display='none',2200);
+    }
+
+    // PWA
+    if('serviceWorker' in navigator){
+      navigator.serviceWorker.register('service-worker.js').catch(()=>{});
     }
   </script>
 </body>
