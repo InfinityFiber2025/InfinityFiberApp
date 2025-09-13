@@ -1,208 +1,164 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Infinity Fiber App v5.0</title>
-  <link rel="manifest" href="manifest.json">
-  <script>
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js').then(() => console.log("SW registrado"));
-    }
-  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Infinity Fiber App — v4.1 (Completa)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: #fff; }
-    header { background:#1e293b; padding:10px; text-align:center; }
-    nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px; }
-    nav button { background: none; border: none; color: #fff; font-size: 14px; cursor: pointer; }
-    .tab { display: none; padding: 20px; }
-    .active { display: block; }
-    input, select, button { margin-top: 10px; padding: 10px; border-radius: 8px; border: none; }
-    input, select { width: 95%; }
-    button { background: #00d4ff; color:#000; cursor:pointer; }
-    button:hover { background:#00b6e0; }
-    video { margin-top:10px; border:3px solid #00d4ff; border-radius:12px; }
+    .hidden-important { display: none !important; }
+    video { transform: scaleX(-1); }
   </style>
 </head>
-<body>
+<body class="min-h-screen bg-slate-50 text-slate-800">
+  <header class="w-full bg-white shadow-sm sticky top-0 z-20">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
+      <img src="https://raw.githubusercontent.com/infinityfiber2025/assets/main/logo-infinity-fiber.png" alt="Infinity Fiber" class="w-9 h-9 object-contain" onerror="this.style.display='none'"/>
+      <h1 class="text-lg font-semibold">Infinity Fiber — Mini Banco Digital</h1>
+      <span class="ml-auto text-xs text-slate-500">v4.1</span>
+    </div>
+  </header>
 
-<header><h1>Infinity Fiber App v5.0</h1></header>
+  <main class="max-w-5xl mx-auto px-4 py-6">
+    <!-- LOGIN -->
+    <section id="loginSection" class="grid place-items-center">
+      <div class="w-full max-w-md bg-white rounded-2xl shadow p-6">
+        <h2 class="text-xl font-bold mb-1">Acesso Seguro</h2>
+        <p class="text-sm text-slate-500 mb-6">Entre para acessar sua conta e realizar transferências com autenticação facial (FACIL).</p>
 
-<!-- Aba Login -->
-<div id="t-login" class="tab active">
-  <h2>Login</h2>
-  <input id="user" placeholder="Usuário"><br>
-  <input id="pass" type="password" placeholder="Senha"><br>
-  <button onclick="doLogin()">Entrar</button>
-</div>
+        <label class="block text-sm font-medium">Usuário</label>
+        <input id="userInput" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value="DanielKascher" />
 
-<!-- Aba Home -->
-<div id="t-home" class="tab">
-  <h2>Dashboard</h2>
-  <p>Saldo disponível: <span id="saldo">R$ ****</span> <button onclick="mostrarSaldo()">Mostrar</button></p>
-  <h3>Últimas transações</h3>
-  <ul id="ultimas"></ul>
-</div>
+        <div class="mt-4">
+          <label class="block text-sm font-medium">Senha</label>
+          <div class="relative">
+            <input id="passInput" type="password" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 pr-24" value="K@scher123" />
+            <button id="togglePass" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-1 rounded-lg bg-slate-100 border border-slate-200">Mostrar</button>
+          </div>
+        </div>
 
-<!-- Aba Transferência -->
-<div id="t-transferencia" class="tab">
-  <h2>Transferência</h2>
-  <label>Tipo:</label>
-  <select id="tipo">
-    <option>PIX</option>
-    <option>TED</option>
-    <option>DOC</option>
-    <option>Entre contas Infinity</option>
-  </select><br>
-  <input id="destino" placeholder="Chave PIX / Conta destino"><br>
-  <input id="valor" placeholder="Valor"><br>
-  <input id="descricao" placeholder="Descrição"><br>
-  <button onclick="fazerTransferencia()">Confirmar</button>
-  <h3>Histórico</h3>
-  <ul id="historico"></ul>
-</div>
+        <button id="loginBtn" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl">Entrar</button>
+        <p id="loginError" class="mt-3 text-sm text-red-600 hidden">Usuário ou senha inválidos.</p>
+      </div>
+    </section>
 
-<!-- Aba Cadastro -->
-<div id="t-cadastro" class="tab">
-  <h2>Cadastro de Cliente</h2>
-  <input id="nome" placeholder="Nome completo"><br>
-  <input id="cpf" placeholder="CPF/CNPJ"><br>
-  <input id="email" placeholder="Email"><br>
-  <input id="tel" placeholder="Telefone"><br>
-  <button onclick="cadastrarCliente()">Cadastrar</button>
-  <h3>Clientes</h3>
-  <ul id="listaClientes"></ul>
-</div>
+    <!-- DASHBOARD -->
+    <section id="appSection" class="hidden">
+      <div class="flex flex-col md:flex-row md:items-center gap-3 mb-5">
+        <div class="flex items-center gap-3">
+          <div class="bg-white rounded-2xl shadow px-4 py-3">
+            <div class="text-xs text-slate-500">Saldo disponível</div>
+            <div class="mt-1 flex items-center gap-3">
+              <span id="saldoMask" class="text-2xl font-semibold tracking-tight">••••••••••••</span>
+              <button id="toggleSaldo" class="text-xs px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl">Mostrar saldo</button>
+            </div>
+          </div>
+        </div>
+        <div class="md:ml-auto flex items-center gap-2">
+          <button id="btnIA" class="px-3 py-2 text-sm rounded-xl bg-white border border-slate-200 shadow">Atendimento IA</button>
+          <button id="btnFacil" class="px-3 py-2 text-sm rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700">FACIL (Biometria)</button>
+          <button id="btnSair" class="px-3 py-2 text-sm rounded-xl bg-slate-800 text-white shadow hover:bg-black">Sair</button>
+        </div>
+      </div>
 
-<!-- Aba Facial -->
-<div id="t-facil" class="tab">
-  <h2>Validação Facial</h2>
-  <select id="cameras"></select><br>
-  <button id="start">Abrir câmera</button><br>
-  <video id="video" width="320" height="240" autoplay></video><br>
-  <button id="uploadBtn">Usar foto (upload)</button>
-  <input type="file" id="uploadInput" accept="image/*" style="display:none;">
-</div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+        <!-- Transferência -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <h3 class="text-lg font-semibold">Transferência</h3>
+          <form id="formTransfer" class="space-y-3">
+            <div>
+              <label class="block text-sm font-medium">Destinatário</label>
+              <input id="txDest" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="Conta destino" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium">Valor (R$)</label>
+              <input id="txValor" type="number" step="0.01" min="0" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="0,00" />
+            </div>
+            <button class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl">Prosseguir e autenticar (FACIL)</button>
+            <p id="txMsg" class="text-sm mt-2 hidden"></p>
+          </form>
+        </div>
 
-<!-- Aba IA -->
-<div id="t-ia" class="tab">
-  <h2>Atendimento IA</h2>
-  <input id="duvida" placeholder="Digite sua dúvida"><br>
-  <button onclick="buscarIA()">Buscar</button>
-  <div id="respostaIA"></div>
-</div>
+        <!-- Cadastro Rápido -->
+        <div class="bg-white rounded-2xl shadow p-5">
+          <h3 class="text-lg font-semibold">Cadastro Rápido</h3>
+          <div class="grid grid-cols-2 gap-3">
+            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Nova Conta</button>
+            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Cartões</button>
+            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Relatórios</button>
+            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Investimentos</button>
+          </div>
+        </div>
+      </div>
 
-<!-- Aba Configurações -->
-<div id="t-config" class="tab">
-  <h2>Configurações</h2>
-  <button onclick="localStorage.clear(); alert('Dados limpos!')">Limpar dados locais</button>
-  <button onclick="logout()">Logout</button>
-</div>
+      <!-- Últimas transferências -->
+      <div class="mt-6 bg-white rounded-2xl shadow p-5">
+        <h3 class="text-lg font-semibold">Últimas Transferências</h3>
+        <ul id="lastTx" class="mt-3 text-sm text-slate-600 list-disc pl-5 space-y-1">
+          <li>Nenhuma transferência realizada ainda.</li>
+        </ul>
+      </div>
 
-<nav>
-  <button onclick="showTab('t-home')">🏠 Home</button>
-  <button onclick="showTab('t-transferencia')">💸 Transferência</button>
-  <button onclick="showTab('t-cadastro')">🧑‍💼 Cadastro</button>
-  <button onclick="showTab('t-facil')">🧑‍🦱 Facial</button>
-  <button onclick="showTab('t-ia')">🤖 IA</button>
-  <button onclick="showTab('t-config')">⚙️ Config</button>
-</nav>
+      <!-- Eventos -->
+      <div class="mt-6 bg-white rounded-2xl shadow p-5">
+        <h3 class="text-lg font-semibold">Eventos do Sistema</h3>
+        <pre id="logBox" class="mt-3 bg-slate-900 text-slate-100 rounded-xl p-3 text-xs h-40 overflow-auto"></pre>
+      </div>
+    </section>
+  </main>
 
-<script>
-let currentStream;
-let clientes = JSON.parse(localStorage.getItem("clientes")||"[]");
-let historico = JSON.parse(localStorage.getItem("historico")||"[]");
+  <!-- MODAL FACIL -->
+  <div id="facilModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-30">
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-5 relative">
+      <button id="closeFacil" class="absolute right-3 top-3 text-slate-500 hover:text-slate-700">✕</button>
+      <h3 class="text-lg font-semibold">Reconhecimento Facial (FACIL)</h3>
+      <video id="video" playsinline autoplay class="w-full rounded-xl bg-black aspect-video"></video>
+      <canvas id="canvas" class="hidden-important"></canvas>
+      <div class="mt-3 flex flex-wrap gap-2">
+        <button id="btnStartCam" class="px-3 py-2 rounded-xl bg-indigo-600 text-white">Ligar câmera</button>
+        <button id="btnStopCam" class="px-3 py-2 rounded-xl bg-slate-200">Desligar</button>
+        <button id="btnCadSelfie" class="px-3 py-2 rounded-xl bg-emerald-600 text-white">Cadastrar Selfie</button>
+        <button id="btnReadFace" class="px-3 py-2 rounded-xl bg-amber-500 text-white">Executar Leitura</button>
+        <button id="btnConfirmarFacil" class="ml-auto px-4 py-2 rounded-xl bg-indigo-600 text-white disabled:opacity-50" disabled>Confirmar</button>
+      </div>
+      <div class="text-sm mt-2" id="facilStatus">Status: aguardando…</div>
+    </div>
+  </div>
 
-// Navegação
-function showTab(id){
-  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-}
+  <script>
+    const qs=(s)=>document.querySelector(s);
+    const log=(msg)=>{const el=qs('#logBox');if(!el)return;const ts=new Date().toLocaleString();el.textContent+=`[${ts}] ${msg}\n`;el.scrollTop=el.scrollHeight;};
+    const toast=(msg)=>{const t=document.createElement('div');t.textContent=msg;t.className='fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm px-4 py-2 rounded-xl shadow';document.body.appendChild(t);setTimeout(()=>t.remove(),2400);};
 
-// Login
-function doLogin(){
-  if(document.getElementById('user').value==="DanielKascher" && document.getElementById('pass').value==="K@scher123"){
-    showTab('t-home');
-  } else alert("Usuário ou senha incorretos!");
-}
-function logout(){ showTab('t-login'); }
+    const loginSection=qs('#loginSection');const appSection=qs('#appSection');
+    qs('#togglePass').addEventListener('click',(e)=>{const i=qs('#passInput');i.type=i.type==='password'?'text':'password';e.target.textContent=i.type==='password'?'Mostrar':'Ocultar';});
+    qs('#loginBtn').addEventListener('click',()=>{const u=qs('#userInput').value.trim();const p=qs('#passInput').value;if(u==='DanielKascher'&&p==='K@scher123'){loginSection.classList.add('hidden');appSection.classList.remove('hidden');log('Login efetuado.');toast('Bem-vindo!');}else{qs('#loginError').classList.remove('hidden');setTimeout(()=>qs('#loginError').classList.add('hidden'),3000);}});
 
-// Saldo
-function mostrarSaldo(){
-  document.getElementById('saldo').innerText="R$ 37.743.623,00";
-}
+    const saldoMask=qs('#saldoMask');const toggleSaldoBtn=qs('#toggleSaldo');let balanceMasked=true;const balanceValue='R$ 37.743.623.000,00';const updateSaldoUI=()=>{saldoMask.textContent=balanceMasked?'••••••••••••':balanceValue;toggleSaldoBtn.textContent=balanceMasked?'Mostrar saldo':'Ocultar saldo';};updateSaldoUI();toggleSaldoBtn.addEventListener('click',()=>{balanceMasked=!balanceMasked;updateSaldoUI();});
 
-// Transferência
-function fazerTransferencia(){
-  if(localStorage.getItem("facial_validado")!=="true"){
-    alert("⚠️ Faça a validação facial antes da transferência.");
-    return;
-  }
-  let item={tipo:tipo.value,dest:destino.value,valor:valor.value,desc:descricao.value};
-  historico.unshift(item);
-  if(historico.length>5) historico.pop();
-  localStorage.setItem("historico",JSON.stringify(historico));
-  renderHistorico();
-  alert("✅ Transferência concluída!");
-}
-function renderHistorico(){
-  historico=document.createElement?historico:JSON.parse(localStorage.getItem("historico")||"[]");
-  document.getElementById('historico').innerHTML=historico.map(h=>"<li>"+h.tipo+" - "+h.dest+" - R$"+h.valor+"</li>").join("");
-}
-renderHistorico();
+    qs('#btnSair').addEventListener('click',()=>{appSection.classList.add('hidden');loginSection.classList.remove('hidden');toast('Sessão encerrada.');});
 
-// Cadastro
-function cadastrarCliente(){
-  let c={nome:nome.value,cpf:cpf.value,email:email.value,tel:tel.value};
-  clientes.push(c);
-  localStorage.setItem("clientes",JSON.stringify(clientes));
-  renderClientes();
-}
-function renderClientes(){
-  document.getElementById('listaClientes').innerHTML=clientes.map(c=>"<li>"+c.nome+" - "+c.cpf+"</li>").join("");
-}
-renderClientes();
+    let STATE={stream:null,selfie:null,lastMatch:false,pendingTx:null};
+    const lastTxList=qs('#lastTx');
+    qs('#formTransfer').addEventListener('submit',(ev)=>{ev.preventDefault();const dest=qs('#txDest').value.trim();const valor=qs('#txValor').value.trim();if(!dest||!valor){const m=qs('#txMsg');m.textContent='Informe destinatário e valor.';m.className='text-sm mt-2 text-red-600';m.classList.remove('hidden');return;}STATE.pendingTx={dest,valor};openFacil();log(`Transferência preparada: R$ ${valor} → ${dest}. Aguardando FACIL.`);});
 
-// IA
-function buscarIA(){
-  let q=document.getElementById('duvida').value.toLowerCase();
-  let r="Desculpe, não encontrei.";
-  if(q.includes("pix")) r="Para transferir via PIX, selecione o tipo PIX e informe a chave.";
-  if(q.includes("cadastro")) r="O cadastro pede Nome, CPF, Email e Telefone.";
-  document.getElementById('respostaIA').innerText=r;
-}
+    const modal=qs('#facilModal');const video=qs('#video');const canvas=qs('#canvas');const statusEl=qs('#facilStatus');const btnConfirm=qs('#btnConfirmarFacil');
+    function openFacil(){modal.classList.remove('hidden');modal.classList.add('flex');statusEl.textContent='Status: aguardando…';btnConfirm.disabled=true;}
+    function closeFacil(){modal.classList.add('hidden');modal.classList.remove('flex');stopCam();}
+    qs('#closeFacil').addEventListener('click',closeFacil);
 
-// Facial
-async function listarCameras(){
-  try {
-    const devices = await navigator.mediaDevices.enumerateDevices();
-    const cameras = devices.filter(d=>d.kind==="videoinput");
-    const select=document.getElementById('cameras');
-    select.innerHTML="";
-    cameras.forEach((cam,i)=>{
-      const option=document.createElement('option');
-      option.value=cam.deviceId;
-      option.text=cam.label||`Câmera ${i+1}`;
-      select.appendChild(option);
-    });
-  } catch(err){ console.error(err); }
-}
-async function abrirCamera(){
-  if(currentStream){ currentStream.getTracks().forEach(track=>track.stop()); }
-  const deviceId=document.getElementById('cameras').value;
-  try{
-    const stream=await navigator.mediaDevices.getUserMedia({video:{deviceId:{exact:deviceId}}});
-    currentStream=stream;
-    document.getElementById('video').srcObject=stream;
-    localStorage.setItem("facial_validado","true");
-    alert("✅ Validação facial concluída!");
-  }catch(err){ alert("Erro ao acessar a câmera: "+err); }
-}
-document.getElementById('start').onclick=abrirCamera;
-document.getElementById('uploadBtn').onclick=()=>document.getElementById('uploadInput').click();
-document.getElementById('uploadInput').onchange=()=>{ localStorage.setItem("facial_validado","true"); alert("✅ Validação facial concluída via upload!"); };
-listarCameras();
-</script>
+    async function startCam(){try{stopCam();const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});STATE.stream=stream;video.srcObject=stream;await video.play();statusEl.textContent='Câmera ligada. Cadastre ou leia.';}catch(e){statusEl.textContent='Erro: permita acesso à câmera (HTTPS necessário).';log('Erro câmera: '+e.message);}}
+    function stopCam(){if(STATE.stream){STATE.stream.getTracks().forEach(t=>t.stop());STATE.stream=null;}video.srcObject=null;}
 
+    function capture(){canvas.width=video.videoWidth;canvas.height=video.videoHeight;const ctx=canvas.getContext('2d');ctx.drawImage(video,0,0);return canvas.toDataURL('image/jpeg',0.8);}
+    async function compare(imgA,imgB){const ia=await loadImage(imgA);const ib=await loadImage(imgB);if(ia.width!==ib.width||ia.height!==ib.height)return false;const ca=canvas.getContext('2d');canvas.width=ia.width;canvas.height=ia.height;ca.drawImage(ia,0,0);const dA=ca.getImageData(0,0,ia.width,ia.height).data;ca.drawImage(ib,0,0);const dB=ca.getImageData(0,0,ib.width,ib.height).data;let diff=0;for(let i=0;i<dA.length;i+=4){diff+=Math.abs(dA[i]-dB[i])+Math.abs(dA[i+1]-dB[i+1])+Math.abs(dA[i+2]-dB[i+2]);}const score=diff/((dA.length/4)*255*3);return score<0.2;}
+    function loadImage(dataUrl){return new Promise(r=>{const img=new Image();img.onload=()=>r(img);img.src=dataUrl;});}
+
+    qs('#btnStartCam').addEventListener('click',startCam);qs('#btnStopCam').addEventListener('click',stopCam);
+    qs('#btnCadSelfie').addEventListener('click',()=>{if(!STATE.stream)return;STATE.selfie=capture();statusEl.textContent='Selfie cadastrada.';});
+    qs('#btnReadFace').addEventListener('click',async()=>{if(!STATE.stream||!STATE.selfie)return;const shot=capture();const match=await compare(STATE.selfie,shot);STATE.lastMatch=match;statusEl.textContent=match?'Verificação aprovada ✅':'Falhou ❌';btnConfirm.disabled=!match;});
+    btnConfirm.addEventListener('click',()=>{if(STATE.lastMatch&&STATE.pendingTx){log(`Transferência CONFIRMADA: R$ ${STATE.pendingTx.valor} → ${STATE.pendingTx.dest}`);toast('Transferência concluída com sucesso.');const li=document.createElement('li');li.textContent=`R$ ${STATE.pendingTx.valor} → ${STATE.pendingTx.dest} (${new Date().toLocaleTimeString()})`;if(lastTxList.firstElementChild&&lastTxList.firstElementChild.textContent.includes('Nenhuma'))lastTxList.innerHTML='';lastTxList.prepend(li);STATE.pendingTx=null;closeFacil();}});
+    qs('#btnFacil').addEventListener('click',openFacil);
+  </script>
 </body>
 </html>
