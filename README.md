@@ -1,63 +1,36 @@
-# Infinity Fiber PWA
+# Infinity Fiber App — v4.1
 
-Este repositório contém a versão PWA (Progressive Web App) do sistema **Infinity Fiber Ltda — CNPJ: 28.430.524/0001-31**.
+Aplicação web demonstrativa para login seguro, transferências e autenticação facial (FACIL).
 
----
+## 🚀 Como usar
 
-## 📂 Estrutura de Arquivos
+1. Acesse pelo link do GitHub Pages (HTTPS):  
+   ```
+   https://SEU-USUARIO.github.io/NOME-DO-REPO/
+   ```
 
-```
-InfinityFiberApp/
-│
-├── Infinity_Fiber_Versao_1m_PWA.html   # Arquivo principal (interface do app)
-├── manifest.json                       # Configuração do PWA (nome, ícones, cores)
-├── service-worker.js                   # Service Worker (cache offline básico)
-├── icon-192.png                        # Ícone do app (192x192)
-└── icon-512.png                        # Ícone do app (512x512)
-```
+2. Faça login com as credenciais de demonstração:  
+   - Usuário: **DanielKascher**  
+   - Senha: **K@scher123**  
 
----
+3. No dashboard você pode:  
+   - Visualizar saldo (oculto por padrão).  
+   - Realizar **transferências**.  
+   - Usar o botão **FACIL (Biometria)** para autenticar via câmera.  
+   - Acompanhar **últimas transferências** e **eventos do sistema**.  
 
-## 🚀 Publicação no GitHub Pages
+## 📱 Notas importantes sobre a câmera
 
-1. Crie um repositório no GitHub chamado **InfinityFiberApp**.
-2. Clone o repositório em sua máquina e copie todos os arquivos acima para dentro dele.
-3. No terminal, execute os comandos:
+- O navegador **só libera a câmera em HTTPS** (GitHub Pages já é HTTPS).  
+- No **PC**: pode ser necessário liberar a câmera manualmente no ícone de cadeado 🔒 do navegador.  
+- No **celular (Android/iOS)**: use **Chrome** ou **Safari**. No iOS o acesso só funciona após clicar no botão **“Ligar câmera”**.  
 
-```bash
-git init
-git add .
-git commit -m "Versão inicial do Infinity Fiber PWA"
-git branch -M main
-git remote add origin https://github.com/SEU_USUARIO/InfinityFiberApp.git
-git push -u origin main
-```
+## 📂 Estrutura
 
-4. No GitHub, vá em **Settings > Pages**.
-5. Em **Source**, selecione `main` e a pasta `/root`, depois clique em **Save**.
+- `index.html` → Arquivo único com todo o código (HTML, CSS, JS).  
 
-Após alguns minutos, seu app estará disponível em:
+## 🛠️ Tecnologias
 
-```
-https://SEU_USUARIO.github.io/InfinityFiberApp/Infinity_Fiber_Versao_1m_PWA.html
-```
-
----
-
-## 📱 Instalação como App
-
-1. Acesse o link no navegador do seu celular.
-2. Clique em **Adicionar à Tela Inicial**.
-3. O Infinity Fiber PWA ficará disponível como um aplicativo independente.
-
----
-
-## ℹ️ Observações
-
-- Para que a câmera funcione, o app **precisa rodar em HTTPS** (o GitHub Pages já fornece isso automaticamente).
-- Caso rode localmente, use `http://localhost` em vez de abrir o arquivo direto, senão o navegador vai bloquear a câmera.
-- Os ícones (`icon-192.png` e `icon-512.png`) já estão configurados no `manifest.json`.
-
----
-
-✍️ Desenvolvido para **Infinity Fiber Ltda — CNPJ: 28.430.524/0001-31**
+- HTML5 + TailwindCSS (CDN)  
+- JavaScript (vanilla, sem frameworks)  
+- getUserMedia API para câmera  
