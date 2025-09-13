@@ -1,655 +1,208 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
-  <title>Infinity Fiber — v5.0 (Demo)</title>
-  <meta name="theme-color" content="#0f172a"/>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity Fiber App v5.0</title>
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js').then(() => console.log("SW registrado"));
+    }
+  </script>
   <style>
-    .glass{background:rgba(15,23,42,.7);border:1px solid rgba(255,255,255,.08);backdrop-filter:blur(8px)}
-    .chip{padding:.2rem .5rem;border-radius:999px;background:rgba(255,255,255,.08);font-size:.75rem}
-    .btn{padding:.6rem .9rem;border-radius:.75rem}
+    body { font-family: Arial, sans-serif; margin: 0; background: #0f172a; color: #fff; }
+    header { background:#1e293b; padding:10px; text-align:center; }
+    nav { position: fixed; bottom: 0; width: 100%; background: #1e293b; display: flex; justify-content: space-around; padding: 10px; }
+    nav button { background: none; border: none; color: #fff; font-size: 14px; cursor: pointer; }
+    .tab { display: none; padding: 20px; }
+    .active { display: block; }
+    input, select, button { margin-top: 10px; padding: 10px; border-radius: 8px; border: none; }
+    input, select { width: 95%; }
+    button { background: #00d4ff; color:#000; cursor:pointer; }
+    button:hover { background:#00b6e0; }
+    video { margin-top:10px; border:3px solid #00d4ff; border-radius:12px; }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col">
-  <!-- LOGIN -->
-  <section id="t-login" class="flex-1 flex items-center justify-center p-6">
-    <div class="w-full max-w-sm glass rounded-2xl p-6 shadow-xl">
-      <div class="flex flex-col items-center mb-6">
-        <div class="w-12 h-12 rounded-full bg-gradient-to-tr from-cyan-400 to-indigo-500 mb-2"></div>
-        <h1 class="text-lg font-bold">Infinity Fiber</h1>
-        <p class="text-xs text-slate-400">Acesso seguro</p>
-      </div>
-      <label class="text-xs">Usuário</label>
-      <input id="loginUser" class="w-full mt-1 mb-3 px-4 py-2 rounded-lg bg-slate-800 text-slate-100 outline-none" placeholder="DanielKascher"/>
-      <label class="text-xs">Senha</label>
-      <input id="loginPass" type="password" autocomplete="off" class="w-full mt-1 mb-4 px-4 py-2 rounded-lg bg-slate-800 text-slate-100 outline-none" placeholder="Digite aqui..."/>
-      <button class="w-full py-2 rounded-lg bg-gradient-to-r from-cyan-500 to-indigo-500 font-semibold" onclick="doLogin()">Entrar</button>
-      <p id="loginErr" class="text-red-400 text-xs mt-2 hidden">Usuário ou senha inválidos.</p>
-      <p class="text-[11px] text-slate-500 mt-3">Use <b>DanielKascher</b> / <b>K@scher123</b></p>
-    </div>
-  </section>
+<body>
 
-  <!-- APP -->
-  <section id="t-app" class="hidden flex-1 flex flex-col">
-    <!-- Topbar -->
-    <header class="px-4 py-3 border-b border-white/10 bg-slate-950/90 backdrop-blur flex items-center gap-3 sticky top-0 z-30">
-      <div class="w-7 h-7 rounded-full bg-gradient-to-tr from-cyan-400 to-indigo-500"></div>
-      <div class="flex flex-col">
-        <span class="text-[10px] uppercase text-slate-400">Infinity Fiber</span>
-        <span class="text-sm font-semibold">v5.0 • Conta & Pagamentos</span>
-      </div>
-      <div class="ml-auto flex items-center gap-3">
-        <div class="text-right text-xs">
-          <div>Saldo</div>
-          <div id="saldoTop" class="text-base font-bold text-cyan-300">••••</div>
-        </div>
-        <button class="px-3 py-1.5 rounded bg-white/10 text-xs" onclick="logout()">Sair</button>
-      </div>
-    </header>
+<header><h1>Infinity Fiber App v5.0</h1></header>
 
-    <!-- Conteúdo -->
-    <main class="flex-1 overflow-y-auto pb-24">
-      <!-- HOME -->
-      <section id="s-home" class="p-4 space-y-4">
-        <div class="rounded-2xl p-5 bg-gradient-to-r from-cyan-500 to-indigo-600 shadow">
-          <div class="text-xs">Saldo disponível</div>
-          <div id="saldoHome" class="text-2xl font-extrabold">••••</div>
-          <button class="mt-3 px-3 py-1.5 rounded bg-white/20 hover:bg-white/30 text-sm" onclick="toggleSaldo()">👁 Mostrar valores</button>
-        </div>
+<!-- Aba Login -->
+<div id="t-login" class="tab active">
+  <h2>Login</h2>
+  <input id="user" placeholder="Usuário"><br>
+  <input id="pass" type="password" placeholder="Senha"><br>
+  <button onclick="doLogin()">Entrar</button>
+</div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-          <button class="rounded-xl p-4 glass text-left" onclick="go('s-transfer')">
-            <div class="text-sm font-semibold">Transferência</div>
-            <div class="text-[11px] text-slate-400">PIX, TED, DOC, entre contas</div>
-          </button>
-          <button class="rounded-xl p-4 glass text-left" onclick="go('s-facial')">
-            <div class="text-sm font-semibold">Fácil (biometria)</div>
-            <div class="text-[11px] text-slate-400">Validar com câmera</div>
-          </button>
-          <button class="rounded-xl p-4 glass text-left" onclick="go('s-cadastro')">
-            <div class="text-sm font-semibold">Cadastro Cliente</div>
-            <div class="text-[11px] text-slate-400">Criar/editar clientes</div>
-          </button>
-          <button class="rounded-xl p-4 glass text-left" onclick="go('s-ia')">
-            <div class="text-sm font-semibold">Atendimento IA</div>
-            <div class="text-[11px] text-slate-400">Autoajuda</div>
-          </button>
-        </div>
+<!-- Aba Home -->
+<div id="t-home" class="tab">
+  <h2>Dashboard</h2>
+  <p>Saldo disponível: <span id="saldo">R$ ****</span> <button onclick="mostrarSaldo()">Mostrar</button></p>
+  <h3>Últimas transações</h3>
+  <ul id="ultimas"></ul>
+</div>
 
-        <div class="glass rounded-xl p-4">
-          <div class="text-sm font-semibold mb-2">Últimas transações</div>
-          <ul id="ultimas" class="text-sm space-y-2"></ul>
-        </div>
-      </section>
+<!-- Aba Transferência -->
+<div id="t-transferencia" class="tab">
+  <h2>Transferência</h2>
+  <label>Tipo:</label>
+  <select id="tipo">
+    <option>PIX</option>
+    <option>TED</option>
+    <option>DOC</option>
+    <option>Entre contas Infinity</option>
+  </select><br>
+  <input id="destino" placeholder="Chave PIX / Conta destino"><br>
+  <input id="valor" placeholder="Valor"><br>
+  <input id="descricao" placeholder="Descrição"><br>
+  <button onclick="fazerTransferencia()">Confirmar</button>
+  <h3>Histórico</h3>
+  <ul id="historico"></ul>
+</div>
 
-      <!-- TRANSFERÊNCIA -->
-      <section id="s-transfer" class="hidden p-4 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">Transferência</h2>
-          <div class="flex gap-2">
-            <span class="chip">Validação facial obrigatória</span>
-            <button class="px-3 py-1.5 rounded bg-sky-700 hover:bg-sky-600 text-sm" onclick="go('s-ia'); filtrarIA('transferência')">Ajuda 🤖</button>
-          </div>
-        </div>
-        <div class="grid md:grid-cols-3 gap-4">
-          <form id="formTransf" class="md:col-span-2 glass rounded-xl p-4 grid gap-3" onsubmit="enviarTransferencia(event)">
-            <div class="grid md:grid-cols-4 gap-3">
-              <label class="flex items-center gap-2 glass rounded px-3 py-2 cursor-pointer">
-                <input type="radio" name="tipo" value="PIX" checked> <span>PIX</span>
-              </label>
-              <label class="flex items-center gap-2 glass rounded px-3 py-2 cursor-pointer">
-                <input type="radio" name="tipo" value="TED"> <span>TED</span>
-              </label>
-              <label class="flex items-center gap-2 glass rounded px-3 py-2 cursor-pointer">
-                <input type="radio" name="tipo" value="DOC"> <span>DOC</span>
-              </label>
-              <label class="flex items-center gap-2 glass rounded px-3 py-2 cursor-pointer">
-                <input type="radio" name="tipo" value="INF"> <span>Entre contas Infinity</span>
-              </label>
-            </div>
+<!-- Aba Cadastro -->
+<div id="t-cadastro" class="tab">
+  <h2>Cadastro de Cliente</h2>
+  <input id="nome" placeholder="Nome completo"><br>
+  <input id="cpf" placeholder="CPF/CNPJ"><br>
+  <input id="email" placeholder="Email"><br>
+  <input id="tel" placeholder="Telefone"><br>
+  <button onclick="cadastrarCliente()">Cadastrar</button>
+  <h3>Clientes</h3>
+  <ul id="listaClientes"></ul>
+</div>
 
-            <div id="camposPIX" class="grid gap-2">
-              <label class="text-sm">Chave PIX</label>
-              <input id="pixChave" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="CPF, e-mail, telefone ou chave aleatória"/>
-            </div>
+<!-- Aba Facial -->
+<div id="t-facil" class="tab">
+  <h2>Validação Facial</h2>
+  <select id="cameras"></select><br>
+  <button id="start">Abrir câmera</button><br>
+  <video id="video" width="320" height="240" autoplay></video><br>
+  <button id="uploadBtn">Usar foto (upload)</button>
+  <input type="file" id="uploadInput" accept="image/*" style="display:none;">
+</div>
 
-            <div id="camposTEDDOC" class="hidden grid gap-2">
-              <div class="grid md:grid-cols-3 gap-2">
-                <div>
-                  <label class="text-sm">Banco</label>
-                  <input id="banco" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="Ex.: 237 - Bradesco"/>
-                </div>
-                <div>
-                  <label class="text-sm">Agência</label>
-                  <input id="agencia" class="px-3 py-2 rounded bg-slate-800 border border-white/10"/>
-                </div>
-                <div>
-                  <label class="text-sm">Conta</label>
-                  <input id="conta" class="px-3 py-2 rounded bg-slate-800 border border-white/10"/>
-                </div>
-              </div>
-              <div>
-                <label class="text-sm">CPF/CNPJ do beneficiário</label>
-                <input id="cpfcnpj" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="000.000.000-00"/>
-              </div>
-            </div>
+<!-- Aba IA -->
+<div id="t-ia" class="tab">
+  <h2>Atendimento IA</h2>
+  <input id="duvida" placeholder="Digite sua dúvida"><br>
+  <button onclick="buscarIA()">Buscar</button>
+  <div id="respostaIA"></div>
+</div>
 
-            <div id="camposINF" class="hidden grid gap-2">
-              <label class="text-sm">Usuário Infinity (destino)</label>
-              <input id="userInfinity" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="Ex.: daniel.braga"/>
-            </div>
+<!-- Aba Configurações -->
+<div id="t-config" class="tab">
+  <h2>Configurações</h2>
+  <button onclick="localStorage.clear(); alert('Dados limpos!')">Limpar dados locais</button>
+  <button onclick="logout()">Logout</button>
+</div>
 
-            <div class="grid md:grid-cols-3 gap-2">
-              <div>
-                <label class="text-sm">Valor</label>
-                <input id="valor" type="number" min="0" step="0.01" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="0,00" required>
-              </div>
-              <div>
-                <label class="text-sm">Agendamento (opcional)</label>
-                <input id="dataAg" type="date" class="px-3 py-2 rounded bg-slate-800 border border-white/10">
-              </div>
-              <div>
-                <label class="text-sm">Descrição</label>
-                <input id="desc" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="Identificação para o extrato">
-              </div>
-            </div>
-
-            <div class="flex items-center gap-2 mt-2">
-              <button class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Confirmar</button>
-              <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="go('s-facial')">Validar com câmera</button>
-              <span id="facialStatus" class="text-xs text-emerald-400 hidden">✅ Facial validado nesta sessão</span>
-            </div>
-            <p class="text-xs text-slate-400">A confirmação exige validação facial ativa nesta sessão.</p>
-          </form>
-
-          <div class="glass rounded-xl p-4">
-            <h3 class="font-semibold mb-2">Histórico (últimas 5)</h3>
-            <ul id="historico" class="text-sm space-y-2"></ul>
-            <div class="mt-3 flex gap-2">
-              <button class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="exportarComprovante()">Comprovante (PDF)</button>
-              <button class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="exportarJSON()">Exportar JSON</button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- CADASTRO CLIENTE -->
-      <section id="s-cadastro" class="hidden p-4 space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-lg font-semibold">Cadastro de Cliente</h2>
-          <div class="flex gap-2">
-            <button class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="novoCliente()">Novo</button>
-            <button class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick="exportarClientes()">Exportar JSON</button>
-            <label class="px-3 py-1.5 rounded bg-slate-700 hover:bg-slate-600 text-sm cursor-pointer">
-              Importar JSON
-              <input id="importClientes" type="file" accept="application/json" class="hidden" onchange="importarClientes(this)">
-            </label>
-          </div>
-        </div>
-
-        <form id="formCliente" class="glass rounded-xl p-4 grid md:grid-cols-2 gap-3" onsubmit="salvarCliente(event)">
-          <input id="c-id" type="hidden"/>
-          <div>
-            <label class="text-sm">Nome completo</label>
-            <input id="c-nome" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10" required>
-          </div>
-          <div>
-            <label class="text-sm">CPF/CNPJ</label>
-            <input id="c-doc" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10" required>
-          </div>
-          <div>
-            <label class="text-sm">RG</label>
-            <input id="c-rg" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-          </div>
-          <div>
-            <label class="text-sm">Endereço</label>
-            <input id="c-end" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-          </div>
-          <div>
-            <label class="text-sm">Telefone</label>
-            <input id="c-tel" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-          </div>
-          <div>
-            <label class="text-sm">E-mail</label>
-            <input id="c-mail" type="email" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-          </div>
-          <div>
-            <label class="text-sm">Renda mensal</label>
-            <input id="c-renda" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-          </div>
-          <div class="flex items-end">
-            <button class="btn bg-emerald-600 hover:bg-emerald-500">Salvar</button>
-          </div>
-        </form>
-
-        <div class="glass rounded-xl p-4">
-          <h3 class="font-semibold mb-2">Clientes</h3>
-          <div id="listaClientes" class="grid gap-2"></div>
-        </div>
-      </section>
-
-      <!-- FACIAL -->
-      <section id="s-facial" class="hidden p-4">
-        <div class="glass rounded-xl p-4">
-          <h2 class="text-lg font-semibold mb-2">Fácil — Validação Facial</h2>
-          <p class="text-sm text-slate-300 mb-3">Simulação local. Nenhuma imagem sai do seu dispositivo.</p>
-          <div class="flex gap-2 flex-wrap">
-            <button class="px-3 py-2 rounded bg-emerald-600 hover:bg-emerald-500" onclick="abrirCamera()">📷 Abrir câmera</button>
-            <button class="px-3 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="document.getElementById('fotoInput').click()">Usar foto (upload)</button>
-          </div>
-          <video id="video" class="mt-4 rounded-xl border border-white/10 hidden" autoplay playsinline></video>
-          <canvas id="canvas" class="mt-3 rounded-xl border border-white/10 hidden"></canvas>
-          <input id="fotoInput" type="file" accept="image/*" class="hidden" onchange="carregarFoto(this)">
-          <div id="msgFacial" class="text-sm mt-2 text-emerald-400 hidden">✅ Facial validado</div>
-          <div id="warnHttps" class="text-xs mt-2 text-yellow-300 hidden">⚠️ Para usar a câmera, abra via HTTPS ou localhost.</div>
-        </div>
-      </section>
-
-      <!-- IA -->
-      <section id="s-ia" class="hidden p-4 space-y-4">
-        <h2 class="text-lg font-semibold">Atendimento IA — Autoajuda</h2>
-        <div class="grid md:grid-cols-2 gap-3">
-          <div class="grid gap-2">
-            <label class="text-sm">Buscar dúvida</label>
-            <input id="ia-busca" oninput="iaBuscar()" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="Palavras-chave (ex.: cadastro, facial, contrato)">
-          </div>
-          <div class="grid gap-2">
-            <label class="text-sm">Filtrar por tag</label>
-            <input id="ia-tag" oninput="iaBuscar()" class="px-3 py-2 rounded bg-slate-800 border border-white/10" placeholder="Ex.: segurança, gateway, transferência">
-          </div>
-        </div>
-        <div id="ia-resultados" class="grid gap-3"></div>
-        <hr class="border-white/10">
-        <form id="ia-form" class="grid gap-3" onsubmit="iaSalvar(event)">
-          <h3 class="font-medium">Cadastrar/editar resposta rápida</h3>
-          <div class="grid md:grid-cols-2 gap-3">
-            <div>
-              <label class="text-sm">Título</label>
-              <input id="ia-titulo" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10" required>
-            </div>
-            <div>
-              <label class="text-sm">Tags (vírgulas)</label>
-              <input id="ia-tags" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10">
-            </div>
-          </div>
-          <div class="grid md:grid-cols-2 gap-3">
-            <div>
-              <label class="text-sm">Pergunta</label>
-              <textarea id="ia-pergunta" rows="3" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10" required></textarea>
-            </div>
-            <div>
-              <label class="text-sm">Resposta</label>
-              <textarea id="ia-resposta" rows="3" class="w-full px-3 py-2 rounded bg-slate-800 border border-white/10" required></textarea>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-center gap-3">
-            <button class="px-4 py-2 rounded bg-emerald-600 hover:bg-emerald-500">Salvar</button>
-            <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaNovo()">Novo</button>
-            <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaExportJSON()">Exportar JSON</button>
-            <button type="button" class="px-4 py-2 rounded bg-slate-700 hover:bg-slate-600" onclick="iaExportCSV()">Exportar CSV</button>
-            <label class="ml-auto text-sm flex items-center gap-2 cursor-pointer">
-              <span class="px-3 py-2 rounded bg-slate-700 hover:bg-slate-600">Importar JSON</span>
-              <input id="ia-import" type="file" accept="application/json" class="hidden" onchange="iaImportJSON(this)">
-            </label>
-          </div>
-        </form>
-      </section>
-
-      <!-- CONFIGURAÇÕES -->
-      <section id="s-settings" class="hidden p-4 space-y-4">
-        <h2 class="text-lg font-semibold">Configurações</h2>
-        <div class="glass rounded-xl p-4 grid gap-3">
-          <button class="btn bg-slate-700 hover:bg-slate-600" onclick="limparDados()">Limpar cadastros, IA e histórico</button>
-          <p class="text-xs text-slate-400">Apenas local (localStorage). Útil para reiniciar a simulação.</p>
-        </div>
-      </section>
-    </main>
-
-    <!-- Bottom Nav -->
-    <nav class="fixed bottom-0 inset-x-0 z-40 bg-slate-900/80 backdrop-blur border-t border-white/10">
-      <div class="grid grid-cols-5 text-xs">
-        <button class="py-3 flex flex-col items-center gap-1" onclick="go('s-home')">🏠<span>Início</span></button>
-        <button class="py-3 flex flex-col items-center gap-1" onclick="go('s-transfer')">💸<span>Transfer.</span></button>
-        <button class="py-3 flex flex-col items-center gap-1" onclick="go('s-cadastro')">🧑‍💼<span>Cadastro</span></button>
-        <button class="py-3 flex flex-col items-center gap-1" onclick="go('s-facial')">🧑‍🦱<span>Fácil</span></button>
-        <button class="py-3 flex flex-col items-center gap-1" onclick="go('s-ia')">🤖<span>IA</span></button>
-      </div>
-      <div class="text-center py-2">
-        <button class="px-3 py-1.5 rounded bg-white/10 text-xs" onclick="go('s-settings')">⚙️ Configurações</button>
-      </div>
-    </nav>
-  </section>
+<nav>
+  <button onclick="showTab('t-home')">🏠 Home</button>
+  <button onclick="showTab('t-transferencia')">💸 Transferência</button>
+  <button onclick="showTab('t-cadastro')">🧑‍💼 Cadastro</button>
+  <button onclick="showTab('t-facil')">🧑‍🦱 Facial</button>
+  <button onclick="showTab('t-ia')">🤖 IA</button>
+  <button onclick="showTab('t-config')">⚙️ Config</button>
+</nav>
 
 <script>
-// ====== Estado Global ======
-let mostrarSaldo=false;
-let facialOK=false;
-let saldoReal = parseFloat(localStorage.getItem('saldoReal')||"37743623000");
-let clientes = JSON.parse(localStorage.getItem('clientes')||"[]");
-let historico = JSON.parse(localStorage.getItem('historico')||"[]");
-let iaBase = JSON.parse(localStorage.getItem('iaBase')||"null") || [
-  {id:crypto.randomUUID(),titulo:"Cadastro → Contrato automático",pergunta:"Como o cadastro preenche o contrato?",resposta:"Os campos do formulário são mapeados para placeholders do contrato e geramos o PDF final.",tags:"cadastro, contrato, pdf",data:new Date().toLocaleString()},
-  {id:crypto.randomUUID(),titulo:"Gateway: whitelist",pergunta:"Como restringir transferência?",resposta:"Cadastre contas com permissão. O sistema valida o destino antes de enviar.",tags:"gateway, segurança, transferência",data:new Date().toLocaleString()},
-  {id:crypto.randomUUID(),titulo:"Login + Leitura Facial",pergunta:"A leitura facial falhou. O que conferir?",resposta:"Verifique permissões da câmera/HTTPS e use fallback de upload.",tags:"segurança, facial, login",data:new Date().toLocaleString()},
-  {id:crypto.randomUUID(),titulo:"PWA e tema",pergunta:"Como melhorar a experiência PWA?",resposta:"Defina theme-color, ícones e service worker para cache controlado.",tags:"pwa, ui, tema",data:new Date().toLocaleString()},
-];
-localStorage.setItem('iaBase', JSON.stringify(iaBase));
+let currentStream;
+let clientes = JSON.parse(localStorage.getItem("clientes")||"[]");
+let historico = JSON.parse(localStorage.getItem("historico")||"[]");
 
-// ====== Login ======
+// Navegação
+function showTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+// Login
 function doLogin(){
-  const u=document.getElementById('loginUser').value.trim();
-  const p=document.getElementById('loginPass').value.trim();
-  if(u==="DanielKascher" && p==="K@scher123"){
-    document.getElementById('t-login').classList.add('hidden');
-    document.getElementById('t-app').classList.remove('hidden');
-    renderSaldo(); seedUltimas(); renderHistorico(); renderClientes(); iaRender();
-    go('s-home');
-  }else{
-    document.getElementById('loginErr').classList.remove('hidden');
-    setTimeout(()=>document.getElementById('loginErr').classList.add('hidden'),2500);
+  if(document.getElementById('user').value==="DanielKascher" && document.getElementById('pass').value==="K@scher123"){
+    showTab('t-home');
+  } else alert("Usuário ou senha incorretos!");
+}
+function logout(){ showTab('t-login'); }
+
+// Saldo
+function mostrarSaldo(){
+  document.getElementById('saldo').innerText="R$ 37.743.623,00";
+}
+
+// Transferência
+function fazerTransferencia(){
+  if(localStorage.getItem("facial_validado")!=="true"){
+    alert("⚠️ Faça a validação facial antes da transferência.");
+    return;
   }
-}
-function logout(){
-  document.getElementById('t-app').classList.add('hidden');
-  document.getElementById('t-login').classList.remove('hidden');
-}
-
-// ====== Navegação ======
-function go(id){
-  document.querySelectorAll('main section').forEach(s=>s.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-  if(id==='s-ia') iaRender();
-  if(id==='s-transfer') ajustaCampos();
-}
-
-// ====== Saldo & Transações ======
-function toggleSaldo(){mostrarSaldo=!mostrarSaldo;renderSaldo();}
-function renderSaldo(){
-  const vis=mostrarSaldo?formatBRL(saldoReal):"••••";
-  document.getElementById('saldoHome').textContent=vis;
-  document.getElementById('saldoTop').textContent=vis;
-  localStorage.setItem('saldoReal', String(saldoReal));
-}
-function formatBRL(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});}
-function seedUltimas(){
-  const lista=[{t:"Pagamento",v:-1200},{t:"Transferência",v:-800},{t:"Depósito",v:2500}];
-  const ul=document.getElementById('ultimas'); ul.innerHTML="";
-  lista.forEach(l=>{
-    const li=document.createElement('li'); li.className="flex items-center justify-between";
-    li.innerHTML=`<span>${l.t}</span><span class="${l.v<0?'text-red-300':'text-emerald-300'}">${(l.v<0?'- ':'+ ')+formatBRL(Math.abs(l.v))}</span>`;
-    ul.appendChild(li);
-  });
-}
-
-// ====== Transferência ======
-document.addEventListener('change',e=>{if(e.target.name==='tipo')ajustaCampos();});
-function ajustaCampos(){
-  const tipo=document.querySelector('input[name="tipo"]:checked').value;
-  document.getElementById('camposPIX').classList.toggle('hidden',tipo!=="PIX");
-  document.getElementById('camposTEDDOC').classList.toggle('hidden',!(tipo==="TED"||tipo==="DOC"));
-  document.getElementById('camposINF').classList.toggle('hidden',tipo!=="INF");
-}
-function enviarTransferencia(ev){
-  ev.preventDefault();
-  if(!facialOK){alert("⚠️ Validação facial obrigatória. Acesse a aba ‘Fácil’ e valide com a câmera ou upload.");return;}
-  const tipo=document.querySelector('input[name="tipo"]:checked').value;
-  const valor=parseFloat(document.getElementById('valor').value||"0");
-  if(!valor||valor<=0){alert("Informe um valor válido.");return;}
-  const desc=document.getElementById('desc').value||"";
-  const dataAg=document.getElementById('dataAg').value||null;
-  const destino=(()=>{
-    if(tipo==="PIX") return document.getElementById('pixChave').value||"(sem chave)";
-    if(tipo==="INF") return "@"+(document.getElementById('userInfinity').value||"usuario");
-    return `${document.getElementById('banco').value||'-'} / Ag ${document.getElementById('agencia').value||'-'} / Cc ${document.getElementById('conta').value||'-'} (${document.getElementById('cpfcnpj').value||'-'})`;
-  })();
-  const registro={id:crypto.randomUUID(),ts:new Date().toLocaleString(),tipo,valor,destino,desc,dataAg};
-  historico.unshift(registro); historico=historico.slice(0,5);
-  localStorage.setItem('historico', JSON.stringify(historico));
-  saldoReal=Math.max(0,saldoReal-valor); renderSaldo(); renderHistorico();
-  alert("✅ Transferência registrada (simulação). Comprovante disponível em PDF.");
+  let item={tipo:tipo.value,dest:destino.value,valor:valor.value,desc:descricao.value};
+  historico.unshift(item);
+  if(historico.length>5) historico.pop();
+  localStorage.setItem("historico",JSON.stringify(historico));
+  renderHistorico();
+  alert("✅ Transferência concluída!");
 }
 function renderHistorico(){
-  const ul=document.getElementById('historico'); ul.innerHTML="";
-  if(historico.length===0){ul.innerHTML='<li class="text-slate-400">Sem operações ainda.</li>';return;}
-  historico.forEach(h=>{
-    const li=document.createElement('li'); li.className="flex flex-col glass rounded p-2";
-    li.innerHTML=`<div class="flex items-center justify-between"><b>${h.tipo}</b><span class="text-slate-400 text-xs">${h.ts}</span></div>
-    <div class="text-sm">Destino: ${h.destino}</div>
-    <div class="text-sm">Valor: ${formatBRL(h.valor)} ${h.dataAg?`<span class="chip ml-2">Agendado: ${h.dataAg}</span>`:""}</div>
-    ${h.desc?`<div class="text-xs text-slate-400">Descrição: ${h.desc}</div>`:""}`;
-    ul.appendChild(li);
-  });
+  historico=document.createElement?historico:JSON.parse(localStorage.getItem("historico")||"[]");
+  document.getElementById('historico').innerHTML=historico.map(h=>"<li>"+h.tipo+" - "+h.dest+" - R$"+h.valor+"</li>").join("");
 }
-function exportarComprovante(){
-  if(historico.length===0){alert("Sem operação para exportar.");return;}
-  const {jsPDF}=window.jspdf; const doc=new jsPDF(); const h=historico[0];
-  doc.setFontSize(14); doc.text("Comprovante de Transferência — Infinity Fiber (simulação)",10,20);
-  doc.setFontSize(11);
-  doc.text(`Tipo: ${h.tipo}`,10,35);
-  doc.text(`Data/Hora: ${h.ts}`,10,43);
-  doc.text(`Destino: ${h.destino}`,10,51);
-  doc.text(`Valor: ${formatBRL(h.valor)}`,10,59);
-  if(h.dataAg) doc.text(`Agendamento: ${h.dataAg}`,10,67);
-  if(h.desc) doc.text(`Descrição: ${h.desc}`,10,75);
-  doc.text("Documento demonstrativo local (sem validade legal).",10,95);
-  doc.save("comprovante_infinity.pdf");
-}
-function exportarJSON(){
-  const blob=new Blob([JSON.stringify(historico,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=url;a.download="historico_transferencias.json";a.click();URL.revokeObjectURL(url);
-}
+renderHistorico();
 
-// ====== Cadastro de Clientes ======
-function novoCliente(){
-  document.getElementById('formCliente').reset();
-  document.getElementById('c-id').value="";
-}
-function salvarCliente(ev){
-  ev.preventDefault();
-  const id = document.getElementById('c-id').value || crypto.randomUUID();
-  const rec={
-    id,
-    nome:document.getElementById('c-nome').value.trim(),
-    doc:document.getElementById('c-doc').value.trim(),
-    rg:document.getElementById('c-rg').value.trim(),
-    end:document.getElementById('c-end').value.trim(),
-    tel:document.getElementById('c-tel').value.trim(),
-    mail:document.getElementById('c-mail').value.trim(),
-    renda:document.getElementById('c-renda').value.trim(),
-    ts:new Date().toLocaleString()
-  };
-  const idx=clientes.findIndex(c=>c.id===id);
-  if(idx>=0) clientes[idx]=rec; else clientes.unshift(rec);
-  localStorage.setItem('clientes', JSON.stringify(clientes));
+// Cadastro
+function cadastrarCliente(){
+  let c={nome:nome.value,cpf:cpf.value,email:email.value,tel:tel.value};
+  clientes.push(c);
+  localStorage.setItem("clientes",JSON.stringify(clientes));
   renderClientes();
-  alert("✅ Cliente salvo.");
-  novoCliente();
 }
 function renderClientes(){
-  const box=document.getElementById('listaClientes'); box.innerHTML="";
-  if(clientes.length===0){box.innerHTML='<div class="text-slate-400 text-sm">Nenhum cliente cadastrado.</div>';return;}
-  clientes.forEach(c=>{
-    const card=document.createElement('div'); card.className="p-3 rounded-xl bg-slate-800/50 border border-white/10 grid md:grid-cols-6 gap-2 text-sm";
-    card.innerHTML=`
-      <div class="md:col-span-2"><b>${c.nome}</b><div class="text-xs text-slate-400">${c.doc}</div></div>
-      <div><div class="text-xs text-slate-400">RG</div>${c.rg||'-'}</div>
-      <div><div class="text-xs text-slate-400">Tel</div>${c.tel||'-'}</div>
-      <div><div class="text-xs text-slate-400">E-mail</div>${c.mail||'-'}</div>
-      <div class="flex gap-2 items-center md:justify-end">
-        <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600" onclick='editarCliente("${c.id}")'>Editar</button>
-        <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500" onclick='removerCliente("${c.id}")'>Excluir</button>
-      </div>`;
-    box.appendChild(card);
-  });
+  document.getElementById('listaClientes').innerHTML=clientes.map(c=>"<li>"+c.nome+" - "+c.cpf+"</li>").join("");
 }
-function editarCliente(id){
-  const c=clientes.find(x=>x.id===id); if(!c) return;
-  document.getElementById('c-id').value=c.id;
-  document.getElementById('c-nome').value=c.nome;
-  document.getElementById('c-doc').value=c.doc;
-  document.getElementById('c-rg').value=c.rg;
-  document.getElementById('c-end').value=c.end;
-  document.getElementById('c-tel').value=c.tel;
-  document.getElementById('c-mail').value=c.mail;
-  document.getElementById('c-renda').value=c.renda;
-  window.scrollTo({top:document.getElementById('formCliente').offsetTop-60, behavior:"smooth"});
-}
-function removerCliente(id){
-  if(!confirm("Remover este cliente?")) return;
-  clientes=clientes.filter(x=>x.id!==id);
-  localStorage.setItem('clientes', JSON.stringify(clientes));
-  renderClientes();
+renderClientes();
+
+// IA
+function buscarIA(){
+  let q=document.getElementById('duvida').value.toLowerCase();
+  let r="Desculpe, não encontrei.";
+  if(q.includes("pix")) r="Para transferir via PIX, selecione o tipo PIX e informe a chave.";
+  if(q.includes("cadastro")) r="O cadastro pede Nome, CPF, Email e Telefone.";
+  document.getElementById('respostaIA').innerText=r;
 }
 
-// ====== Facial (câmera/upload) ======
-function abrirCamera(){
-  const video=document.getElementById('video');
-  const warn=document.getElementById('warnHttps');
-  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-    navigator.mediaDevices.getUserMedia({video:true}).then(stream=>{
-      video.srcObject=stream; video.classList.remove('hidden');
-      warn.classList.add('hidden');
-      facialOK=true;
-      document.getElementById('msgFacial').classList.remove('hidden');
-      document.getElementById('facialStatus')?.classList.remove('hidden');
-    }).catch(()=>{ warn.classList.remove('hidden'); });
-  }else{ warn.classList.remove('hidden'); }
+// Facial
+async function listarCameras(){
+  try {
+    const devices = await navigator.mediaDevices.enumerateDevices();
+    const cameras = devices.filter(d=>d.kind==="videoinput");
+    const select=document.getElementById('cameras');
+    select.innerHTML="";
+    cameras.forEach((cam,i)=>{
+      const option=document.createElement('option');
+      option.value=cam.deviceId;
+      option.text=cam.label||`Câmera ${i+1}`;
+      select.appendChild(option);
+    });
+  } catch(err){ console.error(err); }
 }
-function carregarFoto(input){
-  if(input.files && input.files[0]){
-    const reader=new FileReader();
-    reader.onload=()=>{
-      const img=new Image();
-      img.onload=()=>{
-        const canvas=document.getElementById('canvas');
-        canvas.width=img.width; canvas.height=img.height;
-        const ctx=canvas.getContext('2d'); ctx.drawImage(img,0,0);
-        canvas.classList.remove('hidden');
-        facialOK=true;
-        document.getElementById('msgFacial').classList.remove('hidden');
-        document.getElementById('facialStatus')?.classList.remove('hidden');
-      };
-      img.src=reader.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+async function abrirCamera(){
+  if(currentStream){ currentStream.getTracks().forEach(track=>track.stop()); }
+  const deviceId=document.getElementById('cameras').value;
+  try{
+    const stream=await navigator.mediaDevices.getUserMedia({video:{deviceId:{exact:deviceId}}});
+    currentStream=stream;
+    document.getElementById('video').srcObject=stream;
+    localStorage.setItem("facial_validado","true");
+    alert("✅ Validação facial concluída!");
+  }catch(err){ alert("Erro ao acessar a câmera: "+err); }
 }
-
-// ====== IA (render/busca/CRUD) ======
-function iaRender(){
-  const cont=document.getElementById('ia-resultados'); cont.innerHTML="";
-  (JSON.parse(localStorage.getItem('iaBase'))||iaBase).forEach(item=>cont.appendChild(iaCard(item)));
-}
-function iaCard(item){
-  const div=document.createElement('div'); div.className="rounded-xl border border-white/10 p-3 bg-slate-800/50";
-  div.innerHTML=`<div class="flex justify-between items-start gap-3">
-    <div>
-      <div class="font-medium">${item.titulo}</div>
-      <div class="text-sm text-white/80 mt-1">${item.pergunta}</div>
-      <div class="text-sm text-white/90 mt-2">${item.resposta}</div>
-      <div class="text-xs text-white/50 mt-2">Tags: ${item.tags} · ${item.data||""}</div>
-    </div>
-    <div class="flex flex-col gap-2">
-      <button class="px-2 py-1 rounded bg-slate-700 hover:bg-slate-600 text-sm" onclick='iaEditar("${item.id}")'>Editar</button>
-      <button class="px-2 py-1 rounded bg-red-600/80 hover:bg-red-500 text-sm" onclick='iaRemover("${item.id}")'>Remover</button>
-    </div>
-  </div>`;
-  return div;
-}
-function iaBuscar(){
-  const q=(document.getElementById('ia-busca').value||"").toLowerCase();
-  const tag=(document.getElementById('ia-tag').value||"").toLowerCase();
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase);
-  const filtrado=base.filter(i=>{
-    const blob=(i.titulo+" "+i.pergunta+" "+i.resposta+" "+i.tags).toLowerCase();
-    const okQ=!q||blob.includes(q);
-    const okT=!tag||(i.tags||"").toLowerCase().split(",").map(s=>s.trim()).includes(tag);
-    return okQ && okT;
-  });
-  const cont=document.getElementById('ia-resultados'); cont.innerHTML="";
-  filtrado.forEach(i=>cont.appendChild(iaCard(i)));
-}
-function filtrarIA(padrao){ document.getElementById('ia-busca').value=padrao; go('s-ia'); iaBuscar(); }
-function iaSalvar(ev){
-  ev.preventDefault();
-  const id=document.getElementById('ia-form').dataset.editing || crypto.randomUUID();
-  const rec={
-    id,
-    titulo:document.getElementById('ia-titulo').value,
-    pergunta:document.getElementById('ia-pergunta').value,
-    resposta:document.getElementById('ia-resposta').value,
-    tags:document.getElementById('ia-tags').value,
-    data:new Date().toLocaleString()
-  };
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase);
-  const idx=base.findIndex(x=>x.id===id);
-  if(idx>=0) base[idx]=rec; else base.unshift(rec);
-  localStorage.setItem('iaBase', JSON.stringify(base));
-  iaNovo(); iaRender();
-}
-function iaNovo(){
-  delete document.getElementById('ia-form').dataset.editing;
-  document.getElementById('ia-titulo').value="";
-  document.getElementById('ia-pergunta').value="";
-  document.getElementById('ia-resposta').value="";
-  document.getElementById('ia-tags').value="";
-}
-function iaEditar(id){
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase);
-  const it=base.find(x=>x.id===id); if(!it) return;
-  document.getElementById('ia-form').dataset.editing=it.id;
-  document.getElementById('ia-titulo').value=it.titulo;
-  document.getElementById('ia-pergunta').value=it.pergunta;
-  document.getElementById('ia-resposta').value=it.resposta;
-  document.getElementById('ia-tags').value=it.tags;
-  window.scrollTo({top:document.body.scrollHeight, behavior:"smooth"});
-}
-function iaRemover(id){
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase).filter(x=>x.id!==id);
-  localStorage.setItem('iaBase', JSON.stringify(base));
-  iaBuscar();
-}
-function iaExportJSON(){
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase);
-  const blob=new Blob([JSON.stringify(base,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=url;a.download="base_atendimento_ia.json";a.click();URL.revokeObjectURL(url);
-}
-function iaExportCSV(){
-  const base=(JSON.parse(localStorage.getItem('iaBase'))||iaBase);
-  const head=["titulo","pergunta","resposta","tags","data"];
-  const rows=[head.join(",")].concat(base.map(i=>head.map(h=>('"' + String(i[h]||'').replace(/"/g,'""') + '"')).join(",")));
-  const blob=new Blob([rows.join("\n")],{type:"text/csv"});
-  const url=URL.createObjectURL(blob); const a=document.createElement('a');
-  a.href=url;a.download="base_atendimento_ia.csv";a.click();URL.revokeObjectURL(url);
-}
-function iaImportJSON(input){
-  const file=input.files?.[0]; if(!file) return;
-  const reader=new FileReader();
-  reader.onload=()=>{ try{localStorage.setItem('iaBase', reader.result); iaRender(); alert("Base importada.");}catch(e){alert("Falha ao importar JSON.");}};
-  reader.readAsText(file);
-}
-
-// ====== Config ======
-function limparDados(){
-  if(!confirm("Limpar cadastros, IA e histórico?")) return;
-  localStorage.removeItem('clientes');
-  localStorage.removeItem('historico');
-  localStorage.removeItem('iaBase');
-  clientes=[]; historico=[];
-  renderClientes(); renderHistorico(); iaRender();
-  alert("Limpo. Recarregue a página para reiniciar tudo.");
-}
-
-// ====== Init ======
-(function init(){
-  // mostra tela de login inicialmente
-  document.getElementById('t-login').classList.remove('hidden');
-})();
+document.getElementById('start').onclick=abrirCamera;
+document.getElementById('uploadBtn').onclick=()=>document.getElementById('uploadInput').click();
+document.getElementById('uploadInput').onchange=()=>{ localStorage.setItem("facial_validado","true"); alert("✅ Validação facial concluída via upload!"); };
+listarCameras();
 </script>
+
 </body>
 </html>
