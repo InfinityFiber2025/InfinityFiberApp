@@ -1,1 +1,36 @@
-<!doctype html><html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1'><title>ProjetoInfinityAPP v16</title><link rel='manifest' href='manifest.json'><link rel='stylesheet' href='style.css'><script>if('serviceWorker'in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./service-worker.js'));}</script></head><body class='center'><h1>ProjetoInfinityAPP v16</h1><p><a class='btn' href='home/home.html'>🏦 Entrar no App</a></p></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login - ProjetoInfinityAPP v17</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="center">
+  <div class="card" style="max-width:360px;">
+    <h2>Login</h2>
+    <label>Usuário</label>
+    <input id="usuario" placeholder="Digite o usuário">
+    <label>Senha</label>
+    <input id="senha" type="password" placeholder="Digite a senha">
+    <label><input type="checkbox" id="mostrar"> Mostrar senha</label>
+    <button class="primary" onclick="login()">Entrar</button>
+    <p id="msg" class="small"></p>
+  </div>
+<script>
+document.getElementById('mostrar').addEventListener('change', function(){
+  document.getElementById('senha').type = this.checked ? 'text' : 'password';
+});
+function login(){
+  const u = document.getElementById('usuario').value;
+  const s = document.getElementById('senha').value;
+  if(u==="DanielKascher" && s==="K@scher123"){
+    sessionStorage.setItem('logado','1');
+    location.href='home/home.html';
+  } else {
+    document.getElementById('msg').innerText = "❌ Usuário ou senha inválidos";
+  }
+}
+</script>
+</body>
+</html>
