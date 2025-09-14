@@ -5,5 +5,11 @@
   "display": "standalone",
   "background_color": "#f0f2f5",
   "theme_color": "#0d6efd",
-  "icons": []
+  "icons": [
+    {
+      "src": "img/logo_provisorio.png",
+      "sizes": "320x120",
+      "type": "image/png"
+    }
+  ]
 }
