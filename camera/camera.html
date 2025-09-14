@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Câmera</title>
+</head>
+<body>
+  <h2>📷 Acesso à Câmera</h2>
+  <video autoplay playsinline width="300"></video>
+  <script>
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => {
+        document.querySelector("video").srcObject = stream;
+      })
+      .catch(err => alert("Erro ao acessar câmera: " + err));
+  </script>
+</body>
+</html>

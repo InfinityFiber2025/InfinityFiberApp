@@ -1,26 +1,7 @@
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open('infinity-fiber-cache-v1').then(cache => {
-      return cache.addAll([
-        '/',
-        '/index.html',
-        '/dashboard.html',
-        '/geral.html',
-        '/repasse.html',
-        '/reemb.html',
-        '/gateway.html',
-        '/contrato.html',
-        '/restrito.html',
-        '/manifest.json'
-      ]);
-    })
-  );
+const CACHE_VERSION = 'projetoinfinityapp-v9';
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE_VERSION).then(c => c.addAll(['./','./index.html'])));
 });
-
-self.addEventListener('fetch', event => {
-  event.respondWith(
-    caches.match(event.request).then(response => {
-      return response || fetch(event.request);
-    })
-  );
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
 });

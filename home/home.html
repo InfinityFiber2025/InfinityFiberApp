@@ -1,59 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ProjetoInfinityAPP - Home</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    header {
-      background: #007bff;
-      color: white;
-      padding: 20px;
-      font-size: 22px;
-      font-weight: bold;
-    }
-    .bank-buttons {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin: 30px;
-    }
-    .bank-buttons button {
-      padding: 20px;
-      font-size: 18px;
-      border-radius: 12px;
-      border: none;
-      background: #007bff;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      transition: 0.3s;
-    }
-    .bank-buttons button:hover {
-      background: #0056b3;
-    }
-  </style>
+  <title>Home Bancária</title>
+  <link rel="stylesheet" href="../style.css">
+  <script src="../script.js" defer></script>
 </head>
 <body>
-  <header>🏦 ProjetoInfinityAPP</header>
-  <div class="bank-buttons">
-    <button onclick="location.href='../conta/saldo.html'">💰 Saldo/Extrato</button>
-    <button onclick="location.href='../conta/transferir.html'">🔄 Transferir</button>
-    <button onclick="location.href='../conta/pagamentos.html'">🧾 Pagamentos</button>
-    <button onclick="location.href='../conta/cartao.html'">💳 Cartões</button>
-    <button onclick="location.href='../ia/atendimento.html'">🤖 Atendimento IA</button>
-    <button onclick="location.href='../configs/configuracoes.html'">⚙️ Configurações</button>
-  <button onclick="location.href='../clientes/clientes.html'">👥 Clientes</button>
-  <button onclick="location.href='../conta/investimentos.html'">📈 Investimentos</button>
-  <button onclick="location.href='../conta/notificacoes.html'">🔔 Notificações</button>
-  </div>
+  <h2>🏦 Home Bancária</h2>
+  <ul>
+    <li><a href="../conta/transferencia.html">💸 Transferências</a></li>
+    <li><a href="../clientes/abrir_conta.html">📝 Abrir Conta Digital</a></li>
+    <li><a href="../camera/camera.html">📷 Câmera</a></li>
+    <li><a href="../login/biometria.html">🔒 Facial</a></li>
+    <li><a href="../conta/investimentos.html">📈 Investimentos</a></li>
+    <li><a href="../notificacoes/notificacoes.html">🔔 Notificações</a></li>
+  </ul>
 </body>
 </html>

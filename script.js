@@ -1,0 +1,1 @@
+console.log('ProjetoInfinityAPP v9 ativo');

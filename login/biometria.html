@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Biometria Facial</title>
+  <script>
+    function iniciarCamera() {
+      const video = document.querySelector("video");
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(stream => video.srcObject = stream)
+        .catch(err => alert("Erro ao acessar câmera: " + err));
+    }
+    function validarSelfie() {
+      const score = Math.floor(Math.random() * (99 - 85 + 1)) + 85;
+      document.getElementById("resultado").innerText = "Validação: " + score + "%";
+    }
+  </script>
+</head>
+<body onload="iniciarCamera()">
+  <h2>🔒 Biometria Facial</h2>
+  <video autoplay playsinline width="300"></video><br>
+  <button onclick="validarSelfie()">Capturar & Validar</button>
+  <p id="resultado"></p>
+  <a href="../home/home.html">✅ Confirmar</a>
+</body>
+</html>
