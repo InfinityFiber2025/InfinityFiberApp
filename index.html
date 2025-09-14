@@ -3,14 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projeto Infinity APP</title>
+  <title>Login - ProjetoInfinityAPP</title>
   <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
+  <script>
+    function validarLogin(event) {
+      event.preventDefault();
+      const usuario = document.getElementById('usuario').value;
+      const senha = document.getElementById('senha').value;
+      if(usuario === "Infinity" && senha === "1234") {
+        window.location.href = "home/home.html";
+      } else {
+        alert("Usuário ou senha incorretos!");
+      }
+    }
+  </script>
 </head>
 <body>
-  <h1>Projeto Infinity APP v9</h1>
-  <nav>
-    <a href="home/home.html">🏦 Home Bancária</a>
-  </nav>
+  <div class="login-container">
+    <h1>🔐 ProjetoInfinityAPP</h1>
+    <form onsubmit="validarLogin(event)">
+      <label for="usuario">Usuário:</label>
+      <input type="text" id="usuario" required><br>
+      <label for="senha">Senha:</label>
+      <input type="password" id="senha" required><br>
+      <button type="submit">Entrar</button>
+    </form>
+  </div>
 </body>
 </html>

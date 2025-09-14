@@ -1,1 +1,9 @@
-body { font-family: Arial; margin: 20px; } h1,h2{color:#003366;} a,button{display:block;margin:10px 0;}
+body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+header { background: #007bff; color: #fff; padding: 20px; text-align: center; }
+h1 { margin: 0; }
+.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 20px; }
+.btn { display: flex; align-items: center; justify-content: center; background: #007bff; color: white; text-decoration: none; padding: 20px; border-radius: 12px; font-size: 18px; font-weight: bold; }
+.btn:hover { background: #0056b3; }
+.login-container { max-width: 300px; margin: 100px auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background: white; }
+.login-container h1 { margin-bottom: 20px; color: #007bff; }
+.login-container input, .login-container button { width: 100%; padding: 10px; margin: 10px 0; }
