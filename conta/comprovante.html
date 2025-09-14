@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comprovante</title><link rel="stylesheet" href="../style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head>
+<body class="center">
+  <div class="card">
+    <h2>✅ Transferência Concluída</h2>
+    <p id="resumo"></p>
+    <p id="protocolo"></p>
+    <button class="primary" onclick="baixar()">📄 Baixar Comprovante (PDF)</button>
+    <p><a class="btn" href="../home/home.html">Voltar Home</a></p>
+  </div>
+<script>
+const dados=JSON.parse(sessionStorage.getItem('transf_dados')||'{}');
+const nome=localStorage.getItem('cliente_nome')||'Cliente';
+const now=new Date();const protocolo='NSU'+Math.floor(Math.random()*1e6);
+resumo.innerText=`${nome} transferiu R$ ${dados.valor||'-'} via ${dados.tipo||'-'} para Ag ${dados.agencia||'-'} Cc ${dados.conta||'-'} em ${now.toLocaleString()}`;
+protocolo.innerText=`Protocolo: ${protocolo}`;
+function baixar(){
+  const {jsPDF}=window.jspdf;
+  const doc=new jsPDF();
+  // Cabeçalho com espaço reservado para logo
+  doc.setFontSize(18);doc.text("🏦 Infinity Fiber Banco Digital",20,20);
+  doc.setFontSize(14);doc.text("Comprovante de Transferência",20,30);
+  doc.setFontSize(12);
+  doc.text(resumo.innerText,20,50);
+  doc.text(protocolo.innerText,20,65);
+  doc.text("____________________________________",20,80);
+  doc.text("Assinatura Digital - Infinity Fiber",20,90);
+  doc.save("comprovante.pdf");
+}
+</script>
+</body>
+</html>

@@ -1,7 +1,1 @@
-const CACHE_VERSION = 'projetoinfinityapp-v9';
-self.addEventListener('install', e => {
-  e.waitUntil(caches.open(CACHE_VERSION).then(c => c.addAll(['./','./index.html'])));
-});
-self.addEventListener('fetch', e => {
-  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
-});
+const CACHE_VERSION="projetoinfinityapp-v14";self.addEventListener("install",e=>{e.waitUntil(caches.open(CACHE_VERSION).then(c=>c.addAll(["./","./index.html"])));self.skipWaiting();});self.addEventListener("activate",e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k!==CACHE_VERSION&&caches.delete(k)))));self.clients.claim();});self.addEventListener("fetch",e=>{e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE_VERSION).then(cc=>cc.put(e.request,c));return r;}).catch(()=>caches.match(e.request)));});

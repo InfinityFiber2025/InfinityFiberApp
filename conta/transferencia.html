@@ -1,22 +1,19 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transferência</title>
-</head>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transferência</title><link rel="stylesheet" href="../style.css"></head>
 <body>
-  <h2>💸 Transferência</h2>
-  <form>
-    Agência: <input type="text"><br>
-    Conta: <input type="text"><br>
-    Valor: <input type="number"><br>
-    Tipo: 
-    <select>
-      <option>PIX</option>
-      <option>TED</option>
-    </select><br>
-    <button type="submit">Enviar</button>
-  </form>
+  <div class="header">💸 Transferência</div>
+  <div class="container card">
+    <form id="form">
+      <label>Agência</label><input name="agencia"><label>Conta</label><input name="conta">
+      <label>Tipo</label><select name="tipo"><option>PIX</option><option>TED</option></select>
+      <label>Valor</label><input name="valor" type="number">
+      <button class="primary">Enviar</button>
+    </form>
+  </div>
+<script>
+form.addEventListener('submit',e=>{e.preventDefault();sessionStorage.setItem('transf_dados',JSON.stringify(Object.fromEntries(new FormData(form).entries())));location.href="../login/biometria.html?redirect=../conta/comprovante.html&fallback=../conta/erro.html";});
+</script>
 </body>
 </html>

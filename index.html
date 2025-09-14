@@ -2,32 +2,18 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login - ProjetoInfinityAPP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ProjetoInfinityAPP v14</title>
+  <link rel="manifest" href="manifest.json">
   <link rel="stylesheet" href="style.css">
   <script>
-    function validarLogin(event) {
-      event.preventDefault();
-      const usuario = document.getElementById('usuario').value;
-      const senha = document.getElementById('senha').value;
-      if(usuario === "Infinity" && senha === "1234") {
-        window.location.href = "home/home.html";
-      } else {
-        alert("Usuário ou senha incorretos!");
-      }
-    }
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => navigator.serviceWorker.register("./service-worker.js"));
+  }
   </script>
 </head>
-<body>
-  <div class="login-container">
-    <h1>🔐 ProjetoInfinityAPP</h1>
-    <form onsubmit="validarLogin(event)">
-      <label for="usuario">Usuário:</label>
-      <input type="text" id="usuario" required><br>
-      <label for="senha">Senha:</label>
-      <input type="password" id="senha" required><br>
-      <button type="submit">Entrar</button>
-    </form>
-  </div>
+<body class="center">
+  <h1>ProjetoInfinityAPP v14</h1>
+  <p><a class="btn" href="home/home.html">🏦 Entrar no App</a></p>
 </body>
 </html>
