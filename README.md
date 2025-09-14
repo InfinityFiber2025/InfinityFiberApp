@@ -1,4 +1,4 @@
-# Infinity Fiber App — v4.1
+# Infinity Fiber App — v4.2
 
 Aplicação web demonstrativa para login seguro, transferências e autenticação facial (FACIL).
 
@@ -17,7 +17,7 @@ Aplicação web demonstrativa para login seguro, transferências e autenticaçã
    - Visualizar saldo (oculto por padrão).  
    - Realizar **transferências**.  
    - Usar o botão **FACIL (Biometria)** para autenticar via câmera.  
-   - Acompanhar **últimas transferências** e **eventos do sistema**.  
+   - Acompanhar **últimas transferências**, **eventos do sistema** e **tempo da última operação**.  
 
 ## 📱 Notas importantes sobre a câmera
 
@@ -28,6 +28,7 @@ Aplicação web demonstrativa para login seguro, transferências e autenticaçã
 ## 📂 Estrutura
 
 - `index.html` → Arquivo único com todo o código (HTML, CSS, JS).  
+- `README.md` → Guia de uso e publicação.  
 
 ## 🛠️ Tecnologias
 

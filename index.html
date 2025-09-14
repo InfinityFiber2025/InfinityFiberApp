@@ -2,163 +2,193 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Infinity Fiber App — v4.1 (Completa)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinity Fiber — Mini Banco Digital v4.2</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .hidden-important { display: none !important; }
-    video { transform: scaleX(-1); }
-  </style>
 </head>
-<body class="min-h-screen bg-slate-50 text-slate-800">
-  <header class="w-full bg-white shadow-sm sticky top-0 z-20">
-    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center gap-3">
-      <img src="https://raw.githubusercontent.com/infinityfiber2025/assets/main/logo-infinity-fiber.png" alt="Infinity Fiber" class="w-9 h-9 object-contain" onerror="this.style.display='none'"/>
-      <h1 class="text-lg font-semibold">Infinity Fiber — Mini Banco Digital</h1>
-      <span class="ml-auto text-xs text-slate-500">v4.1</span>
+<body class="bg-gray-100 font-sans">
+
+  <!-- Tela de Login -->
+  <div id="loginScreen" class="flex items-center justify-center min-h-screen">
+    <div class="bg-white shadow-lg rounded-xl p-8 w-96">
+      <h2 class="text-2xl font-bold mb-6 text-center">Login Seguro</h2>
+      <input id="username" type="text" placeholder="Usuário" class="w-full mb-3 p-2 border rounded" />
+      <input id="password" type="password" placeholder="Senha" class="w-full mb-6 p-2 border rounded" />
+      <button onclick="login()" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">Entrar</button>
     </div>
-  </header>
+  </div>
 
-  <main class="max-w-5xl mx-auto px-4 py-6">
-    <!-- LOGIN -->
-    <section id="loginSection" class="grid place-items-center">
-      <div class="w-full max-w-md bg-white rounded-2xl shadow p-6">
-        <h2 class="text-xl font-bold mb-1">Acesso Seguro</h2>
-        <p class="text-sm text-slate-500 mb-6">Entre para acessar sua conta e realizar transferências com autenticação facial (FACIL).</p>
+  <!-- Dashboard -->
+  <div id="dashboard" class="hidden p-6">
+    <h2 class="text-2xl font-bold mb-4">Dashboard — Infinity Fiber</h2>
 
-        <label class="block text-sm font-medium">Usuário</label>
-        <input id="userInput" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" value="DanielKascher" />
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        <div class="mt-4">
-          <label class="block text-sm font-medium">Senha</label>
-          <div class="relative">
-            <input id="passInput" type="password" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2 pr-24" value="K@scher123" />
-            <button id="togglePass" class="absolute right-2 top-1/2 -translate-y-1/2 text-xs px-2 py-1 rounded-lg bg-slate-100 border border-slate-200">Mostrar</button>
-          </div>
-        </div>
-
-        <button id="loginBtn" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl">Entrar</button>
-        <p id="loginError" class="mt-3 text-sm text-red-600 hidden">Usuário ou senha inválidos.</p>
-      </div>
-    </section>
-
-    <!-- DASHBOARD -->
-    <section id="appSection" class="hidden">
-      <div class="flex flex-col md:flex-row md:items-center gap-3 mb-5">
-        <div class="flex items-center gap-3">
-          <div class="bg-white rounded-2xl shadow px-4 py-3">
-            <div class="text-xs text-slate-500">Saldo disponível</div>
-            <div class="mt-1 flex items-center gap-3">
-              <span id="saldoMask" class="text-2xl font-semibold tracking-tight">••••••••••••</span>
-              <button id="toggleSaldo" class="text-xs px-3 py-1.5 bg-slate-100 border border-slate-200 rounded-xl">Mostrar saldo</button>
-            </div>
-          </div>
-        </div>
-        <div class="md:ml-auto flex items-center gap-2">
-          <button id="btnIA" class="px-3 py-2 text-sm rounded-xl bg-white border border-slate-200 shadow">Atendimento IA</button>
-          <button id="btnFacil" class="px-3 py-2 text-sm rounded-xl bg-emerald-600 text-white shadow hover:bg-emerald-700">FACIL (Biometria)</button>
-          <button id="btnSair" class="px-3 py-2 text-sm rounded-xl bg-slate-800 text-white shadow hover:bg-black">Sair</button>
-        </div>
+      <!-- Saldo -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h3 class="font-semibold mb-2">Saldo</h3>
+        <p id="balance" class="text-2xl font-bold">••••••••</p>
+        <button onclick="toggleBalance()" class="mt-2 text-sm text-blue-600">Mostrar/Ocultar</button>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <!-- Transferência -->
-        <div class="bg-white rounded-2xl shadow p-5">
-          <h3 class="text-lg font-semibold">Transferência</h3>
-          <form id="formTransfer" class="space-y-3">
-            <div>
-              <label class="block text-sm font-medium">Destinatário</label>
-              <input id="txDest" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="Conta destino" />
-            </div>
-            <div>
-              <label class="block text-sm font-medium">Valor (R$)</label>
-              <input id="txValor" type="number" step="0.01" min="0" class="mt-1 w-full rounded-xl border border-slate-300 px-3 py-2" placeholder="0,00" />
-            </div>
-            <button class="w-full mt-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2.5 rounded-xl">Prosseguir e autenticar (FACIL)</button>
-            <p id="txMsg" class="text-sm mt-2 hidden"></p>
-          </form>
-        </div>
-
-        <!-- Cadastro Rápido -->
-        <div class="bg-white rounded-2xl shadow p-5">
-          <h3 class="text-lg font-semibold">Cadastro Rápido</h3>
-          <div class="grid grid-cols-2 gap-3">
-            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Nova Conta</button>
-            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Cartões</button>
-            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Relatórios</button>
-            <button class="px-3 py-3 rounded-xl bg-slate-100 shadow">Investimentos</button>
-          </div>
-        </div>
+      <!-- Última operação -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h3 class="font-semibold mb-2">Última operação</h3>
+        <p id="lastOp">Nenhuma operação ainda</p>
       </div>
 
-      <!-- Últimas transferências -->
-      <div class="mt-6 bg-white rounded-2xl shadow p-5">
-        <h3 class="text-lg font-semibold">Últimas Transferências</h3>
-        <ul id="lastTx" class="mt-3 text-sm text-slate-600 list-disc pl-5 space-y-1">
-          <li>Nenhuma transferência realizada ainda.</li>
+      <!-- Cadastro rápido -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h3 class="font-semibold mb-2">Cadastro Rápido</h3>
+        <ul class="list-disc pl-5 text-gray-700">
+          <li>Conta</li>
+          <li>Cartões</li>
+          <li>Relatórios</li>
+          <li>Investimentos</li>
         </ul>
       </div>
 
-      <!-- Eventos -->
-      <div class="mt-6 bg-white rounded-2xl shadow p-5">
-        <h3 class="text-lg font-semibold">Eventos do Sistema</h3>
-        <pre id="logBox" class="mt-3 bg-slate-900 text-slate-100 rounded-xl p-3 text-xs h-40 overflow-auto"></pre>
+      <!-- Últimas transferências -->
+      <div class="bg-white p-4 shadow rounded-xl">
+        <h3 class="font-semibold mb-2">Últimas Transferências</h3>
+        <ul id="transfers" class="text-gray-700 text-sm"></ul>
       </div>
-    </section>
-  </main>
 
-  <!-- MODAL FACIL -->
-  <div id="facilModal" class="fixed inset-0 bg-black/50 hidden items-center justify-center p-4 z-30">
-    <div class="w-full max-w-lg bg-white rounded-2xl shadow-xl p-5 relative">
-      <button id="closeFacil" class="absolute right-3 top-3 text-slate-500 hover:text-slate-700">✕</button>
-      <h3 class="text-lg font-semibold">Reconhecimento Facial (FACIL)</h3>
-      <video id="video" playsinline autoplay class="w-full rounded-xl bg-black aspect-video"></video>
-      <canvas id="canvas" class="hidden-important"></canvas>
-      <div class="mt-3 flex flex-wrap gap-2">
-        <button id="btnStartCam" class="px-3 py-2 rounded-xl bg-indigo-600 text-white">Ligar câmera</button>
-        <button id="btnStopCam" class="px-3 py-2 rounded-xl bg-slate-200">Desligar</button>
-        <button id="btnCadSelfie" class="px-3 py-2 rounded-xl bg-emerald-600 text-white">Cadastrar Selfie</button>
-        <button id="btnReadFace" class="px-3 py-2 rounded-xl bg-amber-500 text-white">Executar Leitura</button>
-        <button id="btnConfirmarFacil" class="ml-auto px-4 py-2 rounded-xl bg-indigo-600 text-white disabled:opacity-50" disabled>Confirmar</button>
+      <!-- Eventos -->
+      <div class="bg-white p-4 shadow rounded-xl md:col-span-2">
+        <h3 class="font-semibold mb-2">Eventos do Sistema</h3>
+        <div id="events" class="text-gray-700 text-sm"></div>
       </div>
-      <div class="text-sm mt-2" id="facilStatus">Status: aguardando…</div>
+    </div>
+
+    <!-- Botões -->
+    <div class="mt-6 flex gap-4">
+      <button onclick="openTransfer()" class="bg-green-600 text-white px-4 py-2 rounded">Transferência</button>
+      <button onclick="logout()" class="bg-red-600 text-white px-4 py-2 rounded">Sair</button>
+    </div>
+  </div>
+
+  <!-- Modal FACIL -->
+  <div id="facilModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+    <div class="bg-white p-6 rounded-xl w-96 relative">
+      <button onclick="closeFacil()" class="absolute top-2 right-2 text-gray-600">✖</button>
+      <h3 class="text-xl font-bold mb-4">Autenticação FACIL</h3>
+
+      <video id="video" autoplay playsinline class="w-full h-48 bg-black rounded mb-3"></video>
+      <canvas id="canvas" class="hidden"></canvas>
+
+      <div class="flex gap-2 mb-4">
+        <button onclick="startCamera()" class="bg-blue-600 text-white px-3 py-1 rounded">Ligar câmera</button>
+        <button onclick="captureSelfie()" class="bg-gray-600 text-white px-3 py-1 rounded">Cadastrar Selfie</button>
+        <button onclick="compareSelfie()" class="bg-green-600 text-white px-3 py-1 rounded">Executar Leitura</button>
+      </div>
+
+      <p id="facilStatus" class="text-sm text-gray-700">Aguardando ação...</p>
     </div>
   </div>
 
   <script>
-    const qs=(s)=>document.querySelector(s);
-    const log=(msg)=>{const el=qs('#logBox');if(!el)return;const ts=new Date().toLocaleString();el.textContent+=`[${ts}] ${msg}\n`;el.scrollTop=el.scrollHeight;};
-    const toast=(msg)=>{const t=document.createElement('div');t.textContent=msg;t.className='fixed bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white text-sm px-4 py-2 rounded-xl shadow';document.body.appendChild(t);setTimeout(()=>t.remove(),2400);};
+    let balanceVisible = false;
+    let selfieData = null;
+    let startTime = null;
 
-    const loginSection=qs('#loginSection');const appSection=qs('#appSection');
-    qs('#togglePass').addEventListener('click',(e)=>{const i=qs('#passInput');i.type=i.type==='password'?'text':'password';e.target.textContent=i.type==='password'?'Mostrar':'Ocultar';});
-    qs('#loginBtn').addEventListener('click',()=>{const u=qs('#userInput').value.trim();const p=qs('#passInput').value;if(u==='DanielKascher'&&p==='K@scher123'){loginSection.classList.add('hidden');appSection.classList.remove('hidden');log('Login efetuado.');toast('Bem-vindo!');}else{qs('#loginError').classList.remove('hidden');setTimeout(()=>qs('#loginError').classList.add('hidden'),3000);}});
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+      if (user === "DanielKascher" && pass === "K@scher123") {
+        document.getElementById("loginScreen").classList.add("hidden");
+        document.getElementById("dashboard").classList.remove("hidden");
+        addEvent("Login realizado com sucesso");
+      } else {
+        alert("Credenciais inválidas!");
+      }
+    }
 
-    const saldoMask=qs('#saldoMask');const toggleSaldoBtn=qs('#toggleSaldo');let balanceMasked=true;const balanceValue='R$ 37.743.623.000,00';const updateSaldoUI=()=>{saldoMask.textContent=balanceMasked?'••••••••••••':balanceValue;toggleSaldoBtn.textContent=balanceMasked?'Mostrar saldo':'Ocultar saldo';};updateSaldoUI();toggleSaldoBtn.addEventListener('click',()=>{balanceMasked=!balanceMasked;updateSaldoUI();});
+    function logout() {
+      document.getElementById("dashboard").classList.add("hidden");
+      document.getElementById("loginScreen").classList.remove("hidden");
+    }
 
-    qs('#btnSair').addEventListener('click',()=>{appSection.classList.add('hidden');loginSection.classList.remove('hidden');toast('Sessão encerrada.');});
+    function toggleBalance() {
+      const el = document.getElementById("balance");
+      balanceVisible = !balanceVisible;
+      el.textContent = balanceVisible ? "R$ 37.743.623.000" : "••••••••";
+    }
 
-    let STATE={stream:null,selfie:null,lastMatch:false,pendingTx:null};
-    const lastTxList=qs('#lastTx');
-    qs('#formTransfer').addEventListener('submit',(ev)=>{ev.preventDefault();const dest=qs('#txDest').value.trim();const valor=qs('#txValor').value.trim();if(!dest||!valor){const m=qs('#txMsg');m.textContent='Informe destinatário e valor.';m.className='text-sm mt-2 text-red-600';m.classList.remove('hidden');return;}STATE.pendingTx={dest,valor};openFacil();log(`Transferência preparada: R$ ${valor} → ${dest}. Aguardando FACIL.`);});
+    function openTransfer() {
+      startTime = new Date();
+      document.getElementById("facilModal").classList.remove("hidden");
+    }
 
-    const modal=qs('#facilModal');const video=qs('#video');const canvas=qs('#canvas');const statusEl=qs('#facilStatus');const btnConfirm=qs('#btnConfirmarFacil');
-    function openFacil(){modal.classList.remove('hidden');modal.classList.add('flex');statusEl.textContent='Status: aguardando…';btnConfirm.disabled=true;}
-    function closeFacil(){modal.classList.add('hidden');modal.classList.remove('flex');stopCam();}
-    qs('#closeFacil').addEventListener('click',closeFacil);
+    function closeFacil() {
+      document.getElementById("facilModal").classList.add("hidden");
+    }
 
-    async function startCam(){try{stopCam();const stream=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}});STATE.stream=stream;video.srcObject=stream;await video.play();statusEl.textContent='Câmera ligada. Cadastre ou leia.';}catch(e){statusEl.textContent='Erro: permita acesso à câmera (HTTPS necessário).';log('Erro câmera: '+e.message);}}
-    function stopCam(){if(STATE.stream){STATE.stream.getTracks().forEach(t=>t.stop());STATE.stream=null;}video.srcObject=null;}
+    async function startCamera() {
+      try {
+        const video = document.getElementById("video");
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "user" } });
+        video.srcObject = stream;
+        addEvent("Câmera ligada com sucesso");
+      } catch (err) {
+        document.getElementById("facilStatus").textContent = "Erro: permita acesso à câmera (HTTPS obrigatório).";
+      }
+    }
 
-    function capture(){canvas.width=video.videoWidth;canvas.height=video.videoHeight;const ctx=canvas.getContext('2d');ctx.drawImage(video,0,0);return canvas.toDataURL('image/jpeg',0.8);}
-    async function compare(imgA,imgB){const ia=await loadImage(imgA);const ib=await loadImage(imgB);if(ia.width!==ib.width||ia.height!==ib.height)return false;const ca=canvas.getContext('2d');canvas.width=ia.width;canvas.height=ia.height;ca.drawImage(ia,0,0);const dA=ca.getImageData(0,0,ia.width,ia.height).data;ca.drawImage(ib,0,0);const dB=ca.getImageData(0,0,ib.width,ib.height).data;let diff=0;for(let i=0;i<dA.length;i+=4){diff+=Math.abs(dA[i]-dB[i])+Math.abs(dA[i+1]-dB[i+1])+Math.abs(dA[i+2]-dB[i+2]);}const score=diff/((dA.length/4)*255*3);return score<0.2;}
-    function loadImage(dataUrl){return new Promise(r=>{const img=new Image();img.onload=()=>r(img);img.src=dataUrl;});}
+    function captureSelfie() {
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      selfieData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      document.getElementById("facilStatus").textContent = "Selfie cadastrada com sucesso ✅";
+      addEvent("Selfie cadastrada");
+    }
 
-    qs('#btnStartCam').addEventListener('click',startCam);qs('#btnStopCam').addEventListener('click',stopCam);
-    qs('#btnCadSelfie').addEventListener('click',()=>{if(!STATE.stream)return;STATE.selfie=capture();statusEl.textContent='Selfie cadastrada.';});
-    qs('#btnReadFace').addEventListener('click',async()=>{if(!STATE.stream||!STATE.selfie)return;const shot=capture();const match=await compare(STATE.selfie,shot);STATE.lastMatch=match;statusEl.textContent=match?'Verificação aprovada ✅':'Falhou ❌';btnConfirm.disabled=!match;});
-    btnConfirm.addEventListener('click',()=>{if(STATE.lastMatch&&STATE.pendingTx){log(`Transferência CONFIRMADA: R$ ${STATE.pendingTx.valor} → ${STATE.pendingTx.dest}`);toast('Transferência concluída com sucesso.');const li=document.createElement('li');li.textContent=`R$ ${STATE.pendingTx.valor} → ${STATE.pendingTx.dest} (${new Date().toLocaleTimeString()})`;if(lastTxList.firstElementChild&&lastTxList.firstElementChild.textContent.includes('Nenhuma'))lastTxList.innerHTML='';lastTxList.prepend(li);STATE.pendingTx=null;closeFacil();}});
-    qs('#btnFacil').addEventListener('click',openFacil);
+    function compareSelfie() {
+      if (!selfieData) {
+        document.getElementById("facilStatus").textContent = "Cadastre uma selfie primeiro!";
+        return;
+      }
+
+      const video = document.getElementById("video");
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      const newData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+
+      let diff = 0;
+      for (let i = 0; i < selfieData.data.length; i += 4) {
+        diff += Math.abs(selfieData.data[i] - newData.data[i]);
+      }
+      const avgDiff = diff / (selfieData.data.length / 4);
+
+      if (avgDiff < 40) {
+        document.getElementById("facilStatus").textContent = "Autenticação aprovada ✅";
+        addEvent("Transferência autenticada com sucesso");
+        const endTime = new Date();
+        const duration = ((endTime - startTime) / 1000).toFixed(2);
+        document.getElementById("lastOp").textContent = `Última operação levou ${duration}s`;
+        const li = document.createElement("li");
+        li.textContent = `Transferência concluída (${duration}s)`;
+        document.getElementById("transfers").appendChild(li);
+        closeFacil();
+      } else {
+        document.getElementById("facilStatus").textContent = "Falha na autenticação ❌";
+        addEvent("Falha na autenticação FACIL");
+      }
+    }
+
+    function addEvent(msg) {
+      const el = document.getElementById("events");
+      const p = document.createElement("p");
+      p.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      el.prepend(p);
+    }
   </script>
 </body>
 </html>
