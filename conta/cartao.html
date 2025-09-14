@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartão Digital</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; text-align: center; }
+    h2 { color: #007bff; }
+    .card {
+      width: 320px;
+      height: 200px;
+      margin: 20px auto;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #007bff, #6610f2);
+      color: white;
+      padding: 20px;
+      text-align: left;
+      font-size: 16px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .card-number {
+      font-size: 20px;
+      margin-top: 40px;
+      letter-spacing: 3px;
+    }
+    .details {
+      margin-top: 20px;
+      display: flex;
+      justify-content: space-between;
+    }
+    button {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      color: white;
+    }
+    .btn-block { background: red; }
+    .btn-unblock { background: green; display: none; }
+    .btn-cvv { background: #007bff; margin-left: 10px; }
+  </style>
+</head>
+<body>
+  <h2>💳 Cartão Digital</h2>
+  <div class="card" id="card">
+    <div class="card-number" id="numero">5162 **** **** 8372</div>
+    <div class="details">
+      <div>Val: 12/28</div>
+      <div id="cvv">CVV: ***</div>
+    </div>
+  </div>
+
+  <button class="btn-block" id="btnBlock" onclick="bloquear()">🚫 Bloquear Cartão</button>
+  <button class="btn-unblock" id="btnUnblock" onclick="desbloquear()">✅ Desbloquear Cartão</button>
+  <button class="btn-cvv" onclick="mostrarCVV()">👁️ Mostrar CVV</button>
+
+  <script>
+    function bloquear(){
+      document.getElementById("btnBlock").style.display = "none";
+      document.getElementById("btnUnblock").style.display = "inline-block";
+      alert("Cartão bloqueado com sucesso!");
+    }
+    function desbloquear(){
+      document.getElementById("btnUnblock").style.display = "none";
+      document.getElementById("btnBlock").style.display = "inline-block";
+      alert("Cartão desbloqueado com sucesso!");
+    }
+    function mostrarCVV(){
+      document.getElementById("cvv").innerText = "CVV: 823";
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Transferência Bancária</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+    h2 { color: #007bff; }
+    .box { background: white; padding: 20px; border-radius: 10px; max-width: 400px; margin: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    input, select { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 6px; }
+    button { width: 100%; padding: 12px; background: #28a745; border: none; border-radius: 6px; color: white; font-size: 16px; cursor: pointer; }
+    button:hover { background: #218838; }
+    .success { color: green; font-weight: bold; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>💸 Transferência Bancária</h2>
+  <div class="box">
+    <input type="text" id="agencia" placeholder="Agência">
+    <input type="text" id="conta" placeholder="Conta Corrente">
+    <select id="tipo">
+      <option value="PIX">PIX</option>
+      <option value="TED">TED</option>
+    </select>
+    <input type="number" id="valor" placeholder="Valor (R$)">
+    <button onclick="transferir()">Confirmar Transferência</button>
+    <div id="mensagem"></div>
+  </div>
+
+  <script>
+    function transferir(){
+      let agencia = document.getElementById('agencia').value;
+      let conta = document.getElementById('conta').value;
+      let tipo = document.getElementById('tipo').value;
+      let valor = document.getElementById('valor').value;
+      let msg = document.getElementById('mensagem');
+
+      if(agencia && conta && valor > 0){
+        msg.innerHTML = `<p class="success">✅ ${tipo} de R$ ${valor} realizada com sucesso para a conta ${conta} (Ag. ${agencia})</p>`;
+      } else {
+        alert("Preencha todos os campos corretamente.");
+      }
+    }
+  </script>
+</body>
+</html>

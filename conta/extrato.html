@@ -1,0 +1,54 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Extrato da Conta</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+    h2 { color: #007bff; text-align: center; }
+    .extrato {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      max-width: 500px;
+      margin: auto;
+    }
+    .item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .credito { color: green; font-weight: bold; }
+    .debito { color: red; font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h2>📑 Extrato da Conta</h2>
+  <div class="extrato" id="lista-extrato"></div>
+
+  <script>
+    const extrato = [
+      { tipo: "PIX Recebido", valor: 1200, data: "14/09/2025", tipoOp: "credito" },
+      { tipo: "Pagamento Boleto", valor: -350, data: "13/09/2025", tipoOp: "debito" },
+      { tipo: "TED Enviada", valor: -500, data: "12/09/2025", tipoOp: "debito" },
+      { tipo: "Depósito", valor: 2000, data: "10/09/2025", tipoOp: "credito" }
+    ];
+
+    const lista = document.getElementById("lista-extrato");
+
+    extrato.forEach(op => {
+      const div = document.createElement("div");
+      div.classList.add("item");
+      div.innerHTML = `
+        <span>${op.data} - ${op.tipo}</span>
+        <span class="${op.tipoOp}">R$ ${op.valor}</span>
+      `;
+      lista.appendChild(div);
+    });
+  </script>
+</body>
+</html>

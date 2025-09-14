@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificações</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f0f2f5; padding: 20px; }
+    h2 { color: #007bff; text-align: center; }
+    .notif-box {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      max-width: 600px;
+      margin: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .notif {
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+    .credito { background: #d4edda; color: #155724; }
+    .debito { background: #f8d7da; color: #721c24; }
+    .info { background: #d1ecf1; color: #0c5460; }
+  </style>
+</head>
+<body>
+  <h2>🔔 Notificações</h2>
+  <div class="notif-box" id="lista-notificacoes"></div>
+
+  <script>
+    const notificacoes = [
+      { tipo: "credito", texto: "PIX de R$ 1.200,00 recebido de João Silva", data: "14/09/2025 10:32" },
+      { tipo: "debito", texto: "Pagamento de boleto no valor de R$ 350,00 realizado", data: "13/09/2025 16:20" },
+      { tipo: "info", texto: "Cartão digital bloqueado", data: "12/09/2025 09:15" },
+      { tipo: "credito", texto: "Investimento em CDB aplicado: R$ 5.000,00", data: "10/09/2025 14:45" }
+    ];
+
+    const lista = document.getElementById("lista-notificacoes");
+
+    notificacoes.forEach(n => {
+      const div = document.createElement("div");
+      div.classList.add("notif", n.tipo);
+      div.innerHTML = `<b>${n.data}</b><br>${n.texto}`;
+      lista.appendChild(div);
+    });
+  </script>
+</body>
+</html>

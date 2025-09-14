@@ -1,56 +1,66 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover" />
-  <title>Infinity Fiber - Login</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#1e3a8a">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProjetoInfinityAPP - Login</title>
   <style>
-    body { font-family: Arial, sans-serif; margin:0; background:#1e3a8a; color:#111; }
-    header { background:#1e3a8a; color:white; text-align:center; padding:1rem; }
-    .card { background:white; border-radius:0.75rem; padding:1rem; margin:2rem auto; max-width:400px; }
-    button { background:#2563eb; color:white; padding:0.5rem 1rem; margin:0.25rem; border:none; border-radius:0.5rem; cursor:pointer; }
-    footer { text-align:center; color:white; font-size:0.8rem; margin:1rem 0; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      text-align: center;
+      width: 300px;
+    }
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: #007bff;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Infinity Fiber</h1>
-    <p>Gestão de Pagamento • Mobile</p>
-  </header>
-
-  <main class="card">
-    <h2>Login</h2>
-    <label>Usuário</label>
-    <input id="username" type="text" placeholder="Digite o usuário" style="width:100%;padding:0.5rem;margin-bottom:0.5rem;border:1px solid #ccc;border-radius:0.25rem;">
-    <label>Senha</label>
-    <input id="password" type="password" placeholder="Digite a senha" style="width:100%;padding:0.5rem;margin-bottom:1rem;border:1px solid #ccc;border-radius:0.25rem;">
+  <div class="login-box">
+    <h2>🔐 Login</h2>
+    <input type="text" id="user" placeholder="Usuário"><br>
+    <input type="password" id="pass" placeholder="Senha"><br>
     <button onclick="login()">Entrar</button>
-    <p style="font-size:0.9rem;margin-top:0.5rem;">Use <b>DanielKascher</b> / <b>K@scher123</b></p>
-  </main>
-
-  <footer>
-    Infinity Fiber — PWA habilitado
-  </footer>
+  </div>
 
   <script>
     function login(){
-      const u=document.getElementById('username').value;
-      const p=document.getElementById('password').value;
-      if(u==="DanielKascher" && p==="K@scher123"){
-        window.location.href="dashboard.html";
+      let user = document.getElementById('user').value;
+      let pass = document.getElementById('pass').value;
+      if(user && pass){
+        window.location.href = 'home/home.html';
       } else {
-        alert("Usuário ou senha inválidos.");
+        alert('Preencha usuário e senha');
       }
-    }
-
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/service-worker.js')
-          .then(reg => console.log("✅ Service Worker registrado", reg))
-          .catch(err => console.log("❌ Erro no SW", err));
-      });
     }
   </script>
 </body>
