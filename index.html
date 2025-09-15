@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Digital Infinity Fiber - Login</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <script>
-  if ('serviceWorker' in navigator) { window.addEventListener('load', () => navigator.serviceWorker.register('./service-worker.js')); }
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Digital Infinity Fiber - Home</title>
+  <link rel="stylesheet" href="../style.css">
 </head>
-<body class="center">
-  <div class="card" style="max-width:360px;">
-    <h2>Banco Digital Infinity Fiber</h2>
-    <label>Usuário</label><input id="usuario" placeholder="Digite o usuário">
-    <label>Senha</label><input id="senha" type="password" placeholder="Digite a senha">
-    <label><input type="checkbox" id="mostrar"> Mostrar senha</label>
-    <button class="primary" onclick="login()">Entrar</button>
-    <p id="msg" class="small"></p>
+<body>
+  <div class="header">💳 Banco Digital Infinity Fiber</div>
+
+  <div class="container">
+    <div class="grid">
+      <a class="btn" href="saldo.html">📊 Saldo/Extrato</a>
+      <a class="btn" href="deposito.html">➕ Depósito</a>
+      <a class="btn" href="conta/transferencia.html">💸 Transferir</a>
+      <a class="btn" href="pagamentos.html">💳 Pagamentos</a>
+      <a class="btn" href="cartoes.html">💳 Cartões</a>
+      <a class="btn" href="ia.html">🤖 Atendimento IA</a>
+      <a class="btn" href="config.html">⚙️ Configurações</a>
+      <a class="btn" href="clientes/abrir_conta.html">👥 Clientes</a>
+      <a class="btn" href="invest.html">📈 Investimentos</a>
+      <a class="btn" href="notific.html">🔔 Notificações</a>
+      <a class="btn" href="conta/teste.html">🧪 Teste Rápido</a>
+    </div>
   </div>
-<script>
-document.getElementById('mostrar').addEventListener('change', function(){ document.getElementById('senha').type = this.checked ? 'text' : 'password'; });
-function login(){
-  const u=document.getElementById('usuario').value; const s=document.getElementById('senha').value;
-  if(u==="DanielKascher" && s==="K@scher123"){ sessionStorage.setItem('logado','1'); location.href='home/home.html'; }
-  else{ document.getElementById('msg').innerText="❌ Usuário ou senha inválidos"; }
-}
-</script>
+
+  <script>
+    if (sessionStorage.getItem('logado') !== '1') {
+      location.href = '../index.html';
+    }
+  </script>
 </body>
 </html>
