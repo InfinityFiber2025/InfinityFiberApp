@@ -1,6 +1,6 @@
 {
-  "name": "ProjetoInfinityAPP",
-  "short_name": "InfinityAPP",
+  "name": "Banco Digital Infinity Fiber",
+  "short_name": "Infinity Fiber",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#f0f2f5",
