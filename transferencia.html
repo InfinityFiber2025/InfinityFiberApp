@@ -1,34 +1,21 @@
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transferência</title>
-  <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
-</head>
-<body>
-  <div class="wrapper">
-    <div class="card">
-      <h1>💸 Transferência</h1>
-      <div id="clienteInfo"></div>
-      <button class="btn" onclick="buscarCliente()">🔍 Buscar Cliente</button>
-      <button class="btn secondary" onclick="irCadastro()">Cadastrar Cliente</button>
-      <h2>TED/DOC</h2>
-      <label>Banco</label><input type="text" id="tBanco">
-      <label>Agência</label><input type="text" id="tAgencia">
-      <label>Conta</label><input type="text" id="tConta">
-      <label>Favorecido</label><input type="text" id="tFav">
-      <label>Valor</label><input type="number" id="tValor">
-      <button class="btn" onclick="fazerTED()">Confirmar TED/DOC</button>
-      <h2>PIX</h2>
-      <label>Tipo de chave</label>
-      <select id="pTipo"><option>CPF</option><option>Email</option><option>Telefone</option><option>Aleatória</option></select>
-      <label>Chave</label><input type="text" id="pChave">
-      <label>Valor</label><input type="number" id="pValor">
-      <button class="btn" onclick="fazerPIX()">Enviar PIX</button>
-    </div>
-  </div>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Transferência</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
+<body><div class="wrapper"><div class="card">
+<h1>💸 Transferência</h1>
+<div id="clienteInfo"></div>
+<button class="btn" onclick="buscarCliente()">🔍 Buscar Cliente</button>
+<button class="btn secondary" onclick="irCadastro()">Cadastrar Cliente</button>
+<h2>TED/DOC</h2>
+<label>Banco</label><input id="tBanco">
+<label>Agência</label><input id="tAgencia">
+<label>Conta</label><input id="tConta">
+<label>Favorecido</label><input id="tFav">
+<label>Valor</label><input id="tValor" type="number">
+<button class="btn" onclick="fazerTED()">Confirmar TED/DOC</button>
+<h2>PIX</h2>
+<label>Tipo de chave</label><select id="pTipo"><option>CPF</option><option>Email</option><option>Telefone</option><option>Aleatória</option></select>
+<label>Chave</label><input id="pChave">
+<label>Valor</label><input id="pValor" type="number">
+<button class="btn" onclick="fazerPIX()">Enviar PIX</button>
+</div></div></body></html>

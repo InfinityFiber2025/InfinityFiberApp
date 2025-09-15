@@ -1,21 +1,13 @@
 
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cartões</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="wrapper">
-    <div class="card">
-      <h1>💳 Cartões</h1>
-      <p>Escolha um tipo de cartão (função simplificada para teste).</p>
-      <button class="btn">Gerar Lite</button>
-      <button class="btn">Gerar Black</button>
-      <button class="btn">Gerar Unlimited</button>
-    </div>
-  </div>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cartões Virtuais</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
+<body><div class="wrapper"><div class="card">
+<h1>💳 Cartões Virtuais</h1>
+<label>Modo</label><select id="modo"><option>Crédito</option><option>Débito</option></select>
+<div>
+<button class="btn" onclick="genCard('Lite',document.getElementById('modo').value)">Gerar Lite</button>
+<button class="btn" onclick="genCard('Black',document.getElementById('modo').value)">Gerar Black</button>
+<button class="btn" onclick="genCard('Unlimited',document.getElementById('modo').value)">Gerar Unlimited</button>
+</div>
+<div id="vc_wrap" style="margin-top:15px"></div>
+</div></div></body></html>

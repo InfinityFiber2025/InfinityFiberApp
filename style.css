@@ -9,3 +9,15 @@ input,select{width:100%;padding:8px;margin-top:4px;border-radius:6px;border:1px 
 .btn.secondary{background:#555}
 .menu{display:flex;flex-direction:column;gap:10px;margin-top:20px}
 .menu a{padding:12px;background:#1976d2;color:#fff;border-radius:6px;text-align:center;text-decoration:none}
+
+/* Virtual card */
+.vcard{position:relative;border-radius:16px;color:#fff;padding:18px;min-height:160px;display:flex;flex-direction:column;gap:10px;box-shadow:0 10px 24px rgba(0,0,0,.25)}
+.vcard .brand{font-weight:800;letter-spacing:1px}
+.vcard .row2{display:flex;justify-content:space-between;align-items:center}
+.vcard .pan{font-size:18px;letter-spacing:2px}
+.vcard .name{font-size:14px;opacity:.95}
+.vcard .meta{font-size:12px;opacity:.9}
+.vcard.card-lite{background:linear-gradient(135deg,#38bdf8,#0ea5e9)}
+.vcard.card-black{background:linear-gradient(135deg,#0f172a,#111827)}
+.vcard.card-unlimited{background:linear-gradient(135deg,#a855f7,#7c3aed)}
+.copybtn{padding:6px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.15);color:#fff;font-weight:600;cursor:pointer}
