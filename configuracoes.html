@@ -1,28 +1,19 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Configurações</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h2>⚙️ Configurações</h2>
-  <ul class="settings-list">
-    <li><span>👤</span> Perfil do Cliente</li>
-    <li><span>💬</span> Chat & Canais de Atendimento</li>
-    <li><span>⚙️</span> Ajustes de Acessibilidade</li>
-    <li><span>🔄</span> Solicitação de Troca de Dados</li>
-    <li><span>📊</span> Informe de Rendimentos</li>
-    <li onclick="logout()"><span>🚪</span> Sair da Conta</li>
-  </ul>
-
-<script>
-  function logout(){
-    alert("Você saiu da conta.");
-    window.location.href="index.html";
-  }
-</script>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Configurações • Infinity Fiber</title>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
+</head><body>
+<div class="header">⚙️ Configurações</div>
+<div class="container">
+  <div class="card">
+    <ul style="list-style:none;padding:0;margin:0">
+      <li class="contact"><div>👤 Perfil do Cliente</div></li>
+      <li class="contact"><div>💬 Chat & Canais de Atendimento</div></li>
+      <li class="contact"><div>⚙️ Ajustes de Acessibilidade</div></li>
+      <li class="contact"><div>🔄 Solicitação de Troca de Dados</div></li>
+      <li class="contact"><div>📊 Informe de Rendimentos</div></li>
+      <li class="contact" onclick="location='index.html'"><div>🚪 Sair da Conta</div></li>
+    </ul>
+  </div>
+</div>
+</body></html>

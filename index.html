@@ -1,19 +1,18 @@
 <!DOCTYPE html><html lang="pt-BR"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Login • Infinity Fiber</title>
-<link rel="stylesheet" href="style.css">
-<script defer src="app.js"></script>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
 </head><body>
 <div class="header">🔐 Banco Digital Infinity Fiber</div>
 <div class="container">
-  <div class="card" style="max-width:420px">
-    <label>Usuário</label><input id="usuario" placeholder="DanielKascher" style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px">
-    <label style="display:block;margin-top:8px">Senha</label><input id="senha" type="password" placeholder="K@scher123" style="width:100%;padding:10px;border:1px solid #cbd5e1;border-radius:10px">
-    <div style="margin-top:10px;display:flex;gap:8px">
-      <button class="btn" onclick="(function(){const u=document.getElementById('usuario').value;const p=document.getElementById('senha').value;if(u==='DanielKascher'&&p==='K@scher123'){window.location='home.html';}else{alert('Usuário ou senha inválidos.');}})()">Entrar</button>
+  <div class="card" style="max-width:420px;margin:24px auto">
+    <div class="label">Usuário</div><input id="u" class="input" placeholder="DanielKascher">
+    <div class="label">Senha</div><input id="p" class="input" type="password" placeholder="K@scher123">
+    <div style="display:flex;gap:8px;margin-top:10px">
+      <button class="btn" onclick="loginDo()">Entrar</button>
       <a class="btn secondary" href="home.html">Entrar (demo)</a>
     </div>
-    <div class="footer">Use <b>DanielKascher</b> / <b>K@scher123</b> para login de teste.</div>
+    <div class="small" style="margin-top:6px">Use <b>DanielKascher</b> / <b>K@scher123</b></div>
   </div>
 </div>
 </body></html>

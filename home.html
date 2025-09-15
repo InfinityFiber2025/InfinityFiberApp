@@ -1,22 +1,22 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Banco Digital Infinity Fiber - Home</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <div class="header">🏦 Banco Digital Infinity Fiber</div>
-  <div class="saldo">💰 Saldo: R$ 50.000.000,00</div>
-  <div class="container">
-    <a class="btn" href="saldo.html">💰 Saldo / Extrato</a>
-    <a class="btn" href="transferencia.html">🔄 Transferir (Pix/TED)</a>
-    <a class="btn" href="pagamentos.html">🧾 Pagamentos</a>
-    <a class="btn" href="cartoes.html">💳 Cartões</a>
-    <a class="btn" href="clientes.html">👥 Clientes</a>
-    <a class="btn" href="configuracoes.html">⚙️ Configurações</a>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Home • Infinity Fiber</title>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
+</head><body onload="homeLoad()">
+<div class="header">🏦 Banco Digital Infinity Fiber</div>
+<div class="container">
+  <div class="card">
+    <div class="kpi"><span class="badge">Titular: <b id="titular"></b></span><span class="badge" id="cc"></span></div>
+    <div class="saldo">💰 Saldo: <b id="saldoHome">R$ 0,00</b></div>
+    <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));margin-top:8px">
+      <a class="btn" href="saldo.html">💰 Saldo / Extrato</a>
+      <a class="btn" href="transferencia.html">🔄 Transferir (Pix/TED)</a>
+      <a class="btn" href="contatos.html">👥 Meus Contatos</a>
+      <a class="btn" href="cartoes.html">💳 Cartões</a>
+      <a class="btn" href="pagamentos.html">🧾 Pagamentos</a>
+      <a class="btn" href="configuracoes.html">⚙️ Configurações</a>
+    </div>
+    <div class="footer">Protótipo de simulação • Sem integração bancária real</div>
   </div>
-</body>
-</html>
+</div>
+</body></html>

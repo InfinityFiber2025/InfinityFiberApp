@@ -1,72 +1,54 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Transferência</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h2>🔄 Transferência</h2>
-
-  <div class="tabs">
-    <button class="tab active">Contatos</button>
-    <button class="tab">Fazer Pix ou TED</button>
-    <button class="tab">Limites de uso</button>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Transferir • Infinity Fiber</title>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
+</head><body onload="transfLoad()">
+<div class="header">🔄 Transferir</div>
+<div class="container">
+  <div class="card">
+    <div class="tabs">
+      <button class="tab active">Contatos</button>
+      <button class="tab">Fazer Pix ou TED</button>
+      <button class="tab">Limites de uso</button>
+    </div>
+    <div class="search"><input id="search" class="input" placeholder="Buscar contato" onkeyup="filterContacts()"></div>
+    <div id="t_list"></div>
   </div>
 
-  <div class="search">
-    <input type="text" id="busca" placeholder="Buscar contato" onkeyup="filtrar()">
+  <div id="confirmBox" class="card hidden" style="margin-top:12px">
+    <div class="badge">Confirmar transferência</div>
+    <div class="row">
+      <div>
+        <div class="label">Favorecido</div>
+        <div id="conf_nome" class="muted"></div>
+      </div>
+      <div>
+        <div class="label">Tipo</div>
+        <select id="t_tipo" class="input"><option>PIX</option><option>TED</option></select>
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <div class="label">Banco</div><select id="t_banco" class="input"></select>
+      </div>
+      <div>
+        <div class="label">Agência</div><input id="t_ag" class="input" placeholder="0001">
+      </div>
+    </div>
+    <div class="row">
+      <div>
+        <div class="label">Conta</div><input id="t_cc" class="input" placeholder="453-5">
+      </div>
+      <div>
+        <div class="label">Chave PIX</div><input id="t_pix" class="input" placeholder="(opcional para PIX)">
+      </div>
+    </div>
+    <div class="label">Valor</div><input id="t_valor" class="input" type="number" min="0" step="0.01" placeholder="0,00">
+    <div style="margin-top:10px;display:flex;gap:8px">
+      <button class="btn" onclick="tEnviar()">Enviar</button>
+      <a class="btn ghost" href="transferencia.html">Cancelar</a>
+    </div>
+    <div class="small">Se o banco selecionado for <b>Infinity Banco Digital</b>, a agência e conta são preenchidas com <b>0001</b> e <b>453-5</b>.</div>
   </div>
-
-  <h3>Recentes</h3>
-  <div class="contact">
-    <span class="avatar">GC</span>
-    <span class="name">Gilberto Conceição</span>
-    <button class="pix-btn" onclick="confirmar('Gilberto Conceição')">Fazer Pix/TED</button>
-  </div>
-  <div class="contact">
-    <span class="avatar">MS</span>
-    <span class="name">Marcelo Souza</span>
-    <button class="pix-btn" onclick="confirmar('Marcelo Souza')">Fazer Pix/TED</button>
-  </div>
-
-  <h3>Meus Contatos</h3>
-  <div class="contact">
-    <span class="avatar">RR</span>
-    <span class="name">Rogério Ramos</span>
-    <span class="bank">Infinity Banco Digital</span>
-    <button class="fav">❤️</button>
-  </div>
-  <div class="contact">
-    <span class="avatar">AM</span>
-    <span class="name">Alex Marques</span>
-    <span class="bank">Bradesco</span>
-  </div>
-  <div class="contact">
-    <span class="avatar">AC</span>
-    <span class="name">Anderson Correa</span>
-    <span class="bank">Itaú</span>
-  </div>
-  <div class="contact">
-    <span class="avatar">AC</span>
-    <span class="name">Andreia Costa</span>
-    <span class="bank">Nubank</span>
-  </div>
-
-  <script>
-    function confirmar(nome){
-      alert("Transferência simulada para " + nome + " realizada com sucesso!");
-    }
-
-    function filtrar(){
-      const termo = document.getElementById("busca").value.toLowerCase();
-      document.querySelectorAll(".contact").forEach(c => {
-        const nome = c.querySelector(".name").innerText.toLowerCase();
-        c.style.display = nome.includes(termo) ? "flex" : "none";
-      });
-    }
-  </script>
-</body>
-</html>
+</div>
+</body></html>

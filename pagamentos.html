@@ -1,16 +1,18 @@
-
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pagamentos</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <h2>🧾 Pagamentos</h2>
-  <button class="btn">Boleto</button>
-  <button class="btn">Pix (QR-Code)</button>
-  <button class="btn">Cartão</button>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pagamentos • Infinity Fiber</title>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
+</head><body>
+<div class="header">🧾 Pagamentos</div>
+<div class="container">
+  <div class="card">
+    <p>Escolha a forma de pagamento (simulado):</p>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" onclick="pagarBoleto()">Boleto</button>
+      <button class="btn" onclick="pagarPixQR()">PIX (QR)</button>
+      <button class="btn" onclick="pagarCartao()">Cartão</button>
+    </div>
+    <div class="footer">Todas as operações são registradas no Extrato.</div>
+  </div>
+</div>
+</body></html>

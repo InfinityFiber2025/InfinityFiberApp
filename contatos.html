@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Meus Contatos • Infinity Fiber</title>
+<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
+</head><body onload="contatosLoad()">
+<div class="header">👥 Meus Contatos</div>
+<div class="container">
+  <div class="card">
+    <div class="row">
+      <div>
+        <div class="label">Nome</div><input id="c_nome" class="input" placeholder="Nome completo">
+        <div class="label">Banco</div><select id="c_banco" class="input"></select>
+      </div>
+      <div>
+        <div class="label">Agência</div><input id="c_ag" class="input" placeholder="0001">
+        <div class="label">Conta</div><input id="c_cc" class="input" placeholder="123456-7">
+      </div>
+    </div>
+    <div class="label">Chave PIX (opcional)</div><input id="c_pix" class="input" placeholder="CPF, e-mail, telefone ou chave aleatória">
+    <div style="margin-top:8px"><button class="btn" onclick="addContatoForm()">Salvar contato</button>
+      <button class="btn secondary" onclick="clearContatoForm()">Limpar</button>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:12px">
+    <div class="search"><input id="buscaContato" class="input" placeholder="Buscar contato" onkeyup="renderContatos(this.value)"></div>
+    <div id="listContatos"></div>
+  </div>
+</div>
+</body></html>
