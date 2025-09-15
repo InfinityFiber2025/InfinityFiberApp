@@ -1,11 +1,28 @@
-
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cadastro</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
-<body><div class="wrapper"><div class="card">
-<h1>Cadastro de Cliente</h1>
-<label>Nome</label><input id="cNome">
-<label>CPF</label><input id="cCpf">
-<label>Email</label><input id="cEmail">
-<label>Telefone</label><input id="cTel">
-<button class="btn" onclick="abrirFacial()">Avançar (Reconhecimento Facial)</button>
-</div></div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Abertura de Conta • Infinity Fiber</title>
+  <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>📝 Abertura de Conta</h1>
+      <div class="row">
+        <div><label>Nome completo</label><input id="c_nome"></div>
+        <div><label>CPF</label><input id="c_cpf" placeholder="000.000.000-00"></div>
+      </div>
+      <div class="row">
+        <div><label>E-mail</label><input id="c_email"></div>
+        <div><label>Telefone</label><input id="c_tel" placeholder="(00) 90000-0000"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn" onclick="avancarFacial()">Avançar (Reconhecimento Facial)</button>
+        <a class="btn secondary" href="index.html">Cancelar</a>
+      </div>
+      <div class="small">Na próxima etapa, será solicitado acesso à câmera para selfie.</div>
+    </div>
+  </div>
+</body>
+</html>

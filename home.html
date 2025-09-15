@@ -1,14 +1,40 @@
-
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
-<body><div class="wrapper"><div class="card">
-<h1>🏦 Infinity Fiber Bank</h1>
-<div class="menu">
-<a href="cadastro.html">📋 Cadastro</a>
-<a href="transferencia.html">💸 Transferência</a>
-<a href="cartoes.html">💳 Cartões</a>
-<a href="#">💼 Empréstimos</a>
-<a href="#">📈 Investimentos</a>
-<a href="#">🔔 Notificações</a>
-<a href="#">⚙️ Configurações</a>
-</div></div></div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home • Infinity Fiber</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body onload="ensureAuth()">
+  <div class="wrapper">
+    <div class="card">
+      <div class="toolbar">
+        <h1>🏦 Banco Digital Infinity Fiber</h1>
+        <span class="badge">Ag. 0001 • Cc <span id="ccnum">123456-7</span></span>
+      </div>
+      <div class="toolbar">
+        <div>Saldo: <strong id="saldoLabel"></strong></div>
+        <div class="small">Titular: <span id="titular"></span></div>
+      </div>
+      <hr/>
+      <div class="menu">
+        <a href="saldo.html">💰 Saldo / Extrato</a>
+        <a href="transferencia.html">🔄 Transferir (TED/PIX)</a>
+        <a href="pagamentos.html">💳 Pagamentos (Boleto/PIX/QR)</a>
+        <a href="cartoes.html">💳 Cartões (Virtuais)</a>
+        <a href="emprestimos.html">💼 Empréstimos</a>
+        <a href="invest.html">📈 Investimentos</a>
+        <a href="notific.html">🔔 Notificações</a>
+        <a href="config.html">⚙️ Configurações</a>
+      </div>
+      <div class="footer">Protótipo de simulação • Sem integração bancária real</div>
+    </div>
+  </div>
+<script>
+  document.getElementById('titular').textContent = S.usuario.nome;
+  document.getElementById('saldoLabel').textContent = fmtBRL(S.saldo);
+  document.getElementById('ccnum').textContent = S.conta.numero;
+</script>
+</body>
+</html>

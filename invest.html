@@ -1,1 +1,39 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Investimentos</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head><body onload="ensureAuth()"><div class="wrapper"><div class="card"><div class="toolbar"><h1>📈 Investimentos</h1><a class="btn secondary" href="home.html">Voltar</a></div><label>Produto</label><select id="prod"><option value="CDB 110% CDI">CDB 110% CDI</option><option value="Tesouro Selic">Tesouro Selic</option><option value="Fundo Ações">Fundo Ações</option></select><label>Valor</label><input id="valor" type="number" min="0" step="0.01"><button class="btn" onclick="aplicar()">Aplicar</button><div class="small">Aplicações são simuladas e debitadas do saldo.</div></div></div><script>function aplicar(){const prod=document.getElementById('prod').value;const v=parseFloat(document.getElementById('valor').value||'0');if(v<=0)return alert('Informe um valor válido.');if(S.saldo<v)return alert('Saldo insuficiente.');pushMov('Investimento','Aplicação em '+prod,-v);notify('Aplicação realizada: '+prod+' • '+fmtBRL(v));alert('Aplicação feita.');go('saldo.html');}</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Investimentos • Infinity Fiber</title>
+  <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head>
+<body onload="ensureAuth()">
+  <div class="wrapper">
+    <div class="card">
+      <div class="toolbar">
+        <h1>📈 Investimentos</h1>
+        <a class="btn secondary" href="home.html">Voltar</a>
+      </div>
+      <label>Produto</label>
+      <select id="prod">
+        <option value="CDB 110% CDI">CDB 110% CDI</option>
+        <option value="Tesouro Selic">Tesouro Selic</option>
+        <option value="Fundo Ações">Fundo Ações</option>
+      </select>
+      <label>Valor</label>
+      <input id="ivalor" type="number" min="0" step="0.01">
+      <button class="btn" onclick="aplicar()">Aplicar</button>
+      <div class="small">Aplicações são simuladas e debitadas do saldo.</div>
+    </div>
+  </div>
+<script>
+  function aplicar(){
+    const prod = byId('prod').value;
+    const v = parseFloat(byId('ivalor').value||'0');
+    if(v<=0) return alert('Informe um valor válido.');
+    if(S.saldo < v) return alert('Saldo insuficiente.');
+    pushMov('Investimento','Aplicação em '+prod,-v);
+    notify('Aplicação: '+prod+' • '+fmtBRL(v));
+    alert('Aplicação registrada.'); go('saldo.html');
+  }
+</script>
+</body>
+</html>

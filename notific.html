@@ -1,1 +1,23 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Notificações</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head><body onload="ensureAuth()"><div class="wrapper"><div class="card"><div class="toolbar"><h1>🔔 Notificações</h1><a class="btn secondary" href="home.html">Voltar</a></div><ul id="lista" style="list-style:disc;padding-left:20px;color:#111"></ul></div></div><script>const ul=document.getElementById('lista');ul.innerHTML='';S.notificacoes.forEach(n=>{const li=document.createElement('li');li.textContent=fmtDT(n.dt)+' — '+n.text;ul.appendChild(li);});</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notificações • Infinity Fiber</title>
+  <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head>
+<body onload="ensureAuth()">
+  <div class="wrapper">
+    <div class="card">
+      <div class="toolbar">
+        <h1>🔔 Notificações</h1>
+        <a class="btn secondary" href="home.html">Voltar</a>
+      </div>
+      <ul id="lista" style="list-style:disc;padding-left:20px;color:#111"></ul>
+    </div>
+  </div>
+<script>
+  const ul = document.getElementById('lista'); ul.innerHTML='';
+  S.notificacoes.forEach(n=>{ const li=document.createElement('li'); li.textContent = fmtDT(n.dt)+' — '+n.text; ul.appendChild(li); });
+</script>
+</body>
+</html>
