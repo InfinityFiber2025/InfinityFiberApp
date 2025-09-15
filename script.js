@@ -1,8 +1,21 @@
 
-const LS_KEY='if_bank_v1';const fmtBRL=n=>(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});const now=()=>new Date();const fmtDT=d=>new Date(d).toLocaleString('pt-BR');
-function defState(){return{usuario:{login:'DanielKascher',nome:'Daniel Kascher'},conta:{banco:'Infinity Fiber',agencia:'0001',numero:'123456-7'},config:{ocultarSaldo:false},saldo:5000000000,extrato:[{dt:now(),tipo:'Crédito',desc:'Saldo inicial (ambiente de testes)',valor:5000000000}],notificacoes:[{dt:now(),text:'Conta aprovada com reconhecimento facial'},{dt:now(),text:'Bem-vindo ao Banco Digital Infinity Fiber'}],cartao:null,clientes:[]};}
-function load(){try{return JSON.parse(localStorage.getItem(LS_KEY))||defState();}catch(e){return defState();}}function save(){localStorage.setItem(LS_KEY,JSON.stringify(S));}
-let S=load();function go(h){window.location.href=h;}function ensureAuth(){if(sessionStorage.getItem('logado')!=='1'){window.location.href='index.html';}}
-function pushMov(tipo,desc,valor){S.extrato.unshift({dt:now(),tipo,desc,valor});S.saldo=(S.saldo||0)+(valor||0);save();}
-function notify(text){S.notificacoes.unshift({dt:now(),text});save();}
-const BANKS=['Banco do Brasil','Itaú','Bradesco','Caixa Econômica Federal','Santander','Nubank','BTG Pactual','C6 Bank','Inter','Mercado Pago'];
+const LS_KEY='if_bank_test';
+let S={clientes:[],usuario:{login:'DanielKascher',senha:'K@scher123'}};
+function save(){localStorage.setItem(LS_KEY,JSON.stringify(S));}
+function load(){const d=localStorage.getItem(LS_KEY);if(d)S=JSON.parse(d);}
+load();
+function login(){const u=document.getElementById('loginUser').value,p=document.getElementById('loginPass').value;
+ if(u===S.usuario.login && p===S.usuario.senha){window.location='home.html';}else{alert('Login inválido');}}
+function abrirFacial(){//simulação facial
+ alert('Reconhecimento facial concluído! Conta aprovada.');
+ const c={nome:document.getElementById('cNome').value,cpf:document.getElementById('cCpf').value,email:document.getElementById('cEmail').value,tel:document.getElementById('cTel').value,agencia:'0001',conta:String(Math.floor(100000+Math.random()*900000))+'-7',saldo:5000000000};
+ S.clientes=[c];save();window.location='home.html';}
+function buscarCliente(){if(S.clientes.length>0){alert('Cliente ativo: '+S.clientes[0].nome+' • Ag '+S.clientes[0].agencia+' • Cc '+S.clientes[0].conta);}
+else{alert('Nenhum cliente encontrado!');}}
+function irCadastro(){window.location='cadastro.html';}
+function fazerTED(){if(S.clientes.length===0){alert('Cadastre cliente antes!');return;}
+ const cli=S.clientes[0];const v=parseFloat(document.getElementById('tValor').value);
+ if(cli.saldo<v){alert('Saldo insuficiente');return;}cli.saldo-=v;save();alert('TED enviado: '+v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}));}
+function fazerPIX(){if(S.clientes.length===0){alert('Cadastre cliente antes!');return;}
+ const cli=S.clientes[0];const v=parseFloat(document.getElementById('pValor').value);
+ if(cli.saldo<v){alert('Saldo insuficiente');return;}cli.saldo-=v;save();alert('PIX enviado: '+v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}));}

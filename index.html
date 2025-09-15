@@ -1,1 +1,23 @@
-<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Banco Digital Infinity Fiber - Login</title><link rel="stylesheet" href="style.css"></head><body><div class="wrapper"><div class="card" style="max-width:420px"><h1>🔐 Banco Digital Infinity Fiber</h1><label>Usuário</label><input id="usuario" placeholder="Digite o usuário"/><label>Senha</label><input id="senha" type="password" placeholder="Digite a senha"/><label class="small"><input type="checkbox" id="mostrar"> Mostrar senha</label><div class="toolbar"><button class="btn" onclick="login()">Entrar</button><a class="btn secondary" href="cadastro.html">Abrir conta</a></div><div class="footer small">Use <span class="kbd">DanielKascher</span> / <span class="kbd">K@scher123</span> no ambiente de teste.</div></div></div><script>const senhaInput=document.getElementById('senha');document.getElementById('mostrar').addEventListener('change',e=>{senhaInput.type=e.target.checked?'text':'password'});function login(){const u=document.getElementById('usuario').value;const p=document.getElementById('senha').value;if(u==='DanielKascher'&&p==='K@scher123'){sessionStorage.setItem('logado','1');window.location.href='home.html'}else{alert('Usuário ou senha inválidos!')}}</script></body></html>
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinity Fiber Bank - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="card">
+      <h1>Login - Infinity Fiber Bank</h1>
+      <label>Usuário</label>
+      <input type="text" id="loginUser" placeholder="Usuário">
+      <label>Senha</label>
+      <input type="password" id="loginPass" placeholder="Senha">
+      <button class="btn" onclick="login()">Entrar</button>
+    </div>
+  </div>
+</body>
+</html>
