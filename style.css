@@ -1,20 +1,89 @@
-:root{--blue:#0d6efd;--bg:#f0f2f5;}
-body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);margin:0;padding:20px}
-.center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh}
-h1,h2{color:var(--blue)}
-.grid{display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:14px;max-width:680px;margin:20px auto}
-.btn{display:inline-block;background:var(--blue);color:#fff;text-decoration:none;padding:14px 16px;border-radius:12px;font-weight:bold;text-align:center}
-.card{background:#fff;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,.15);padding:16px;max-width:760px;margin:16px auto}
-input,select,button,textarea{width:100%;padding:12px;margin:8px 0;border-radius:10px;border:1px solid #ccc;font-size:16px}
-button.primary{background:#198754;color:#fff;border:none}
-button.danger{background:#dc3545;color:#fff;border:none}
-.small{font-size:13px;color:#555}
-.flex{display:flex;gap:12px;flex-wrap:wrap}
-img.preview,video,canvas{width:100%;max-width:420px;border-radius:12px;background:#000}
-.header{background:var(--blue);color:#fff;padding:18px 16px;font-size:20px;font-weight:bold;text-align:center}
-.container{padding:12px}
-.table{width:100%;border-collapse:collapse;margin-top:12px}
-.table th,.table td{border-bottom:1px solid #e8e8e8;padding:8px 6px;text-align:left}
-.right{text-align:right}
-hr{border:0;border-top:1px solid #e5e5e5;margin:12px 0}
-.badge{display:inline-block;background:#eef3ff;color:#1849d6;padding:4px 8px;border-radius:999px;font-size:12px;margin-left:8px}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background: linear-gradient(135deg, #0a2e5c, #1976d2);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+}
+
+.card {
+  background: #ffffff;
+  color: #333;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+}
+
+.card h2 {
+  margin-bottom: 20px;
+  color: #1976d2;
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+label {
+  font-size: 14px;
+  color: #444;
+  display: block;
+  margin-top: 10px;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  background: #1976d2;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+  margin-top: 12px;
+}
+
+button:hover {
+  background: #0a2e5c;
+}
+
+.container {
+  margin-top: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+a.btn {
+  display: block;
+  padding: 12px;
+  background: #1976d2;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+a.btn:hover {
+  background: #0a2e5c;
+}
