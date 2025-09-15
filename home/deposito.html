@@ -1,20 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Saldo/Extrato</title><link rel="stylesheet" href="../style.css">
+<title>Depósito</title><link rel="stylesheet" href="../style.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script></head>
 <body>
-  <div class="header">💰 Saldo e Extrato</div>
+  <div class="header">➕ Depósito em Conta</div>
   <div class="container card">
     <label>Selecionar Cliente</label>
     <select id="clienteSel"></select>
     <p class="small" id="info"></p>
-    <table class="table">
-      <thead><tr><th>Data/Hora</th><th>Descrição</th><th class="right">Valor (R$)</th><th class="right">Saldo (R$)</th></tr></thead>
-      <tbody id="linhas"></tbody>
-    </table>
-    <button class="primary" onclick="baixarExtrato()">📄 Baixar Extrato (PDF)</button>
-    <p><a class="btn" href="home.html">Voltar Home</a></p>
+    <label>Valor (R$)</label><input id="valor" type="number" step="0.01">
+    <button class="primary" onclick="depositar()">Confirmar Depósito</button>
+    <button onclick="location.href='home.html'">Voltar</button>
   </div>
 <script>
 const LOGO="data:image/png;base64,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";
@@ -23,8 +20,8 @@ function carregar(){
   const sel=document.getElementById('clienteSel'); sel.innerHTML='';
   clientes.forEach(c=>{ const o=document.createElement('option'); o.value=c.id; o.textContent=`${c.nome} - CPF ${c.cpf}`; sel.appendChild(o); });
   const last=localStorage.getItem('last_cliente_id'); if(last) sel.value=last;
-  sel.onchange=render;
   render();
+  sel.onchange=render;
 }
 function render(){
   const id=document.getElementById('clienteSel').value;
@@ -32,42 +29,37 @@ function render(){
   localStorage.setItem('last_cliente_id', id);
   const clientes=JSON.parse(localStorage.getItem('clientes')||'[]');
   const c=clientes.find(x=>x.id===id);
-  const chave='extrato_'+id;
-  const ex=JSON.parse(localStorage.getItem(chave)||'[]');
   document.getElementById('info').innerText=`Agência: ${c.agencia} | Conta: ${c.conta} | Saldo atual: R$ ${(c.saldo||0).toLocaleString('pt-BR')}`;
-  const tbody=document.getElementById('linhas'); tbody.innerHTML='';
-  ex.forEach(m=>{ const tr=document.createElement('tr'); 
-    const dt=new Date(m.data);
-    tr.innerHTML=`<td>${dt.toLocaleString()}</td><td>${m.descricao}</td><td class='right'>${(m.valor).toLocaleString('pt-BR')}</td><td class='right'>${(m.saldo).toLocaleString('pt-BR')}</td>`; tbody.appendChild(tr);
-  });
 }
-function baixarExtrato(){
+function depositar(){
   const id=document.getElementById('clienteSel').value;
   const clientes=JSON.parse(localStorage.getItem('clientes')||'[]');
-  const c=clientes.find(x=>x.id===id);
-  const chave='extrato_'+id;
-  const ex=JSON.parse(localStorage.getItem(chave)||'[]');
+  const idx=clientes.findIndex(x=>x.id===id);
+  if(idx<0){ alert('Selecione um cliente.'); return; }
+  const val=parseFloat(document.getElementById('valor').value||'0');
+  if(!(val>0)){ alert('Informe um valor válido'); return; }
+  const c=clientes[idx];
+  const saldoAnterior=c.saldo||0; const novoSaldo=saldoAnterior+val; c.saldo=novoSaldo; clientes[idx]=c;
+  localStorage.setItem('clientes', JSON.stringify(clientes));
+  const mov={ data:new Date().toISOString(), descricao:`Depósito em conta`, valor:val, saldo:novoSaldo };
+  const chave='extrato_'+id; const ex=JSON.parse(localStorage.getItem(chave)||'[]'); ex.push(mov); localStorage.setItem(chave, JSON.stringify(ex));
+  // Gerar PDF do depósito
   const {jsPDF}=window.jspdf; const doc=new jsPDF();
   doc.addImage(LOGO,'PNG',15,10,80,30);
-  doc.setFontSize(14); doc.text("Extrato Bancário - Infinity Fiber Banco Digital", 15, 50);
+  doc.setFontSize(14); doc.text("Comprovante de Depósito", 15, 50);
   doc.setFontSize(11);
   doc.text("Cliente: "+c.nome, 15, 60);
   doc.text("Agência/Conta: "+c.agencia+" / "+c.conta, 15, 67);
-  let y=80;
-  doc.text("Data/Hora",15,y); doc.text("Descrição",70,y); doc.text("Valor (R$)",150,y,{align:'right'}); doc.text("Saldo (R$)",185,y,{align:'right'});
-  y+=6; doc.line(15,y,195,y); y+=4;
-  ex.forEach(m=>{
-    const dt=new Date(m.data).toLocaleString();
-    doc.text(String(dt),15,y);
-    doc.text(String(m.descricao).substring(0,46),70,y);
-    doc.text(String(m.valor.toLocaleString('pt-BR')),150,y,{align:'right'});
-    doc.text(String(m.saldo.toLocaleString('pt-BR')),185,y,{align:'right'});
-    y+=6; if(y>280){ doc.addPage(); y=20; }
-  });
-  y+=8; doc.line(15,y,195,y);
-  y+=8; doc.text("Saldo atual: R$ "+(c.saldo||0).toLocaleString('pt-BR'), 15, y);
-  y+=8; doc.text("Assinatura Digital - Infinity Fiber", 15, y+6);
-  doc.save("extrato.pdf");
+  doc.text("Data/Hora: "+new Date().toLocaleString(), 15, 74);
+  doc.text("Descrição: Depósito em conta", 15, 81);
+  doc.text("Valor: R$ "+val.toLocaleString('pt-BR'), 15, 88);
+  doc.text("Saldo anterior: R$ "+saldoAnterior.toLocaleString('pt-BR'), 15, 95);
+  doc.text("Saldo atual: R$ "+novoSaldo.toLocaleString('pt-BR'), 15, 102);
+  doc.text("____________________________________", 15, 118);
+  doc.text("Assinatura Digital - Infinity Fiber", 15, 125);
+  doc.save("comprovante_deposito.pdf");
+  alert('✅ Depósito realizado com sucesso! Comprovante gerado.');
+  render();
 }
 carregar();
 </script>

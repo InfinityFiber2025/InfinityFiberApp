@@ -1,1 +1,28 @@
-<!doctype html><html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Biometria</title><link rel='stylesheet' href='../style.css'></head><body><div class='header'>🔒 Biometria</div><div class='container card'><div class='flex'><div><h3>Foto-base</h3><img id='fotoBase' class='preview'></div><div><h3>Selfie</h3><video id='video' autoplay playsinline muted></video><button id='snap'>Capturar</button><canvas id='canvas' style='display:none'></canvas></div></div><div class='flex'><button class='primary' id='ok' disabled>✅ Aprovar</button><button class='danger' id='no' disabled>❌ Reprovar</button></div></div><script>const fb=localStorage.getItem('cliente_foto_base');if(fb)fotoBase.src=fb;let st=null;const v=document.getElementById('video');navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}}).then(s=>{st=s;v.srcObject=s;});snap.onclick=()=>{canvas.style.display='block';canvas.width=v.videoWidth;canvas.height=v.videoHeight;canvas.getContext('2d').drawImage(v,0,0);ok.disabled=no.disabled=false;};function go(u){if(st)st.getTracks().forEach(t=>t.stop());location.href=u;}const p=new URLSearchParams(location.search);ok.onclick=()=>go(p.get('redirect'));no.onclick=()=>go(p.get('fallback'));</script></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biometria</title><link rel="stylesheet" href="../style.css"></head>
+<body>
+  <div class="header">🔒 Biometria</div>
+  <div class="container card">
+    <div class="flex">
+      <div style="flex:1;min-width:240px"><h3>Foto-base</h3><img id="fotoBase" class="preview"></div>
+      <div style="flex:1;min-width:240px"><h3>Selfie</h3><video id="video" autoplay playsinline muted></video><button id="snap">Capturar</button><canvas id="canvas" style="display:none"></canvas></div>
+    </div>
+    <div class="flex"><button class="primary" id="ok" disabled>✅ Aprovar</button><button class="danger" id="no" disabled>❌ Reprovar</button></div>
+  </div>
+<script>
+const id=sessionStorage.getItem('transf_cliente_id');
+const clientes=JSON.parse(localStorage.getItem('clientes')||'[]');
+const c=clientes.find(x=>x.id===id);
+if(c && c.fotoBase) document.getElementById('fotoBase').src=c.fotoBase;
+let st=null; const v=document.getElementById('video');
+navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}}).then(s=>{ st=s; v.srcObject=s; }).catch(()=>{});
+snap.onclick=()=>{ canvas.style.display='block'; canvas.width=v.videoWidth; canvas.height=v.videoHeight; canvas.getContext('2d').drawImage(v,0,0); ok.disabled=no.disabled=false; };
+function go(u){ if(st) st.getTracks().forEach(t=>t.stop()); location.href=u; }
+const p=new URLSearchParams(location.search);
+ok.onclick=()=>go(p.get('redirect'));
+no.onclick=()=>go(p.get('fallback'));
+</script>
+</body>
+</html>

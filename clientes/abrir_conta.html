@@ -1,1 +1,33 @@
-<!doctype html><html lang='pt-BR'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>Abrir Conta</title><link rel='stylesheet' href='../style.css'></head><body><div class='header'>Abrir Conta</div><div class='container card'><p>🚧 Abrir Conta em construção...</p><p><a class='btn' href='home.html'>Voltar</a></p></div></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Abrir Conta</title><link rel="stylesheet" href="../style.css"></head>
+<body>
+  <div class="header">🏦 Abrir Conta</div>
+  <div class="container card">
+    <label>Nome</label><input id="nome">
+    <label>CPF</label><input id="cpf">
+    <label>Email</label><input id="email" type="email">
+    <label>Foto-base</label><input id="foto" type="file" accept="image/*">
+    <img id="preview" class="preview" style="display:none">
+    <button class="primary" onclick="salvar()">Salvar (saldo inicial R$ 500.000,00)</button>
+    <p id="msg" class="small"></p>
+  </div>
+<script>
+function uid(){ return 'c'+Math.random().toString(36).slice(2,10); }
+const foto=document.getElementById('foto'); const prev=document.getElementById('preview');
+foto.addEventListener('change',e=>{const f=e.target.files[0]; if(!f) return; const r=new FileReader(); r.onload=()=>{prev.src=r.result; prev.style.display='block';}; r.readAsDataURL(f);});
+function salvar(){
+  const nome=document.getElementById('nome').value.trim();
+  const cpf=document.getElementById('cpf').value.trim();
+  const email=document.getElementById('email').value.trim();
+  if(!nome||!cpf||!email){ alert('Preencha todos os campos'); return; }
+  const clientes=JSON.parse(localStorage.getItem('clientes')||'[]');
+  const c={ id:uid(), nome, cpf, email, agencia:'0001', conta:(Math.floor(Math.random()*90000)+10000)+'-'+(Math.floor(Math.random()*9)+1), saldo:500000, fotoBase: prev.src||'' };
+  clientes.push(c); localStorage.setItem('clientes', JSON.stringify(clientes));
+  localStorage.setItem('last_cliente_id', c.id);
+  document.getElementById('msg').innerText = '✅ Cliente salvo com saldo inicial de R$ 500.000,00';
+}
+</script>
+</body>
+</html>
