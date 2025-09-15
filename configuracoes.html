@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configurações</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <h2>⚙️ Configurações</h2>
+  <ul class="settings-list">
+    <li><span>👤</span> Perfil do Cliente</li>
+    <li><span>💬</span> Chat & Canais de Atendimento</li>
+    <li><span>⚙️</span> Ajustes de Acessibilidade</li>
+    <li><span>🔄</span> Solicitação de Troca de Dados</li>
+    <li><span>📊</span> Informe de Rendimentos</li>
+    <li onclick="logout()"><span>🚪</span> Sair da Conta</li>
+  </ul>
+
+<script>
+  function logout(){
+    alert("Você saiu da conta.");
+    window.location.href="index.html";
+  }
+</script>
+</body>
+</html>

@@ -1,34 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Cartões Virtuais • Infinity Fiber</title>
-  <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cartões Virtuais</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body onload="ensureAuth()">
-  <div class="wrapper">
-    <div class="card">
-      <div class="toolbar">
-        <h1>💳 Cartões Virtuais</h1>
-        <a class="btn secondary" href="home.html">Voltar</a>
-      </div>
-      <div class="row">
-        <div>
-          <label>Modo</label>
-          <select id="modo"><option>Crédito</option><option>Débito</option></select>
-        </div>
-      </div>
-      <div class="menu" style="grid-template-columns:1fr 1fr 1fr;margin-top:8px">
-        <button class="btn" onclick="genCard('Lite',5000, byId('modo').value)">Gerar Lite</button>
-        <button class="btn" onclick="genCard('Black',50000, byId('modo').value)">Gerar Black</button>
-        <button class="btn" onclick="genCard('Unlimited',999999999, byId('modo').value)">Gerar Unlimited</button>
-      </div>
-      <div id="vc_wrap" style="margin-top:12px"></div>
-      <div class="small">Números gerados são fictícios e servem apenas para simulação.</div>
-    </div>
-  </div>
-<script>
-  renderCard('vc_wrap', false);
-</script>
+<body>
+  <h2>💳 Meus Cartões Virtuais</h2>
+  <div class="cartao lite"><h3>Infinity Lite</h3><p>**** **** **** 1234</p></div>
+  <div class="cartao black"><h3>Infinity Black</h3><p>**** **** **** 5678</p></div>
+  <div class="cartao unlimited"><h3>Infinity Unlimited</h3><p>**** **** **** 9999</p></div>
 </body>
 </html>

@@ -1,37 +1,16 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pagamentos • Infinity Fiber</title>
-  <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamentos</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body onload="ensureAuth()">
-  <div class="wrapper">
-    <div class="card">
-      <div class="toolbar">
-        <h1>💳 Pagamentos</h1>
-        <a class="btn secondary" href="home.html">Voltar</a>
-      </div>
-      <div class="toolbar"><h2>Boleto</h2></div>
-      <label>Linha digitável / Código de barras</label>
-      <input id="linha" placeholder="00090.00009 01234.567890 12345.678901 2 12340000012345">
-      <label>Valor</label>
-      <input id="valBol" type="number" min="0" step="0.01" placeholder="0,00">
-      <button class="btn" onclick="pagarBoleto()">Pagar boleto</button>
-
-      <hr/>
-      <div class="toolbar"><h2>PIX</h2></div>
-      <label>Chave PIX</label>
-      <input id="pixChave" placeholder="CPF, e-mail, telefone ou chave aleatória">
-      <label>Valor</label>
-      <input id="valPix" type="number" min="0" step="0.01" placeholder="0,00">
-      <button class="btn" onclick="pagarPix()">Pagar via PIX</button>
-
-      <hr/>
-      <div class="toolbar"><h2>QR-Code</h2></div>
-      <div class="small">Simulação: clique em “Confirmar leitura” para registrar o pagamento.</div>
-      <button class="btn" onclick="pagarQR()">Confirmar leitura de QR</button>
-    </div>
-  </div>
+<body>
+  <h2>🧾 Pagamentos</h2>
+  <button class="btn">Boleto</button>
+  <button class="btn">Pix (QR-Code)</button>
+  <button class="btn">Cartão</button>
 </body>
 </html>

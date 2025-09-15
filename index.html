@@ -1,23 +1,31 @@
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login • Infinity Fiber</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Banco Digital Infinity Fiber - Login</title>
   <link rel="stylesheet" href="style.css">
-  <script defer src="script.js"></script>
 </head>
-<body>
-  <div class="wrapper">
-    <div class="card" style="max-width:420px">
-      <h1>🔐 Banco Digital Infinity Fiber</h1>
-      <label>Usuário</label><input id="usuario" placeholder="DanielKascher">
-      <label>Senha</label><input id="senha" type="password" placeholder="K@scher123">
-      <div class="toolbar">
-        <button class="btn" onclick="doLogin()">Entrar</button>
-        <a class="btn secondary" href="cadastro.html">Abrir conta</a>
-      </div>
-      <div class="small">Teste: use <strong>DanielKascher</strong> / <strong>K@scher123</strong></div>
-    </div>
+<body class="center">
+  <div class="card" style="max-width:400px;">
+    <h2>Banco Digital Infinity Fiber</h2>
+    <label>Usuário</label><input id="usuario" placeholder="Digite o usuário"><br>
+    <label>Senha</label><input id="senha" type="password" placeholder="Digite a senha"><br>
+    <button onclick="login()">Entrar</button>
+    <p id="msg"></p>
   </div>
+
+<script>
+  function login(){
+    const u = document.getElementById("usuario").value;
+    const s = document.getElementById("senha").value;
+    if(u==="DanielKascher" && s==="K@scher123"){
+      window.location.href="home.html";
+    } else {
+      document.getElementById("msg").innerText="Usuário ou senha inválidos";
+    }
+  }
+</script>
 </body>
 </html>
