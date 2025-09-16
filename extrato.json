@@ -4,5 +4,17 @@
     "descricao": "Depósito inicial",
     "tipo": "Crédito",
     "valor": 125000.0
+  },
+  {
+    "data": "15/09/2025",
+    "descricao": "PIX enviado",
+    "tipo": "Débito",
+    "valor": 200.0
+  },
+  {
+    "data": "16/09/2025",
+    "descricao": "TED recebida",
+    "tipo": "Crédito",
+    "valor": 1500.0
   }
 ]

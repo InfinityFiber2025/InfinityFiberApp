@@ -1,43 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Digital Infinity Fiber - Extrato</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <header class="header">
-    <h2>Extrato</h2>
-    <button onclick="voltarDashboard()">⬅ Voltar</button>
-  </header>
-
-  <main class="main">
-    <table class="extrato">
-      <thead>
-        <tr>
-          <th>Data</th>
-          <th>Descrição</th>
-          <th>Valor</th>
-          <th>Tipo</th>
-        </tr>
-      </thead>
-      <tbody id="extratoBody">
-        <tr>
-          <td>16/09/2025</td>
-          <td>Transferência recebida</td>
-          <td>+ R$ 1.500,00</td>
-          <td>Crédito</td>
-        </tr>
-        <tr>
-          <td>15/09/2025</td>
-          <td>Pagamento de conta</td>
-          <td>- R$ 200,00</td>
-          <td>Débito</td>
-        </tr>
-      </tbody>
-    </table>
-  </main>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extrato</title>
+<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head><body onload="carregarExtrato()">
+  <div class="container">
+    <div class="header" data-header>
+      <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
+      <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
+    </div>
+    <div class="section">
+      <div class="kpi"><span class="pill">Últimos 7 dias</span><span class="pill">Filtrar • em breve</span></div>
+      <table class="table">
+        <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th></tr></thead>
+        <tbody id="extrato-body"><tr><td colspan="4" class="small">Carregando...</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+</body></html>

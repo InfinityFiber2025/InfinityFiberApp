@@ -2,8 +2,36 @@
   {
     "id": 1,
     "empresa": "XP Investimentos",
-    "tipo": "Ações",
+    "tipo": "Fundo",
     "rentabilidade": 12,
+    "risco": "Médio"
+  },
+  {
+    "id": 2,
+    "empresa": "BTG Pactual",
+    "tipo": "Renda Fixa",
+    "rentabilidade": 13.5,
+    "risco": "Baixo"
+  },
+  {
+    "id": 3,
+    "empresa": "Nubank",
+    "tipo": "Renda Fixa",
+    "rentabilidade": 11.8,
+    "risco": "Baixo"
+  },
+  {
+    "id": 4,
+    "empresa": "Rico",
+    "tipo": "Ação",
+    "rentabilidade": 20,
     "risco": "Alto"
+  },
+  {
+    "id": 5,
+    "empresa": "Órama",
+    "tipo": "FII",
+    "rentabilidade": 10.2,
+    "risco": "Médio"
   }
 ]

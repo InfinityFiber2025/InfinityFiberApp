@@ -1,24 +1,19 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Digital Infinity Fiber - Configurações</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <header class="header">
-    <h2>Configurações</h2>
-    <button onclick="voltarDashboard()">⬅ Voltar</button>
-  </header>
-
-  <main class="main">
-    <ul>
-      <li><button>Alterar senha</button></li>
-      <li><button>Acessibilidade</button></li>
-      <li><button>Solicitação de dados</button></li>
-    </ul>
-  </main>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Configurações</title>
+<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head><body>
+  <div class="container">
+    <div class="header" data-header>
+      <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
+      <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
+    </div>
+    <div class="section">
+      <div class="grid">
+        <button class="btn secondary" onclick="alert('Alterar senha (simulação)')">Alterar senha</button>
+        <button class="btn secondary" onclick="alert('Acessibilidade (simulação)')">Acessibilidade</button>
+        <button class="btn secondary" onclick="alert('Requisição de dados (simulação)')">Solicitação de dados</button>
+      </div>
+    </div>
+  </div>
+</body></html>

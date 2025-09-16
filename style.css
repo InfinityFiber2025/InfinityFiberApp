@@ -1,1 +1,64 @@
-body{font-family:Arial,sans-serif;background:linear-gradient(160deg,#0b3a82,#0a5bd8,#7aa6ff);margin:0}
+:root{
+  --blue:#0A5BD8; --blue-dark:#0847A8; --blue-soft:#E7F0FF;
+  --text:#0F172A; --card:#ffffff;
+  --radius:16px; --shadow:0 10px 24px rgba(10,91,216,.15);
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  color:var(--text);
+  background: linear-gradient(160deg, #0b3a82 0%, #0a5bd8 40%, #7aa6ff 100%);
+  background-attachment: fixed;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.container{ width:min(1000px, 94vw); margin:36px auto; }
+.card{ background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:24px; }
+.header{
+  display:grid; grid-template-columns:1fr auto auto auto; gap:12px; align-items:center;
+  padding:14px 18px; background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow);
+}
+.header h1{ font-size:20px; margin:0 }
+.badge{ display:inline-flex; align-items:center; gap:8px; padding:8px 12px; border-radius:999px; background:var(--blue-soft); color:#133a84; font-size:14px }
+.saldo{ font-weight:700 }
+.btn{
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  width:100%; padding:16px; border:none; border-radius:14px;
+  background:var(--blue); color:#fff; font-size:16px; cursor:pointer;
+  box-shadow:var(--shadow); transition: background .2s ease, transform .05s ease;
+}
+.btn:hover{ background:var(--blue-dark) }
+.btn:active{ transform: translateY(1px) }
+.btn.secondary{ background:#e9eefc; color:#17305b }
+.btn.danger{ background:#ef4444 }
+.grid{ display:grid; grid-template-columns:1fr; gap:14px }
+@media(min-width:760px){ .grid{ grid-template-columns:1fr 1fr } }
+.section{ background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:18px; margin-top:16px }
+.form label{ display:block; font-weight:600; margin-top:10px }
+.form input, .form select, .form textarea{
+  width:100%; padding:12px; margin-top:6px; border:1px solid #d7e4ff; border-radius:12px; background:#f7faff
+}
+.form .row{ display:grid; grid-template-columns:1fr; gap:12px }
+@media(min-width:680px){ .form .row{ grid-template-columns:repeat(2,1fr) } }
+.form .actions{ display:flex; gap:10px; margin-top:16px; flex-wrap:wrap }
+.table{ width:100%; border-collapse:collapse; margin-top:10px }
+.table th, .table td{ padding:10px; border-bottom:1px solid #e9eef7; text-align:left }
+.table th{ background:#f1f6ff }
+.small{ font-size:12px; color:#64748B }
+.kpi{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 12px }
+.pill{ padding:8px 12px; border-radius:999px; background:#eef4ff; border:1px solid #d9e6ff }
+.card-virtual{
+  max-width:380px; margin:18px auto; padding:20px; border-radius:20px;
+  color:#fff; box-shadow:0 10px 20px rgba(0,0,0,.35); font-family:'Courier New',monospace
+}
+.card-virtual .number{ margin:16px 0; font-size:22px; letter-spacing:2px }
+.card-virtual .row{ display:flex; justify-content:space-between; align-items:center }
+.card-virtual .label{ font-size:10px; color:#dbe7ff; text-transform:uppercase }
+.card-virtual .value{ font-size:14px }
+.video-box{ display:grid; grid-template-columns:1fr; gap:10px; justify-items:center }
+video{ width:100%; max-width:420px; border-radius:12px; background:#000 }
+canvas{ display:none }
+.footer{ margin-top:14px; text-align:center; color:#eaf1ff; font-size:12px; text-shadow:0 1px 0 rgba(0,0,0,.25) }

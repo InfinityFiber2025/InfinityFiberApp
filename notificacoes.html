@@ -1,16 +1,15 @@
 <!DOCTYPE html><html lang="pt-BR"><head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cartões</title>
+<title>Notificações</title>
 <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body>
+</head><body onload="carregarNotificacoes()">
   <div class="container">
     <div class="header" data-header>
       <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
       <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
     </div>
     <div class="section">
-      <div id="cartao" class="card-virtual" style="background:linear-gradient(135deg,#0a5bd8,#083a93)">Clique em "Gerar novo cartão"</div>
-      <div class="actions" style="justify-content:center"><button class="btn" onclick="gerarCartao()">Gerar novo cartão</button></div>
+      <ul id="noti-list" style="margin:0; padding-left:18px"></ul>
     </div>
   </div>
 </body></html>
