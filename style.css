@@ -1,105 +1,30 @@
-body {
-  font-family: Arial, sans-serif;
-  background: #f3f3f3;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+:root{
+  --blue:#0A5BD8; --blue-dark:#0847A8; --blue-soft:#E7F0FF;
+  --text:#0F172A; --card:#ffffff;
+  --radius:16px; --shadow:0 10px 24px rgba(10,91,216,.15);
 }
-
-.card {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  width: 300px;
-}
-
-h2 {
-  text-align: center;
-}
-
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-input, textarea {
-  width: 100%;
-  padding: 8px;
-  margin-top: 4px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-button {
-  margin-top: 15px;
-  width: 100%;
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  background: #0066cc;
-  color: white;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-button:hover {
-  background: #004999;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background: #0066cc;
-  color: white;
-}
-
-.main {
-  padding: 20px;
-}
-
-.menu button {
-  display: block;
-  margin: 10px 0;
-  padding: 12px;
-  width: 100%;
-  border-radius: 8px;
-  background: #e0e0e0;
-  cursor: pointer;
-  font-size: 16px;
-}
-
-.extrato {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-}
-
-.extrato th, .extrato td {
-  border: 1px solid #ddd;
-  padding: 10px;
-  text-align: center;
-}
-
-.extrato th {
-  background-color: #0066cc;
-  color: white;
-}
-
-.form {
-  display: flex;
-  flex-direction: column;
-}
-
-.card-virtual {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-  max-width: 300px;
-}
+*{box-sizing:border-box} html,body{height:100%}
+body{margin:0;font-family:Inter,Arial,sans-serif;color:var(--text);
+  background:linear-gradient(160deg,#0b3a82 0%,#0a5bd8 40%,#7aa6ff 100%);
+  background-attachment:fixed;display:flex;align-items:center;justify-content:center}
+.container{width:min(960px,92vw);margin:40px auto}
+.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:24px}
+.header{display:flex;justify-content:space-between;align-items:center;gap:12px;
+  padding:16px 20px;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow)}
+.header .brand h1{font-size:20px;margin:0}
+.header .acct{background:var(--blue-soft);padding:10px 14px;border-radius:999px;font-size:14px}
+.header .saldo{font-weight:600}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:740px){.grid{grid-template-columns:1fr 1fr}}
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:18px 16px;
+  border:none;border-radius:14px;background:var(--blue);color:white;font-size:16px;cursor:pointer;
+  box-shadow:var(--shadow);transition:transform .06s ease,background .2s ease}
+.btn.secondary{background:#e9eefc;color:#17305b}
+.btn:hover{background:var(--blue-dark)} .btn:active{transform:translateY(1px)}
+.footer{margin-top:16px;text-align:center;color:#edf3ff;font-size:12px;text-shadow:0 1px 0 rgba(0,0,0,.2)}
+.card-virtual{max-width:360px;margin:20px auto;padding:20px;border-radius:20px;
+  box-shadow:0 6px 16px rgba(0,0,0,.3);color:#fff;font-family:'Courier New',monospace}
+.card-virtual .number{margin:18px 0;font-size:22px;letter-spacing:2px}
+.card-virtual .row{display:flex;justify-content:space-between;align-items:center}
+.card-virtual .label{font-size:10px;color:#ddd;text-transform:uppercase}
+.card-virtual .value{font-size:14px}

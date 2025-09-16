@@ -1,27 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Digital Infinity Fiber - Dashboard</title>
-  <link rel="stylesheet" href="style.css">
-  <script src="script.js" defer></script>
-</head>
-<body>
-  <header class="header">
-    <h2>Bem-vindo ao Banco Digital Infinity Fiber</h2>
-    <button onclick="logout()">Sair</button>
-  </header>
-
-  <main class="main">
-    <section class="menu">
-      <button onclick="window.location.href='extrato.html'">📄 Extrato</button>
-      <button onclick="window.location.href='transferencia.html'">💸 Transferência</button>
-      <button onclick="window.location.href='clientes.html'">👤 Clientes</button>
-      <button onclick="window.location.href='cartoes.html'">💳 Cartões</button>
-      <button onclick="window.location.href='configuracoes.html'">⚙️ Configurações</button>
-      <button onclick="window.location.href='chat.html'">📞 Atendimento</button>
-    </section>
-  </main>
-</body>
-</html>
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
+<body><div class="container"><div class="header" data-header>
+<div class="brand"><h1 data-brand></h1></div><div class="acct badge" data-acct></div><div class="saldo" data-saldo></div>
+<button class="btn" onclick="logout()">Sair</button></div>
+<div class="grid"><button class="btn" onclick="go('cartoes.html')">Cartões</button></div></div></body></html>
