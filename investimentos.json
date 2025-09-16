@@ -5,33 +5,5 @@
     "tipo": "Ações",
     "rentabilidade": 12,
     "risco": "Alto"
-  },
-  {
-    "id": 2,
-    "empresa": "BTG Pactual",
-    "tipo": "Fundos",
-    "rentabilidade": 9,
-    "risco": "Médio"
-  },
-  {
-    "id": 3,
-    "empresa": "Nubank",
-    "tipo": "Renda Fixa",
-    "rentabilidade": 7,
-    "risco": "Baixo"
-  },
-  {
-    "id": 4,
-    "empresa": "Rico",
-    "tipo": "Cripto",
-    "rentabilidade": 15,
-    "risco": "Alto"
-  },
-  {
-    "id": 5,
-    "empresa": "Órama",
-    "tipo": "FIIs",
-    "rentabilidade": 10,
-    "risco": "Médio"
   }
 ]
