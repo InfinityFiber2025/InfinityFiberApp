@@ -1,18 +1,23 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Login • Infinity Fiber</title>
-<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
-</head><body>
-<div class="header">🔐 Banco Digital Infinity Fiber</div>
-<div class="container">
-  <div class="card" style="max-width:420px;margin:24px auto">
-    <div class="label">Usuário</div><input id="u" class="input" placeholder="DanielKascher">
-    <div class="label">Senha</div><input id="p" class="input" type="password" placeholder="K@scher123">
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="btn" onclick="loginDo()">Entrar</button>
-      <a class="btn secondary" href="home.html">Entrar (demo)</a>
-    </div>
-    <div class="small" style="margin-top:6px">Use <b>DanielKascher</b> / <b>K@scher123</b></div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Digital Infinity Fiber - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body class="center">
+  <div class="card">
+    <h2>Banco Digital Infinity Fiber</h2>
+
+    <label for="usuario">Usuário</label>
+    <input id="usuario" type="text" placeholder="Digite seu usuário">
+
+    <label for="senha">Senha</label>
+    <input id="senha" type="password" placeholder="Digite sua senha">
+
+    <button id="loginBtn">Entrar</button>
   </div>
-</div>
-</body></html>
+</body>
+</html>
