@@ -1,0 +1,15 @@
+<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Investimentos</title><link rel="stylesheet" href="style.css"><script defer src="script.js"></script></head>
+<body onload="carregarInvestimentos()"><div class="container">
+<div class="header" data-header>
+<div class="brand"><a class="btn secondary" style="width:auto;padding:8px 12px" href="dashboard.html">⟵ Voltar</a><h1 data-brand></h1></div>
+<div class="acct badge" data-acct></div><div class="saldo" data-saldo></div>
+<button class="btn" onclick="logout()">Sair</button></div>
+<div class="section">
+  <h3 style="margin:0 0 8px 0">Opções de investimento (dinâmico)</h3>
+  <table class="table">
+    <thead><tr><th>Empresa</th><th>Tipo</th><th>Rentab. anual</th><th>Risco</th><th>Valor</th><th>Ação</th></tr></thead>
+    <tbody id="lista-invest"><tr><td colspan="6" class="small">Carregando...</td></tr></tbody>
+  </table>
+</div>
+<div class="footer">Protótipo de simulação • Sem integração bancária real</div></div></body></html>

@@ -1,0 +1,14 @@
+[
+  {
+    "data": "12/09/2025",
+    "tipo": "Boleto",
+    "descricao": "Conta de água",
+    "valor": 120.4
+  },
+  {
+    "data": "10/09/2025",
+    "tipo": "PIX",
+    "descricao": "Pagamento mercado",
+    "valor": 85.0
+  }
+]
