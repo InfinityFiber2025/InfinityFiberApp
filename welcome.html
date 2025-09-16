@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bem-vindo</title>
+<link rel="stylesheet" href="style.css">
+<script>
+window.onload=function(){
+  let user=sessionStorage.getItem('usuario');
+  document.getElementById('msg').innerText="Bem-vindo ao Banco Digital Infinity Fiber, "+user+"!";
+  setTimeout(function(){window.location='dashboard.html';},3000);
+}
+</script>
+</head>
+<body>
+<header><h1>Carregando...</h1></header>
+<main style="padding:20px;text-align:center">
+  <h2 id="msg"></h2>
+  <p>Aguarde, estamos preparando sua conta.</p>
+</main>
+</body>
+</html>
