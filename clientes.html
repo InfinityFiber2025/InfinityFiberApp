@@ -1,19 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Clientes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Digital Infinity Fiber - Clientes</title>
   <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
-  <h2>👥 Cadastro de Clientes</h2>
-  <form>
-    <input type="text" placeholder="Nome completo"><br>
-    <input type="text" placeholder="CPF"><br>
-    <input type="email" placeholder="E-mail"><br>
-    <button class="btn">Salvar</button>
-  </form>
+  <header class="header">
+    <h2>Cadastro de Cliente</h2>
+    <button onclick="voltarDashboard()">⬅ Voltar</button>
+  </header>
+
+  <main class="main">
+    <form class="form">
+      <label>Nome Completo</label>
+      <input type="text" placeholder="Digite o nome completo">
+
+      <label>CPF</label>
+      <input type="text" placeholder="Digite o CPF">
+
+      <label>Email</label>
+      <input type="email" placeholder="Digite o email">
+
+      <label>Telefone</label>
+      <input type="text" placeholder="Digite o telefone">
+
+      <button type="button" onclick="alert('Cliente cadastrado (simulação)')">Cadastrar</button>
+    </form>
+  </main>
 </body>
 </html>

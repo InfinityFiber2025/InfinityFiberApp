@@ -21,3 +21,7 @@ function logout() {
 function voltarDashboard() {
   window.location.href = "dashboard.html";
 }
+
+function simularTransferencia() {
+  alert("Transferência realizada com sucesso (simulação).");
+}

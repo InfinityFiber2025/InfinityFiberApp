@@ -1,54 +1,34 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Transferir • Infinity Fiber</title>
-<link rel="stylesheet" href="style.css"><script defer src="app.js"></script>
-</head><body onload="transfLoad()">
-<div class="header">🔄 Transferir</div>
-<div class="container">
-  <div class="card">
-    <div class="tabs">
-      <button class="tab active">Contatos</button>
-      <button class="tab">Fazer Pix ou TED</button>
-      <button class="tab">Limites de uso</button>
-    </div>
-    <div class="search"><input id="search" class="input" placeholder="Buscar contato" onkeyup="filterContacts()"></div>
-    <div id="t_list"></div>
-  </div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Banco Digital Infinity Fiber - Transferência</title>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="header">
+    <h2>Transferência</h2>
+    <button onclick="voltarDashboard()">⬅ Voltar</button>
+  </header>
 
-  <div id="confirmBox" class="card hidden" style="margin-top:12px">
-    <div class="badge">Confirmar transferência</div>
-    <div class="row">
-      <div>
-        <div class="label">Favorecido</div>
-        <div id="conf_nome" class="muted"></div>
-      </div>
-      <div>
-        <div class="label">Tipo</div>
-        <select id="t_tipo" class="input"><option>PIX</option><option>TED</option></select>
-      </div>
-    </div>
-    <div class="row">
-      <div>
-        <div class="label">Banco</div><select id="t_banco" class="input"></select>
-      </div>
-      <div>
-        <div class="label">Agência</div><input id="t_ag" class="input" placeholder="0001">
-      </div>
-    </div>
-    <div class="row">
-      <div>
-        <div class="label">Conta</div><input id="t_cc" class="input" placeholder="453-5">
-      </div>
-      <div>
-        <div class="label">Chave PIX</div><input id="t_pix" class="input" placeholder="(opcional para PIX)">
-      </div>
-    </div>
-    <div class="label">Valor</div><input id="t_valor" class="input" type="number" min="0" step="0.01" placeholder="0,00">
-    <div style="margin-top:10px;display:flex;gap:8px">
-      <button class="btn" onclick="tEnviar()">Enviar</button>
-      <a class="btn ghost" href="transferencia.html">Cancelar</a>
-    </div>
-    <div class="small">Se o banco selecionado for <b>Infinity Banco Digital</b>, a agência e conta são preenchidas com <b>0001</b> e <b>453-5</b>.</div>
-  </div>
-</div>
-</body></html>
+  <main class="main">
+    <form class="form">
+      <label>Banco</label>
+      <input type="text" placeholder="Nome do banco">
+
+      <label>Agência</label>
+      <input type="text" placeholder="Número da agência">
+
+      <label>Conta</label>
+      <input type="text" placeholder="Número da conta">
+
+      <label>Valor</label>
+      <input type="number" placeholder="R$ 0,00">
+
+      <button type="button" onclick="simularTransferencia()">Enviar</button>
+    </form>
+  </main>
+</body>
+</html>

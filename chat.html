@@ -3,24 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Banco Digital Infinity Fiber - Cartões</title>
+  <title>Banco Digital Infinity Fiber - Atendimento</title>
   <link rel="stylesheet" href="style.css">
   <script src="script.js" defer></script>
 </head>
 <body>
   <header class="header">
-    <h2>Cartões</h2>
+    <h2>Atendimento ao Cliente</h2>
     <button onclick="voltarDashboard()">⬅ Voltar</button>
   </header>
 
   <main class="main">
-    <div class="card-virtual">
-      <h3>Cartão Virtual</h3>
-      <p>Número: **** **** **** 1234</p>
-      <p>Validade: 12/30</p>
-      <p>CVV: ***</p>
-      <button onclick="alert('Gerar novo cartão (simulação)')">Gerar novo cartão</button>
-    </div>
+    <textarea placeholder="Digite sua mensagem..." rows="5"></textarea>
+    <button onclick="alert('Mensagem enviada (simulação)')">Enviar</button>
   </main>
 </body>
 </html>
