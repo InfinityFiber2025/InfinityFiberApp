@@ -2,14 +2,14 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Extrato</title>
 <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body onload="carregarExtrato()">
+</head><body onload="mountHeader();loadExtrato()">
   <div class="container">
     <div class="header" data-header>
       <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
       <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
     </div>
     <div class="section">
-      <div class="kpi"><span class="pill">Últimos 7 dias</span><span class="pill">Filtrar • em breve</span></div>
+      <div class="kpi"><span class="pill">Últimos lançamentos</span></div>
       <table class="table">
         <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th></tr></thead>
         <tbody id="extrato-body"><tr><td colspan="4" class="small">Carregando...</td></tr></tbody>

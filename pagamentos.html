@@ -2,13 +2,12 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pagamentos</title>
 <link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body onload="carregarHistorico()">
+</head><body onload="mountHeader();carregarHistorico()">
   <div class="container">
     <div class="header" data-header>
       <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
       <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
     </div>
-
     <div class="section">
       <h3 style="margin:0 0 10px 0">Boleto</h3>
       <form class="form" onsubmit="event.preventDefault(); pagarBoleto()">
@@ -17,7 +16,6 @@
         <div class="actions"><button class="btn" type="submit">Pagar boleto</button></div>
       </form>
     </div>
-
     <div class="section">
       <h3 style="margin:0 0 10px 0">PIX</h3>
       <form class="form" onsubmit="event.preventDefault(); enviarPIX()">
@@ -26,21 +24,17 @@
         <div class="actions"><button class="btn" type="submit">Enviar PIX</button></div>
       </form>
     </div>
-
     <div class="section">
       <h3 style="margin:0 0 10px 0">QR Code</h3>
       <form class="form" onsubmit="event.preventDefault(); pagarQRCode()">
-        <label>Conteúdo do QR Code (simulação)</label><input id="qr-codigo" placeholder="Cole o conteúdo lido">
+        <label>Conteúdo do QR Code (simulação)</label><input id="qr-codigo" placeholder="Cole aqui o conteúdo">
         <div class="actions"><button class="btn" type="submit">Pagar via QR</button></div>
       </form>
     </div>
-
     <div class="section">
       <h3 style="margin:0 0 10px 0">Histórico</h3>
-      <table class="table">
-        <thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th></tr></thead>
-        <tbody id="hist-body"><tr><td colspan="4" class="small">Carregando...</td></tr></tbody>
-      </table>
+      <table class="table"><thead><tr><th>Data</th><th>Tipo</th><th>Descrição</th><th>Valor</th></tr></thead>
+      <tbody id="hist-body"><tr><td colspan="4" class="small">Carregando...</td></tr></tbody></table>
     </div>
   </div>
 </body></html>

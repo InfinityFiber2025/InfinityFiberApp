@@ -1,32 +1,48 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
+<!DOCTYPE html><html lang="pt-BR"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cartões</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header><h1>Cartões Disponíveis</h1></header>
-<main style="display:flex;flex-wrap:wrap;justify-content:center">
-  <div class="card blue">
-    <h2>Level</h2>
-    <p>Para movimentação até R$ 50 mil.</p>
-    <p>Benefícios: cashback 0,5%.</p>
-    <button>Solicitar</button>
+<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
+</head><body onload="mountHeader()">
+  <div class="container">
+    <div class="header" data-header>
+      <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
+      <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
+    </div>
+    <div class="section">
+      <h3 style="margin:0 0 10px 0">Escolha seu cartão</h3>
+      <div class="cards-grid">
+        <div class="card-option">
+          <div class="preview-card pc-blue">
+            <div class="top"><span class="brandmark">Banco Digital Infinity Fiber</span><span class="chip"></span></div>
+            <div class="number">1234 **** **** 5678</div>
+            <div class="row"><span>Daniel Kascher</span><span>VAL 04/30</span></div>
+            <div class="row"><span>Level</span><span class="logo">VISA</span></div>
+          </div>
+          <p class="small">Para movimentação até R$ 50 mil. Cashback 0,5%.</p>
+          <button class="btn" onclick="solicitarCartao('Level')">Solicitar</button>
+        </div>
+        <div class="card-option">
+          <div class="preview-card pc-purple">
+            <div class="top"><span class="brandmark">Banco Digital Infinity Fiber</span><span class="chip"></span></div>
+            <div class="number">4321 **** **** 8765</div>
+            <div class="row"><span>Daniel Kascher</span><span>VAL 10/31</span></div>
+            <div class="row"><span>Black</span><span class="logo">MASTERCARD</span></div>
+          </div>
+          <p class="small">Para movimentação até R$ 250 mil. Cashback 1,5%.</p>
+          <button class="btn" onclick="solicitarCartao('Black')">Solicitar</button>
+        </div>
+        <div class="card-option">
+          <div class="preview-card pc-black">
+            <div class="top"><span class="brandmark">Banco Digital Infinity Fiber</span><span class="chip"></span></div>
+            <div class="number">5555 **** **** 9999</div>
+            <div class="row"><span>Daniel Kascher</span><span>VAL 12/33</span></div>
+            <div class="row"><span>Unlimited</span><span class="logo">VISA</span></div>
+          </div>
+          <p class="small">Para movimentação acima de R$ 250 mil. Cashback 3% + VIP.</p>
+          <button class="btn" onclick="solicitarCartao('Unlimited')">Solicitar</button>
+        </div>
+      </div>
+      <div id="card-render" style="margin-top:14px"></div>
+    </div>
   </div>
-  <div class="card purple">
-    <h2>Black</h2>
-    <p>Para movimentação até R$ 250 mil.</p>
-    <p>Benefícios: cashback 1,5%.</p>
-    <button>Solicitar</button>
-  </div>
-  <div class="card black">
-    <h2>Unlimited</h2>
-    <p>Para movimentação acima de R$ 250 mil.</p>
-    <p>Benefícios: cashback 3%, acesso VIP.</p>
-    <button>Solicitar</button>
-  </div>
-</main>
-</body>
-</html>
+</body></html>
