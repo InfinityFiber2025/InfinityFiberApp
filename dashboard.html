@@ -1,26 +1,21 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Banco Digital Infinity Fiber — Dashboard</title>
-<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body>
-  <div class="container">
-    <div class="header" data-header>
-      <h1 data-brand></h1>
-      <div class="badge" data-acct></div>
-      <div class="saldo" data-saldo></div>
-      <button class="btn danger" onclick="logout()">Sair</button>
-    </div>
-    <div class="section">
-      <div class="grid">
-        <button class="btn" onclick="go('extrato.html')">💰 Saldo / Extrato</button>
-        <button class="btn" onclick="go('transferencia.html')">💸 Transferir (TED/PIX)</button>
-        <button class="btn" onclick="go('pagamentos.html')">🧾 Pagamentos (Boleto/PIX/QR)</button>
-        <button class="btn" onclick="go('cartoes.html')">💳 Cartões (Virtuais)</button>
-        <button class="btn" onclick="go('emprestimos.html')">💼 Empréstimos</button>
-        <button class="btn" onclick="go('investimentos.html')">📈 Investimentos</button>
-        <button class="btn" onclick="go('notificacoes.html')">🔔 Notificações</button>
-        <button class="btn" onclick="go('configuracoes.html')">⚙️ Configurações</button>
-      </div>
-    </div>
-  </div>
-</body></html>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Dashboard</title>
+<link rel="stylesheet" href="style.css">
+<script>
+window.onload=function(){
+  document.getElementById('info').innerText = sessionStorage.getItem('banco')+" - Agência "+sessionStorage.getItem('agencia')+" | Saldo: R$ "+Number(sessionStorage.getItem('saldo')).toLocaleString('pt-BR');
+}
+</script>
+</head>
+<body>
+<header><h1>Dashboard</h1></header>
+<div style="padding:20px;text-align:center">
+  <div id="info"></div><br>
+  <a href="cartoes.html"><button>Cartões</button></a>
+</div>
+</body>
+</html>

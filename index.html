@@ -1,24 +1,21 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Banco Digital Infinity Fiber — Login</title>
-<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body>
-  <div class="container">
-    <div class="card" style="max-width:420px;margin:40px auto">
-      <h2 style="margin:0 0 12px 0">Acessar sua conta</h2>
-      <form class="form" onsubmit="loginSubmit(event)">
-        <label>Usuário</label>
-        <input id="user" placeholder="Digite seu usuário">
-        <label>Senha</label>
-        <div style="display:flex; gap:8px; align-items:center">
-          <input id="pass" type="password" placeholder="Digite sua senha" style="flex:1">
-          <button type="button" id="btnToggle" class="btn secondary" style="width:auto;padding:10px" onclick="toggleSenha('pass','btnToggle')">Mostrar senha</button>
-        </div>
-        <div class="actions">
-          <button class="btn" type="submit">Entrar</button>
-        </div>
-      </form>
-    </div>
-    <div class="footer">Preparação para Integração Bancária</div>
-  </div>
-</body></html>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Banco Digital v4.1.1</title>
+<link rel="stylesheet" href="style.css">
+<script src="script.js"></script>
+</head>
+<body>
+<header><h1>Banco Digital Infinity Fiber</h1></header>
+<main style="padding:20px;text-align:center">
+  <h2>Login</h2>
+  <input type="text" id="usuario" placeholder="Usuário"><br><br>
+  <input type="password" id="senha" placeholder="Senha">
+  <button onclick="toggleSenha()">👁 Mostrar</button><br><br>
+  <button onclick="login()">Entrar</button>
+</main>
+<footer>Preparação para Integração Bancária</footer>
+</body>
+</html>

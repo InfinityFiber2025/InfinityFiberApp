@@ -1,16 +1,32 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
 <title>Cartões</title>
-<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body>
-  <div class="container">
-    <div class="header" data-header>
-      <h1 data-brand></h1><div class="badge" data-acct></div><div class="saldo" data-saldo></div>
-      <button class="btn secondary" onclick="back()" style="width:auto">⟵ Voltar</button>
-    </div>
-    <div class="section">
-      <div id="cartao" class="card-virtual" style="background:linear-gradient(135deg,#0a5bd8,#083a93)">Clique em "Gerar novo cartão"</div>
-      <div class="actions" style="justify-content:center"><button class="btn" onclick="gerarCartao()">Gerar novo cartão</button></div>
-    </div>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><h1>Cartões Disponíveis</h1></header>
+<main style="display:flex;flex-wrap:wrap;justify-content:center">
+  <div class="card blue">
+    <h2>Level</h2>
+    <p>Para movimentação até R$ 50 mil.</p>
+    <p>Benefícios: cashback 0,5%.</p>
+    <button>Solicitar</button>
   </div>
-</body></html>
+  <div class="card purple">
+    <h2>Black</h2>
+    <p>Para movimentação até R$ 250 mil.</p>
+    <p>Benefícios: cashback 1,5%.</p>
+    <button>Solicitar</button>
+  </div>
+  <div class="card black">
+    <h2>Unlimited</h2>
+    <p>Para movimentação acima de R$ 250 mil.</p>
+    <p>Benefícios: cashback 3%, acesso VIP.</p>
+    <button>Solicitar</button>
+  </div>
+</main>
+</body>
+</html>
