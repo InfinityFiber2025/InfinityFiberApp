@@ -1,51 +1,23 @@
 body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  margin-top: 50px;
-  background: linear-gradient(180deg, #004aad, #001f4d);
-  color: white;
-}
-
-@keyframes fadeIn {
-  0% { opacity: 0; transform: translateY(-30px); }
-  100% { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes typewriterBlink {
-  50% { border-color: transparent; }
-}
-
-.logo {
-  width: 120px;
-  margin-bottom: 20px;
-  opacity: 0;
-  animation: fadeIn 2s ease-in-out forwards;
-}
-
-.welcome-message {
-  font-size: 26px;
-  font-weight: bold;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
   color: #fff;
-  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-  border-right: 2px solid #0ff;
-  white-space: nowrap;
-  overflow: hidden;
+  background: linear-gradient(180deg, #004aad, #001f4d);
+  min-height: 100vh;
+  text-align: center;
 }
-
-nav {
-  margin: 20px;
+.logo { width: 120px; margin: 20px auto; display: block; animation: fadeIn 2s ease; }
+@keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
+.welcome-message {
+  font-size: 26px; font-weight: 700; text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
+  border-right: 2px solid #0ff; white-space: nowrap; overflow: hidden;
 }
-
-nav button {
-  margin: 5px;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 8px;
-  background-color: #0ff;
-  color: #000;
-  cursor: pointer;
-}
-
-nav button:hover {
-  background-color: #00c3ff;
-}
+.btn { background:#00e5ff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin:5px; }
+.toolbar { margin: 20px; }
+.content { padding: 20px; text-align:left; }
+.modal { position:fixed; inset:0; display:none; background:rgba(0,0,0,.6); align-items:center; justify-content:center; }
+.modal[aria-hidden="false"]{display:flex;}
+.modal-content{background:#0b1c3a; padding:20px; border-radius:12px; max-width:600px; width:100%; color:#fff;}
+.modal-close{position:absolute; right:20px; top:10px; background:none; color:#fff; border:none; font-size:20px; cursor:pointer;}
+.camera-area{position:fixed; inset:0; background:#000c; display:flex; flex-direction:column; align-items:center; justify-content:center;}
+#video{width:300px; border-radius:10px;}
