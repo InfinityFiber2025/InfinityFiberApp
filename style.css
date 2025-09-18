@@ -21,4 +21,3 @@ body {
 ul { list-style:none; padding:0; }
 ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; cursor:pointer; }
 ul li:hover { background:#234; }
-.foto-preview { width:100px; height:100px; object-fit:cover; border-radius:50%; border:2px solid #00e5ff; margin:10px auto; display:block; }
