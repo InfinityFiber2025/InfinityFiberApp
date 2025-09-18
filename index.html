@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Banco Digital Infinity Fiber — v4.2.0 (Protótipo)</title>
+  <title>Banco Digital Infinity Fiber — v4.2.1 (Protótipo)</title>
   <link rel="stylesheet" href="style.css" />
-  <script defer src="https://cdn.jsdelivr.net/npm/face-api.js@0.22.2/dist/face-api.min.js"></script>
   <script defer src="app.js"></script>
 </head>
 <body>
@@ -18,32 +17,11 @@
 
   <div id="app" style="display:none;">
     <header class="topbar">
-      <h2>Infinity Fiber Digital — v4.2.0 (Protótipo separado)</h2>
+      <button class="back-btn" onclick="voltarDashboard()">⬅</button>
+      <h2 id="titulo">Infinity Fiber Digital</h2>
     </header>
 
-    <nav class="toolbar">
-      <button class="btn" onclick="abrirDashboard()">Dashboard</button>
-      <button class="btn" onclick="abrirClientes()">Clientes</button>
-      <button class="btn" onclick="abrirTransferencia()">Transferência</button>
-    </nav>
-
     <main id="conteudo" class="content"></main>
-  </div>
-
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-content">
-      <button class="modal-close" onclick="fecharModal()">×</button>
-      <div id="modal-body"></div>
-    </div>
-  </div>
-
-  <div id="camera-area" class="camera-area" style="display:none;">
-    <video id="video" autoplay playsinline></video>
-    <div class="camera-actions">
-      <button class="btn" onclick="capturarFrame()">Capturar</button>
-      <button class="btn btn-secondary" onclick="pararCamera()">Cancelar</button>
-    </div>
-    <canvas id="canvas" style="display:none;"></canvas>
   </div>
 </body>
 </html>

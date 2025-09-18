@@ -1,23 +1,21 @@
 body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  color: #fff;
+  margin: 0; font-family: Arial, Helvetica, sans-serif;
   background: linear-gradient(180deg, #004aad, #001f4d);
-  min-height: 100vh;
-  text-align: center;
+  color: #fff; min-height: 100vh;
 }
-.logo { width: 120px; margin: 20px auto; display: block; animation: fadeIn 2s ease; }
+#welcome { text-align:center; padding:60px 16px; }
+.logo { width:120px; margin-bottom:20px; animation: fadeIn 2s ease; }
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-.welcome-message {
-  font-size: 26px; font-weight: 700; text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
-  border-right: 2px solid #0ff; white-space: nowrap; overflow: hidden;
-}
-.btn { background:#00e5ff; border:none; padding:10px 20px; border-radius:8px; cursor:pointer; margin:5px; }
-.toolbar { margin: 20px; }
-.content { padding: 20px; text-align:left; }
-.modal { position:fixed; inset:0; display:none; background:rgba(0,0,0,.6); align-items:center; justify-content:center; }
-.modal[aria-hidden="false"]{display:flex;}
-.modal-content{background:#0b1c3a; padding:20px; border-radius:12px; max-width:600px; width:100%; color:#fff;}
-.modal-close{position:absolute; right:20px; top:10px; background:none; color:#fff; border:none; font-size:20px; cursor:pointer;}
-.camera-area{position:fixed; inset:0; background:#000c; display:flex; flex-direction:column; align-items:center; justify-content:center;}
-#video{width:300px; border-radius:10px;}
+.welcome-message { font-size:24px; font-weight:700; text-shadow:0 0 5px #0ff,0 0 10px #0ff; border-right:2px solid #0ff; white-space:nowrap; overflow:hidden; }
+.btn { background:#00e5ff; color:#002233; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:700; margin-top:15px; }
+.btn:hover { filter:brightness(1.1); }
+.topbar { display:flex; align-items:center; background:#002244aa; padding:10px; }
+.back-btn { background:none; border:none; color:#fff; font-size:20px; cursor:pointer; margin-right:10px; }
+.content { padding:20px; }
+.card-grid { display:grid; gap:16px; grid-template-columns: repeat(auto-fit,minmax(150px,1fr)); margin-top:20px; }
+.card { background:#0b1c3a; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:20px; text-align:center; cursor:pointer; }
+.card:hover { background:#123; }
+.card-icon { font-size:32px; margin-bottom:10px; }
+.form { display:grid; gap:12px; max-width:400px; margin:auto; }
+.form label { display:block; font-weight:bold; margin-bottom:4px; }
+.form input,.form select { width:100%; padding:8px; border-radius:8px; border:none; }

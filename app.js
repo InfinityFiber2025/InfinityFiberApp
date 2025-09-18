@@ -1,30 +1,107 @@
-const modelosPath = './models';
-let streamGlobal = null;
-let clienteSelecionadoParaFoto = null;
+let telaAtual = 'dashboard';
 
-const clientes = [
-  { nome:"Infinity Fiber Digital", endereco:"Av. Padrão, 1000 - Centro - RJ", cpf:"00.000.000/0000-00", banco:"Infinity Fiber Bank", agencia:"0001", conta:"000000-1", pix:"contato@infinityfiber.com", email:"contato@infinityfiber.com", foto:null },
-  { nome:"Maria Thereza Caldas Braga", endereco:"Rua Silvério de Medeiros 140 - Moura Brasil - Três Rios - RJ CEP: 25821-470", cpf:"08819784777", banco:"Banco do Brasil", agencia:"315-8", conta:"55194-5", foto:null },
-  { nome:"Gustavo Caldas Braga", endereco:"Rua Silvério Medeiros 140 - Moura Brasil - Três Rios - RJ CEP: 25.821.470", cpf:"006.259.017.03", identidade:"08.492.475-2 Detran", banco:"Santander", agencia:"3752", conta:"01074998-7", pix:"00625901703 (CPF)", foto:null },
-  { nome:"Daniel Braga Kascher", endereco:"Rua Engenheiro Zoroastro Torres 196/301 - Santo Antonio - BH- MG CEP: 30350-260", cpf:"05379292666", identidade:"9341874", banco:"Banco do Brasil", agencia:"3857-1", conta:"107977-8", pix:"danielkascher@hotmail.com", email:"danielkascher@hotmail.com", foto:null }
-];
-
-function typeWriterEffect(id,text,speed=70){let i=0;function step(){if(i<text.length){document.getElementById(id).textContent+=text.charAt(i);i++;setTimeout(step,speed);}}step();}
+function typeWriterEffect(id, text, speed=70){ let i=0; function step(){ if(i<text.length){ document.getElementById(id).textContent += text.charAt(i); i++; setTimeout(step,speed);} } step(); }
 window.onload=()=>{typeWriterEffect("typewriter","Bem-vindo ao Banco Digital Infinity Fiber");};
 
-function entrar(){document.getElementById("welcome").style.display="none";document.getElementById("app").style.display="block";abrirClientes();}
+function entrar(){ document.getElementById("welcome").style.display="none"; document.getElementById("app").style.display="block"; abrirDashboard(); }
 
-function abrirClientes(){const ctn=document.getElementById("conteudo");ctn.innerHTML="<h3>Clientes</h3>"+clientes.map((c,i)=>`<div><b>${c.nome}</b> - ${c.banco} <button onclick="abrirFicha(${i})">Abrir</button></div>`).join("");}
+function voltarDashboard(){ abrirDashboard(); }
 
-function abrirFicha(i){const c=clientes[i];const foto=c.foto?`<img src="${c.foto}" width="100"/>`:"(sem foto)";const html=`<h3>${c.nome}</h3><p>${c.endereco}</p><p>CPF:${c.cpf}</p><p>Banco:${c.banco} Ag:${c.agencia} Conta:${c.conta}</p><p>Pix:${c.pix||""}</p><p>Email:${c.email||""}</p><div>${foto}</div><button onclick="capturar(${i})">Capturar Foto</button><button onclick="abrirTransferencia(${i})">Transferência</button>`;abrirModal(html);}
+function abrirDashboard(){
+  telaAtual='dashboard';
+  document.getElementById("titulo").textContent="Infinity Fiber Digital";
+  document.getElementById("conteudo").innerHTML=`
+    <div style="text-align:center;">
+      <h3>Saldo disponível</h3>
+      <p style="font-size:28px; font-weight:bold;">R$ 50.000,00</p>
+    </div>
+    <div class="card-grid">
+      <div class="card" onclick="abrirClientes()">
+        <div class="card-icon">👤</div>
+        <div>Clientes</div>
+      </div>
+      <div class="card" onclick="abrirTransferencia()">
+        <div class="card-icon">💸</div>
+        <div>Transferência</div>
+      </div>
+      <div class="card" onclick="abrirPagamentos()">
+        <div class="card-icon">📷</div>
+        <div>Pagamentos</div>
+      </div>
+    </div>`;
+}
 
-function abrirModal(html){document.getElementById("modal-body").innerHTML=html;document.getElementById("modal").setAttribute("aria-hidden","false");}
-function fecharModal(){document.getElementById("modal").setAttribute("aria-hidden","true");}
+// CLIENTES
+function abrirClientes(){
+  telaAtual='clientes';
+  document.getElementById("titulo").textContent="Clientes";
+  document.getElementById("conteudo").innerHTML=`
+    <h3>Lista de Clientes</h3>
+    <ul>
+      <li>Infinity Fiber Digital</li>
+      <li>Maria Thereza Caldas Braga</li>
+      <li>Gustavo Caldas Braga</li>
+      <li>Daniel Braga Kascher</li>
+    </ul>`;
+}
 
-async function capturar(i){clienteSelecionadoParaFoto=i;await iniciarCamera();document.getElementById("camera-area").style.display="flex";}
-async function iniciarCamera(){streamGlobal=await navigator.mediaDevices.getUserMedia({video:true});document.getElementById("video").srcObject=streamGlobal;}
-function pararCamera(){if(streamGlobal){streamGlobal.getTracks().forEach(t=>t.stop());}document.getElementById("camera-area").style.display="none";}
-function capturarFrame(){const v=document.getElementById("video");const c=document.getElementById("canvas");c.width=v.videoWidth;c.height=v.videoHeight;const ctx=c.getContext("2d");ctx.drawImage(v,0,0);const data=c.toDataURL();clientes[clienteSelecionadoParaFoto].foto=data;alert("Foto capturada!");pararCamera();}
+// TRANSFERÊNCIA
+function abrirTransferencia(){
+  telaAtual='transferencia';
+  document.getElementById("titulo").textContent="Transferência";
+  document.getElementById("conteudo").innerHTML=`
+    <form class="form" onsubmit="event.preventDefault(); simularTransferencia();">
+      <div>
+        <label>Tipo</label>
+        <select id="tipo">
+          <option>PIX</option>
+          <option>TED</option>
+          <option>DOC</option>
+        </select>
+      </div>
+      <div>
+        <label>Destinatário</label>
+        <select id="cliente">
+          <option>Infinity Fiber Digital</option>
+          <option>Maria Thereza Caldas Braga</option>
+          <option>Gustavo Caldas Braga</option>
+          <option>Daniel Braga Kascher</option>
+        </select>
+      </div>
+      <div>
+        <label>Valor</label>
+        <input type="number" id="valor" placeholder="Ex: 500.00" />
+      </div>
+      <button class="btn" type="submit">Enviar</button>
+      <p id="mensagem"></p>
+    </form>`;
+}
 
-function abrirTransferencia(i){fecharModal();const ctn=document.getElementById("conteudo");ctn.innerHTML=`<h3>Transferência</h3><label>Cliente:<select id="dest">${clientes.map((c,j)=>`<option value="${j}">${c.nome}</option>`).join("")}</select></label><br><label>Tipo:<select id="tipo"><option>PIX</option><option>TED</option><option>DOC</option></select></label><br><label>Valor:<input id="valor" type="number"/></label><br><button onclick="processar()">Enviar</button><p id="msg"></p>`;}
-function processar(){const iDest=parseInt(document.getElementById("dest").value);const tipo=document.getElementById("tipo").value;const valor=parseFloat(document.getElementById("valor").value);const msg=document.getElementById("msg");if(!valor||valor<=0){msg.textContent="Valor inválido";return;}const agora=new Date();const h=agora.getHours(),d=agora.getDay();if(tipo==="PIX"){msg.textContent=`PIX de R$${valor} enviado para ${clientes[iDest].nome}`;return;}if(d===0||d===6||h<8||h>17){msg.textContent=`Transferência ${tipo} agendada`;return;}msg.textContent=`Transferência ${tipo} de R$${valor} realizada para ${clientes[iDest].nome}`;}
+function simularTransferencia(){
+  const tipo=document.getElementById("tipo").value;
+  const cliente=document.getElementById("cliente").value;
+  const valor=parseFloat(document.getElementById("valor").value||0);
+  const msg=document.getElementById("mensagem");
+  if(!(valor>0)){ msg.textContent="Informe um valor válido."; return; }
+  const agora=new Date(); const h=agora.getHours(); const d=agora.getDay();
+  if(tipo==="PIX"){ msg.textContent=`PIX de R$${valor.toFixed(2)} realizado com sucesso para ${cliente}`; return; }
+  if(d===0||d===6||h<8||h>17){ msg.textContent=`Transferência ${tipo} agendada para o próximo dia útil.`; }
+  else{ msg.textContent=`Transferência ${tipo} de R$${valor.toFixed(2)} realizada com sucesso para ${cliente}`; }
+}
+
+// PAGAMENTOS
+function abrirPagamentos(){
+  telaAtual='pagamentos';
+  document.getElementById("titulo").textContent="Pagamentos";
+  document.getElementById("conteudo").innerHTML=`
+    <div class="card-grid">
+      <div class="card" onclick="alert('Gerar QR Code ainda em desenvolvimento')">
+        <div class="card-icon">🔳</div>
+        <div>Gerar QR Code</div>
+      </div>
+      <div class="card" onclick="alert('Ler QR Code ainda em desenvolvimento')">
+        <div class="card-icon">📷</div>
+        <div>Ler QR Code</div>
+      </div>
+    </div>`;
+}
