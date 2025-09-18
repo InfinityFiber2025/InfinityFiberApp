@@ -6,6 +6,7 @@ body {
 .logo-svg { display:flex; justify-content:center; margin:40px 0 20px; }
 .welcome-message { text-align:center; font-size:24px; font-weight:700; margin-bottom:20px; }
 .btn { background:#00e5ff; color:#002233; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:700; margin:10px; }
+.btn.small { padding:8px 12px; font-size:14px; }
 .btn:hover { filter:brightness(1.1); }
 .topbar { display:flex; align-items:center; background:#002244aa; padding:10px; }
 .back-btn { background:none; border:none; color:#fff; font-size:20px; cursor:pointer; margin-right:10px; }
@@ -14,13 +15,18 @@ body {
 .card { background:#0b1c3a; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:20px; text-align:center; cursor:pointer; }
 .card:hover { background:#123; }
 .card-icon { font-size:32px; margin-bottom:10px; }
-.form { display:grid; gap:12px; max-width:420px; margin:auto; }
+.form { display:grid; gap:12px; max-width:480px; margin:auto; }
 .form label { display:block; font-weight:bold; margin-bottom:4px; }
 .form input,.form select,.form textarea { width:100%; padding:10px; border-radius:10px; border:none; }
 .login-options { text-align:center; }
 ul { list-style:none; padding:0; }
 ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; }
 .table { width:100%; border-collapse:collapse; margin-top:12px; }
-.table th,.table td { border-bottom:1px solid rgba(255,255,255,.1); padding:8px; text-align:left; }
+.table th,.table td { border-bottom:1px solid rgba(255,255,255,.1); padding:10px; text-align:left; }
 .badge { padding:2px 8px; border-radius:999px; background:#003b8e; font-size:12px; }
 input[disabled] { opacity:.8; }
+.row { display:flex; flex-wrap:wrap; gap:16px; }
+.col { flex:1 1 260px; background:#0b1c3a; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:16px; }
+.label { font-size:12px; opacity:.8; }
+.value { font-weight:700; margin-bottom:8px; }
+.linklike { color:#00e5ff; cursor:pointer; text-decoration:underline; }
