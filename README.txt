@@ -1,10 +1,6 @@
-Protótipo v4.4 — Infinity Fiber Digital
-Integração completa com:
-- Administrador fixo: usuário DanielKascher, senha K@scher123.
-- Clientes: cadastro com nome, email, CPF, Pix e foto.
-- Banco fixo: Banco 01, Agência 0001.
-- Conta corrente gerada automaticamente.
-- Senha automática enviada por email (simulado).
-- Login cliente com email + senha.
-- Dashboard com cards para Clientes, Transferência e Pagamentos.
-- Logotipo SVG de infinito estilizado incluso.
+Protótipo v4.5 — Infinity Fiber Digital
+Novidades:
+- Administrador pode criar e gerenciar clientes direto do painel do banco.
+- Nova opção "➕ Criar novo cliente" em Gerenciar Clientes (Admin).
+- Cadastro de cliente gera conta sequencial, agência 0001, senha automática.
+- Relatórios (Admin) mantido como área em branco para evoluir depois.
