@@ -1,22 +1,38 @@
-<!DOCTYPE html><html lang="pt-BR"><head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Banco Digital Infinity Fiber — Login</title>
-<link rel="stylesheet" href="style.css"><script defer src="script.js"></script>
-</head><body>
-  <div class="container">
-    <div class="card" style="max-width:420px;margin:40px auto">
-      <h2 style="margin:0 0 12px 0">Acessar sua conta</h2>
-      <form class="form" onsubmit="loginSubmit(event)">
-        <label>Usuário</label>
-        <input id="user" placeholder="Digite seu usuário">
-        <label>Senha</label>
-        <div style="display:flex; gap:8px; align-items:center">
-          <input id="pass" type="password" placeholder="Digite sua senha" style="flex:1">
-          <button type="button" id="btnToggle" class="btn secondary" style="width:auto;padding:10px" onclick="toggleSenha('pass','btnToggle')">Mostrar senha</button>
-        </div>
-        <div class="actions"><button class="btn" type="submit">Entrar</button></div>
-      </form>
-    </div>
-    <div class="footer">Preparação para Integração Bancária</div>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Banco Digital Infinity Fiber</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="welcome">
+    <h1 class="welcome-message">Bem-vindo ao Banco Digital Infinity Fiber</h1>
+    <p>Carregando dinamicamente...</p>
+    <button onclick="entrar()">Entrar</button>
   </div>
-</body></html>
+
+  <div id="app" style="display:none;">
+    <h2>Painel do Banco</h2>
+    <div id="clientes"></div>
+    <div>
+      <h3>Transferência</h3>
+      <select id="cliente">
+        <option value="1">Maria Souza</option>
+        <option value="2">João Pereira</option>
+        <option value="3">Daniel Kascher</option>
+      </select>
+      <select id="tipo">
+        <option value="PIX">PIX</option>
+        <option value="TED">TED</option>
+        <option value="DOC">DOC</option>
+      </select>
+      <input type="number" id="valor" placeholder="Valor">
+      <button onclick="transferir()">Enviar</button>
+    </div>
+    <p id="mensagem"></p>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
