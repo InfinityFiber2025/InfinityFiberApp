@@ -3,16 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Banco Digital Infinity Fiber — v4.2.2 (Protótipo)</title>
+  <title>Banco Digital Infinity Fiber — v4.3.0 (Protótipo)</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="app.js"></script>
 </head>
 <body>
-  <div id="welcome">
+  <div id="loginTela">
     <img src="logo.png" alt="Infinity Fiber Logo" class="logo" />
-    <h1 id="typewriter" class="welcome-message"></h1>
-    <p>Carregando dinamicamente...</p>
-    <button class="btn" onclick="entrar()">Entrar</button>
+    <h1 class="welcome-message">Banco Digital Infinity Fiber</h1>
+    <div class="login-options">
+      <button class="btn" onclick="abrirLogin()">Já sou cliente</button>
+      <button class="btn" onclick="abrirCadastro()">Não sou cliente</button>
+    </div>
   </div>
 
   <div id="app" style="display:none;">
@@ -20,7 +22,6 @@
       <button class="back-btn" onclick="voltarDashboard()">⬅</button>
       <h2 id="titulo">Infinity Fiber Digital</h2>
     </header>
-
     <main id="conteudo" class="content"></main>
   </div>
 </body>

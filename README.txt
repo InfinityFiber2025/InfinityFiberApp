@@ -1,6 +1,8 @@
-Protótipo v4.2.2 — Infinity Fiber Digital
-Fluxo aprimorado:
-- Aba Clientes: lista de clientes cadastrados. Ao clicar, abre transferência já preenchida.
-- Aba Transferência: para novos clientes. Após enviar, opção de salvar no cadastro.
-- Cadastro dinâmico: novos clientes passam a aparecer na aba Clientes.
-- Mantido layout em cards com ícones, botão de voltar e tela de Pagamentos separada.
+Protótipo v4.3.0 — Infinity Fiber Digital
+Evolução do fluxo de login/cadastro:
+- Tela inicial com duas opções: Já sou cliente (login) e Não sou cliente (cadastro).
+- Cadastro com Nome, Email, CPF, Banco, Agência, Conta, Pix e Foto.
+- Senha gerada automaticamente e "enviada por email" (simulada).
+- Login passa a ser Email + Senha.
+- Clientes exibem foto no cadastro.
+- Transferência para novos clientes continua disponível no menu.

@@ -3,11 +3,10 @@ body {
   background: linear-gradient(180deg, #004aad, #001f4d);
   color: #fff; min-height: 100vh;
 }
-#welcome { text-align:center; padding:60px 16px; }
-.logo { width:120px; margin-bottom:20px; animation: fadeIn 2s ease; }
+.logo { width:120px; display:block; margin:40px auto 20px; animation: fadeIn 2s ease; }
 @keyframes fadeIn { from {opacity:0;} to {opacity:1;} }
-.welcome-message { font-size:24px; font-weight:700; text-shadow:0 0 5px #0ff,0 0 10px #0ff; border-right:2px solid #0ff; white-space:nowrap; overflow:hidden; }
-.btn { background:#00e5ff; color:#002233; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:700; margin-top:15px; }
+.welcome-message { text-align:center; font-size:24px; font-weight:700; margin-bottom:20px; }
+.btn { background:#00e5ff; color:#002233; border:none; padding:12px 20px; border-radius:10px; cursor:pointer; font-weight:700; margin:10px; }
 .btn:hover { filter:brightness(1.1); }
 .topbar { display:flex; align-items:center; background:#002244aa; padding:10px; }
 .back-btn { background:none; border:none; color:#fff; font-size:20px; cursor:pointer; margin-right:10px; }
@@ -19,6 +18,8 @@ body {
 .form { display:grid; gap:12px; max-width:400px; margin:auto; }
 .form label { display:block; font-weight:bold; margin-bottom:4px; }
 .form input,.form select { width:100%; padding:8px; border-radius:8px; border:none; }
+.login-options { text-align:center; }
 ul { list-style:none; padding:0; }
 ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; cursor:pointer; }
 ul li:hover { background:#234; }
+.foto-preview { width:100px; height:100px; object-fit:cover; border-radius:50%; border:2px solid #00e5ff; margin:10px auto; display:block; }
