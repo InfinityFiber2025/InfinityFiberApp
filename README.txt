@@ -1,8 +1,10 @@
-Protótipo v4.3.0 — Infinity Fiber Digital
-Evolução do fluxo de login/cadastro:
-- Tela inicial com duas opções: Já sou cliente (login) e Não sou cliente (cadastro).
-- Cadastro com Nome, Email, CPF, Banco, Agência, Conta, Pix e Foto.
-- Senha gerada automaticamente e "enviada por email" (simulada).
-- Login passa a ser Email + Senha.
-- Clientes exibem foto no cadastro.
-- Transferência para novos clientes continua disponível no menu.
+Protótipo v4.4 — Infinity Fiber Digital
+Integração completa com:
+- Administrador fixo: usuário DanielKascher, senha K@scher123.
+- Clientes: cadastro com nome, email, CPF, Pix e foto.
+- Banco fixo: Banco 01, Agência 0001.
+- Conta corrente gerada automaticamente.
+- Senha automática enviada por email (simulado).
+- Login cliente com email + senha.
+- Dashboard com cards para Clientes, Transferência e Pagamentos.
+- Logotipo SVG de infinito estilizado incluso.

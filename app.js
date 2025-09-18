@@ -1,14 +1,40 @@
-let clientes = [
-  {nome:"Infinity Fiber Digital", email:"infinity@fiber.com", senha:"123456", banco:"Banco Infinity", agencia:"0001", conta:"12345-6", pix:"infinity@fiber.com", foto:null}
-];
+let clientes = [];
+let nextConta=1;
 
 let usuarioLogado=null;
+let tipoLogado=null; // "admin" ou "cliente"
 
-// Abrir Login
-function abrirLogin(){
+// Abrir Login Admin
+function abrirLoginAdmin(){
   document.getElementById("loginTela").innerHTML=`
-    <h2 style='text-align:center'>Login</h2>
-    <form class="form" onsubmit="event.preventDefault(); login()">
+    <h2 style='text-align:center'>Login Administrador</h2>
+    <form class="form" onsubmit="event.preventDefault(); loginAdmin()">
+      <div><label>Usuário</label><input id="adminUser" required /></div>
+      <div><label>Senha</label><input type="password" id="adminPass" required /></div>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+    <p style='text-align:center;'><button class="btn" onclick="location.reload()">Voltar</button></p>
+  `;
+}
+function loginAdmin(){
+  const user=document.getElementById("adminUser").value;
+  const pass=document.getElementById("adminPass").value;
+  if(user==="DanielKascher" && pass==="K@scher123"){
+    usuarioLogado={nome:"Administrador DanielKascher"};
+    tipoLogado="admin";
+    document.getElementById("loginTela").style.display="none";
+    document.getElementById("app").style.display="block";
+    abrirDashboard();
+  } else {
+    alert("Usuário ou senha inválidos para administrador.");
+  }
+}
+
+// Abrir Login Cliente
+function abrirLoginCliente(){
+  document.getElementById("loginTela").innerHTML=`
+    <h2 style='text-align:center'>Login Cliente</h2>
+    <form class="form" onsubmit="event.preventDefault(); loginCliente()">
       <div><label>Email</label><input id="loginEmail" required /></div>
       <div><label>Senha</label><input type="password" id="loginSenha" required /></div>
       <button class="btn" type="submit">Entrar</button>
@@ -16,33 +42,29 @@ function abrirLogin(){
     <p style='text-align:center;'><button class="btn" onclick="location.reload()">Voltar</button></p>
   `;
 }
-
-// Login
-function login(){
+function loginCliente(){
   const email=document.getElementById("loginEmail").value;
   const senha=document.getElementById("loginSenha").value;
   const cliente=clientes.find(c=>c.email===email && c.senha===senha);
   if(cliente){
     usuarioLogado=cliente;
+    tipoLogado="cliente";
     document.getElementById("loginTela").style.display="none";
     document.getElementById("app").style.display="block";
     abrirDashboard();
   } else {
-    alert("Usuário ou senha inválidos.");
+    alert("Email ou senha inválidos.");
   }
 }
 
-// Abrir Cadastro
+// Cadastro Cliente
 function abrirCadastro(){
   document.getElementById("loginTela").innerHTML=`
-    <h2 style='text-align:center'>Cadastro</h2>
+    <h2 style='text-align:center'>Cadastro de Cliente</h2>
     <form class="form" onsubmit="event.preventDefault(); cadastrarCliente()">
       <div><label>Nome</label><input id="cadNome" required /></div>
       <div><label>Email</label><input id="cadEmail" type="email" required /></div>
       <div><label>CPF</label><input id="cadCPF" required /></div>
-      <div><label>Banco</label><input id="cadBanco" required /></div>
-      <div><label>Agência</label><input id="cadAgencia" required /></div>
-      <div><label>Conta</label><input id="cadConta" required /></div>
       <div><label>Pix</label><input id="cadPix" /></div>
       <div>
         <label>Foto</label>
@@ -55,7 +77,6 @@ function abrirCadastro(){
   `;
 }
 
-// Preview foto
 function previewFoto(event){
   const file=event.target.files[0];
   if(file){
@@ -69,21 +90,19 @@ function previewFoto(event){
   }
 }
 
-// Cadastro cliente
 function cadastrarCliente(){
   const nome=document.getElementById("cadNome").value;
   const email=document.getElementById("cadEmail").value;
   const cpf=document.getElementById("cadCPF").value;
-  const banco=document.getElementById("cadBanco").value;
-  const agencia=document.getElementById("cadAgencia").value;
-  const conta=document.getElementById("cadConta").value;
   const pix=document.getElementById("cadPix").value;
   const foto=document.getElementById("preview").src||null;
 
-  // gerar senha automática
+  // gerar conta e senha
+  const conta=String(nextConta).padStart(6,"0"); nextConta++;
   const senha=Math.random().toString(36).slice(-6);
-  clientes.push({nome,email,senha,banco,agencia,conta,pix,foto});
-  alert(`Cadastro concluído! Sua senha foi enviada para o email (${email}): ${senha}`);
+
+  clientes.push({nome,email,senha,banco:"Banco 01",agencia:"0001",conta,pix,foto});
+  alert(`Cadastro concluído! Sua conta é ${conta}, agência 0001. Senha enviada para email (${email}): ${senha}`);
   location.reload();
 }
 
@@ -142,13 +161,13 @@ function abrirCliente(i){
 
 // TRANSFERÊNCIA
 function abrirTransferenciaNovo(){
-  document.getElementById("titulo").textContent="Transferência — Novo Cliente";
+  document.getElementById("titulo").textContent="Transferência";
   document.getElementById("conteudo").innerHTML=`
     <form class="form" onsubmit="event.preventDefault(); simularTransferenciaNovo();">
       <div><label>Nome</label><input id="novoNome" required /></div>
-      <div><label>Banco</label><input id="novoBanco" required /></div>
-      <div><label>Agência</label><input id="novoAgencia" required /></div>
-      <div><label>Conta</label><input id="novoConta" required /></div>
+      <div><label>Banco</label><input value="Banco 01" disabled /></div>
+      <div><label>Agência</label><input value="0001" disabled /></div>
+      <div><label>Conta</label><input id="novoConta" placeholder="Número da conta" required /></div>
       <div><label>Pix</label><input id="novoPix" /></div>
       <div><label>Tipo</label>
         <select id="tipo">
@@ -165,8 +184,6 @@ function abrirTransferenciaNovo(){
 
 function simularTransferenciaNovo(){
   const nome=document.getElementById("novoNome").value;
-  const banco=document.getElementById("novoBanco").value;
-  const agencia=document.getElementById("novoAgencia").value;
   const conta=document.getElementById("novoConta").value;
   const pix=document.getElementById("novoPix").value;
   const tipo=document.getElementById("tipo").value;

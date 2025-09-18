@@ -3,13 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Banco Digital Infinity Fiber — v4.3.1 (Protótipo)</title>
+  <title>Banco Digital Infinity Fiber — v4.4</title>
   <link rel="stylesheet" href="style.css" />
   <script defer src="app.js"></script>
 </head>
 <body>
   <div id="loginTela">
-    <img src="logo.png" alt="Infinity Fiber Logo" class="logo" />
+    <div class="logo-svg">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 100" width="120">
+        <path d="M20,50c0-16.6,13.4-30,30-30c20,0,40,30,60,30s40-30,60-30c16.6,0,30,13.4,30,30s-13.4,30-30,30
+                 c-20,0-40-30-60-30s-40,30-60,30C33.4,80,20,66.6,20,50z"
+              fill="none" stroke="#00e5ff" stroke-width="8" />
+      </svg>
+    </div>
     <h1 class="welcome-message">Banco Digital Infinity Fiber</h1>
     <div class="login-options">
       <button class="btn" onclick="abrirLoginAdmin()">Entrar como Administrador</button>
