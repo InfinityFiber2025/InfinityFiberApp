@@ -1,7 +1,6 @@
-Protótipo v4.2.1 — Infinity Fiber Digital
-Inclui melhorias visuais:
-- Dashboard com saldo em destaque
-- Cards com ícones para Clientes, Transferência, Pagamentos
-- Botão de voltar no cabeçalho
-- Transferência com formulário completo (PIX/TED/DOC)
-- Pagamentos separado com opções de QR Code (simulação)
+Protótipo v4.2.2 — Infinity Fiber Digital
+Fluxo aprimorado:
+- Aba Clientes: lista de clientes cadastrados. Ao clicar, abre transferência já preenchida.
+- Aba Transferência: para novos clientes. Após enviar, opção de salvar no cadastro.
+- Cadastro dinâmico: novos clientes passam a aparecer na aba Clientes.
+- Mantido layout em cards com ícones, botão de voltar e tela de Pagamentos separada.

@@ -19,3 +19,6 @@ body {
 .form { display:grid; gap:12px; max-width:400px; margin:auto; }
 .form label { display:block; font-weight:bold; margin-bottom:4px; }
 .form input,.form select { width:100%; padding:8px; border-radius:8px; border:none; }
+ul { list-style:none; padding:0; }
+ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; cursor:pointer; }
+ul li:hover { background:#234; }
