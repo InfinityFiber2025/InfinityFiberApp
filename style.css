@@ -2,6 +2,16 @@ body {
   font-family: Arial, sans-serif;
   text-align: center;
   margin-top: 50px;
+  background: linear-gradient(-45deg, #020024, #090979, #00d4ff, #004aad);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  color: white;
+}
+
+@keyframes gradientBG {
+  0% {background-position: 0% 50%;}
+  50% {background-position: 100% 50%;}
+  100% {background-position: 0% 50%;}
 }
 
 @keyframes fadeIn {
@@ -10,6 +20,27 @@ body {
 }
 
 .welcome-message {
+  font-size: 28px;
+  font-weight: bold;
+  color: #0ff;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff, 0 0 20px #00f;
   animation: fadeIn 2s ease-in-out forwards;
-  color: #004aad;
+}
+
+nav {
+  margin: 20px;
+}
+
+nav button {
+  margin: 5px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background-color: #0ff;
+  color: #000;
+  cursor: pointer;
+}
+
+nav button:hover {
+  background-color: #00c3ff;
 }
