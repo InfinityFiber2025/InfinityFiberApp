@@ -14,10 +14,13 @@ body {
 .card { background:#0b1c3a; border:1px solid rgba(255,255,255,.1); border-radius:14px; padding:20px; text-align:center; cursor:pointer; }
 .card:hover { background:#123; }
 .card-icon { font-size:32px; margin-bottom:10px; }
-.form { display:grid; gap:12px; max-width:400px; margin:auto; }
+.form { display:grid; gap:12px; max-width:420px; margin:auto; }
 .form label { display:block; font-weight:bold; margin-bottom:4px; }
-.form input,.form select { width:100%; padding:8px; border-radius:8px; border:none; }
+.form input,.form select,.form textarea { width:100%; padding:10px; border-radius:10px; border:none; }
 .login-options { text-align:center; }
 ul { list-style:none; padding:0; }
-ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; cursor:pointer; }
-ul li:hover { background:#234; }
+ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; }
+.table { width:100%; border-collapse:collapse; margin-top:12px; }
+.table th,.table td { border-bottom:1px solid rgba(255,255,255,.1); padding:8px; text-align:left; }
+.badge { padding:2px 8px; border-radius:999px; background:#003b8e; font-size:12px; }
+input[disabled] { opacity:.8; }
