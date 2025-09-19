@@ -1,33 +1,14 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Banco Digital Infinity Fiber</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#004aad"/>
-  <link rel="stylesheet" href="style.css" />
-  <script defer src="app.js"></script>
-</head>
-<body>
-  <div id="loginTela">
-    <h1 class="welcome-message">Banco Digital Infinity Fiber</h1>
-    <div class="login-options">
-      <button class="btn" onclick="abrirLoginAdmin()">Entrar como Administrador</button>
-      <button class="btn" onclick="abrirBemVindoCliente()">App do Cliente</button>
-    </div>
-  </div>
-
-  <div id="app" style="display:none;">
-    <header class="topbar">
-      <button class="back-btn" onclick="voltarDashboard()">⬅</button>
-      <h2 id="titulo">Infinity Fiber Digital</h2>
-    </header>
-    <main id="conteudo" class="content"></main>
-  </div>
-
-  <script>
-    if('serviceWorker' in navigator){ navigator.serviceWorker.register('sw.js'); }
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a" />
+    <title>Infinity Fiber - Banco Digital</title>
+  </head>
+  <body class="bg-zinc-950 text-zinc-50">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

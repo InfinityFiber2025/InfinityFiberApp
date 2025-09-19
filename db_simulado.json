@@ -1,0 +1,26 @@
+{
+  "clients": [
+    {
+      "id": "c1",
+      "name": "João Silva",
+      "cpf": "123.456.789-00",
+      "email": "joao.silva@example.com",
+      "phone": "+55 11 91234-5678",
+      "balance": 1500.0,
+      "account": "00012345",
+      "agency": "0001",
+      "created_at": "2025-09-19T14:02:37.846019"
+    },
+    {
+      "id": "c2",
+      "name": "Maria Oliveira",
+      "cpf": "987.654.321-00",
+      "email": "maria.oliveira@example.com",
+      "phone": "+55 21 99876-5432",
+      "balance": 320.5,
+      "account": "00054321",
+      "agency": "0002",
+      "created_at": "2025-09-19T14:02:37.846039"
+    }
+  ]
+}

@@ -1,37 +1,23 @@
-# Infinity Fiber App — v4.2
+# Infinity Fiber App (Cliente) — React + Vite + Tailwind + PWA
 
-Aplicação web demonstrativa para login seguro, transferências e autenticação facial (FACIL).
+Tema: **cinza/preto** com azul de destaque (Infinity Fiber).
 
-## 🚀 Como usar
+## Rodar local
+```bash
+npm install
+npm run dev
+```
 
-1. Acesse pelo link do GitHub Pages (HTTPS):  
-   ```
-   https://SEU-USUARIO.github.io/NOME-DO-REPO/
-   ```
+## Build
+```bash
+npm run build
+npm run preview
+```
 
-2. Faça login com as credenciais de demonstração:  
-   - Usuário: **DanielKascher**  
-   - Senha: **K@scher123**  
+## Estrutura
+- `public/db_simulado.json` e `public/transactions_simulado.json`
+- `src/pages/AppClienteDashboardMVP.jsx` — dashboard do cliente
+- `src/App.jsx` — carrega o dashboard
+- `tailwind.config.js` — paleta e tema
 
-3. No dashboard você pode:  
-   - Visualizar saldo (oculto por padrão).  
-   - Realizar **transferências**.  
-   - Usar o botão **FACIL (Biometria)** para autenticar via câmera.  
-   - Acompanhar **últimas transferências**, **eventos do sistema** e **tempo da última operação**.  
-
-## 📱 Notas importantes sobre a câmera
-
-- O navegador **só libera a câmera em HTTPS** (GitHub Pages já é HTTPS).  
-- No **PC**: pode ser necessário liberar a câmera manualmente no ícone de cadeado 🔒 do navegador.  
-- No **celular (Android/iOS)**: use **Chrome** ou **Safari**. No iOS o acesso só funciona após clicar no botão **“Ligar câmera”**.  
-
-## 📂 Estrutura
-
-- `index.html` → Arquivo único com todo o código (HTML, CSS, JS).  
-- `README.md` → Guia de uso e publicação.  
-
-## 🛠️ Tecnologias
-
-- HTML5 + TailwindCSS (CDN)  
-- JavaScript (vanilla, sem frameworks)  
-- getUserMedia API para câmera  
+Ajuste a paleta em `tailwind.config.js` se quiser alterar o azul de destaque.
