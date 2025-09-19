@@ -14,9 +14,6 @@ export default {
           subtext: '#a1a1aa',
           primary: '#3b82f6'
         }
-      },
-      borderRadius: {
-        '2xl': '1rem'
       }
     }
   },

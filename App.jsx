@@ -7,9 +7,7 @@ export default function App() {
   const [mode, setMode] = useState(null)
 
   if (!mode) return <ModeSelector onSelect={setMode} />
-
   if (mode === 'cliente') return <AppClienteDashboardMVP />
   if (mode === 'admin') return <AdminDashboard />
-
   return null
 }

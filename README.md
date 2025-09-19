@@ -1,19 +1,24 @@
+# Infinity Fiber App — Cliente + Administrador (Deploy no GitHub Pages)
 
+Aplicativo React + Vite + Tailwind.
+
+## Rodar local
+```bash
+npm install
+npm run dev
+```
+
+## Build
+```bash
+npm run build
+```
 
 ## Deploy no GitHub Pages
-1. Instale dependências:
-   ```bash
-   npm install
-   ```
+```bash
+npm run deploy
+```
 
-2. Rode o build:
-   ```bash
-   npm run build
-   ```
+👉 Depois vá em **Settings → Pages** e selecione **Branch: gh-pages / (root)**.
 
-3. Publique no GitHub Pages (branch gh-pages):
-   ```bash
-   npm run deploy
-   ```
-
-Certifique-se que no GitHub Pages a fonte está configurada para **branch `gh-pages`**.
+App ficará disponível em:
+https://infinityfiber2025.github.io/InfinityFiberApp/
