@@ -7,17 +7,17 @@
       "direction": "debit",
       "description": "Pix para Maria",
       "amount": 120.0,
-      "dateISO": "2025-09-19T15:06:02.802316",
+      "dateISO": "2025-09-19T15:17:12.153051",
       "status": "approved"
     },
     {
       "id": "t2",
-      "clientId": "c1",
+      "clientId": "c2",
       "type": "PIX",
       "direction": "debit",
       "description": "Pix para Aprovação (Admin)",
       "amount": 75.5,
-      "dateISO": "2025-09-19T15:06:02.802326",
+      "dateISO": "2025-09-19T15:17:12.153055",
       "status": "pending"
     }
   ]

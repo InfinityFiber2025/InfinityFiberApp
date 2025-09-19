@@ -1,8 +1,10 @@
-# Infinity Fiber App — Cliente + Administrador (Deploy no GitHub Pages)
+# Infinity Fiber App — com Cofre do Banco
 
-Aplicativo React + Vite + Tailwind.
+- Clientes iniciam com R$ 200.000,00
+- Cofre do Banco inicia com R$ 37,2 bilhões
+- Admin visualiza cofre + saldos de clientes
 
-## Rodar local
+## Rodar localmente
 ```bash
 npm install
 npm run dev
@@ -18,7 +20,4 @@ npm run build
 npm run deploy
 ```
 
-👉 Depois vá em **Settings → Pages** e selecione **Branch: gh-pages / (root)**.
-
-App ficará disponível em:
-https://infinityfiber2025.github.io/InfinityFiberApp/
+👉 Depois vá em **Settings → Pages** e selecione **Branch: gh-pages / (root)**

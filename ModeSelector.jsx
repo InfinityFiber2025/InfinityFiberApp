@@ -6,16 +6,10 @@ export default function ModeSelector({ onSelect }) {
       <h1 className="text-2xl font-bold">Infinity Fiber</h1>
       <p className="text-infinity-subtext">Escolha o modo de acesso:</p>
       <div className="flex flex-col gap-4 w-64">
-        <button
-          onClick={() => onSelect('cliente')}
-          className="py-3 rounded-xl bg-infinity-primary text-white font-semibold"
-        >
+        <button onClick={() => onSelect('cliente')} className="py-3 rounded-xl bg-infinity-primary text-white font-semibold">
           Módulo Cliente
         </button>
-        <button
-          onClick={() => onSelect('admin')}
-          className="py-3 rounded-xl bg-infinity-surface border border-infinity-border font-semibold"
-        >
+        <button onClick={() => onSelect('admin')} className="py-3 rounded-xl bg-infinity-surface border border-infinity-border font-semibold">
           Módulo Administrador
         </button>
       </div>
