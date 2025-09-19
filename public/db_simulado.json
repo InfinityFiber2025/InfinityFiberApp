@@ -4,20 +4,12 @@
     {
       "id": "c1",
       "name": "João Silva",
-      "cpf": "123.456.789-00",
-      "balance": 200000.0,
-      "account": "00012345",
-      "agency": "0001",
-      "created_at": "2025-09-19T21:51:30.994491"
+      "balance": 200000.0
     },
     {
       "id": "c2",
       "name": "Maria Oliveira",
-      "cpf": "987.654.321-00",
-      "balance": 200000.0,
-      "account": "00054321",
-      "agency": "0002",
-      "created_at": "2025-09-19T21:51:30.994504"
+      "balance": 200000.0
     }
   ]
 }
