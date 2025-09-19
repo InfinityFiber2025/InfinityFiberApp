@@ -1,0 +1,24 @@
+{
+  "transactions": [
+    {
+      "id": "t1",
+      "clientId": "c1",
+      "type": "PIX",
+      "direction": "debit",
+      "description": "Pix para Maria",
+      "amount": 120.0,
+      "dateISO": "2025-09-19T21:51:30.994881",
+      "status": "approved"
+    },
+    {
+      "id": "t2",
+      "clientId": "c2",
+      "type": "PIX",
+      "direction": "debit",
+      "description": "Pix para Aprovação (Admin)",
+      "amount": 75.5,
+      "dateISO": "2025-09-19T21:51:30.994886",
+      "status": "pending"
+    }
+  ]
+}
