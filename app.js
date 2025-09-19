@@ -6,23 +6,42 @@ let tipoLogado=null; // "admin" ou "cliente"
 let cofreAgencia = 50000000; // R$ 50 milhões
 let transacoes = []; // histórico global
 
+// Configurações (taxas e limites)
+let config = {
+  tarifas: { PIX: 0, TED: 10, DOC: 12 },
+  limites: {
+    PIX: { diurno: 5000, noturno: 1000 }, // diurno 06-22, noturno 22-06
+    TED: { diario: 100000 },
+    DOC: { diario: 5000 }
+  },
+  liquidacaoHora: 9 // hora de liquidação de agendadas (09:00) no próximo dia útil
+};
+
 // ===== Util =====
 const $ = (sel)=>document.querySelector(sel);
 function isBusinessDay(date){ const d=date.getDay(); return d!==0 && d!==6; }
+function nextBusinessDay(date){ const r=new Date(date); do{ r.setDate(r.getDate()+1);}while(!isBusinessDay(r)); return r; }
 function formatDate(d){ return d.toLocaleString(); }
 function moeda(v){ return 'R$ '+Number(v).toLocaleString(); }
 function gerarSenha(n=8){ return Math.random().toString(36).slice(-n); }
+function diaChave(d=new Date()){ return d.toISOString().slice(0,10); } // YYYY-MM-DD
+function hora(d=new Date()){ return d.getHours(); }
+function isNoturno(h){ return (h>=22 || h<6); }
 
 // ===== Base inicial =====
 function inicializarClientes(){
   criarCliente("Maria Thereza Caldas Braga","maria@teste.com","08819784777","00625901703",200000,true,null);
-  criarCliente("Gustavo Caldas Braga","gustavo@teste.com","00625901703", "00625901703",200000,true,null);
+  criarCliente("Gustavo Caldas Braga","gustavo@teste.com","00625901703","00625901703",200000,true,null);
   criarCliente("Daniel Braga Kascher","daniel@teste.com","05379292666","danielkascher@hotmail.com",200000,true,null);
 }
 function criarCliente(nome,email,cpf,pix,valorInicial,preCadastro=false,fotoDataUrl=null){
   const conta=String(nextConta).padStart(6,"0"); nextConta++;
   const senha=gerarSenha(8);
-  const obj={nome,email,senha,cpf,banco:"001",agencia:"0001",conta,pix,saldo:valorInicial,extrato:[],status:"ATIVA", foto: fotoDataUrl};
+  const obj={
+    nome,email,senha,cpf,banco:"001",agencia:"0001",conta,pix,
+    saldo:valorInicial,extrato:[],status:"ATIVA", foto: fotoDataUrl,
+    usoLimites:{} // { 'YYYY-MM-DD': { PIX:valor, TED:valor, DOC:valor } }
+  };
   clientes.push(obj);
   cofreAgencia -= valorInicial;
   if(!preCadastro) alert(`Cliente criado! Conta ${conta}, Agência 0001. Senha enviada para ${email}: ${senha}`);
@@ -74,10 +93,10 @@ function abrirLoginCliente(){
 function loginCliente(){
   const email=$("#loginEmail").value, senha=$("#loginSenha").value;
   const c=clientes.find(x=>x.email===email && x.senha===senha);
-  if(c){
-    usuarioLogado=c; tipoLogado="cliente";
-    $("#loginTela").style.display="none"; $("#app").style.display="block"; abrirDashboardCliente();
-  } else alert("Email ou senha inválidos.");
+  if(!c){ alert("Email ou senha inválidos."); return; }
+  if(c.status!=="ATIVA"){ alert("Conta bloqueada. Contate o banco."); return; }
+  usuarioLogado=c; tipoLogado="cliente";
+  $("#loginTela").style.display="none"; $("#app").style.display="block"; abrirDashboardCliente();
 }
 
 // ===== Cadastro cliente (com selfie) =====
@@ -134,13 +153,15 @@ function salvarCadastroCliente(){
 // ===== Admin Dashboard =====
 function voltarDashboard(){ if(tipoLogado==="admin") abrirDashboardAdmin(); else abrirDashboardCliente(); }
 function abrirDashboardAdmin(){
-  $("#titulo").textContent="Back Office — Infinity Fiber";
+  $("#titulo").textContent="Back Office — Infinity Fiber (v5.0)";
   $("#conteudo").innerHTML=`
     <div class='card-grid'>
       <div class='card' onclick='abrirCofre()'><div class='card-icon'>🏦</div><div>Cofre da Agência</div></div>
       <div class='card' onclick='abrirClientesAdmin()'><div class='card-icon'>👥</div><div>Clientes</div></div>
       <div class='card' onclick='abrirTransacoesAdmin()'><div class='card-icon'>🔄</div><div>Transações</div></div>
       <div class='card' onclick='abrirCriarClienteAdmin()'><div class='card-icon'>➕</div><div>Novo Cliente</div></div>
+      <div class='card' onclick='abrirConfiguracoes()'><div class='card-icon'>⚙️</div><div>Configurações</div></div>
+      <div class='card' onclick='forcarLiquidacao()'><div class='card-icon'>⏱️</div><div>Liquidação (forçar)</div></div>
     </div>`;
 }
 function abrirCofre(){
@@ -148,14 +169,48 @@ function abrirCofre(){
   $("#conteudo").innerHTML=`<h3>Saldo do Cofre: ${moeda(cofreAgencia)}</h3><p>Banco 001 — Agência 0001</p>`;
 }
 
+// ===== Admin: Configurações =====
+function abrirConfiguracoes(){
+  $("#titulo").textContent="Configurações — Tarifas e Limites";
+  $("#conteudo").innerHTML=`
+    <form class="form" onsubmit="event.preventDefault(); salvarConfiguracoes()">
+      <div class="grid-2">
+        <div><label>Tarifa PIX (R$)</label><input id="tPIX" type="number" step="1" value="${config.tarifas.PIX}"/></div>
+        <div><label>Tarifa TED (R$)</label><input id="tTED" type="number" step="1" value="${config.tarifas.TED}"/></div>
+        <div><label>Tarifa DOC (R$)</label><input id="tDOC" type="number" step="1" value="${config.tarifas.DOC}"/></div>
+        <div><label>Liquidação (hora)</label><input id="liqH" type="number" min="0" max="23" value="${config.liquidacaoHora}"/></div>
+      </div>
+      <h4>Limites</h4>
+      <div class="grid-2">
+        <div><label>PIX (diurno 06-22)</label><input id="lPIXd" type="number" value="${config.limites.PIX.diurno}"/></div>
+        <div><label>PIX (noturno 22-06)</label><input id="lPIXn" type="number" value="${config.limites.PIX.noturno}"/></div>
+        <div><label>TED (diário)</label><input id="lTED" type="number" value="${config.limites.TED.diario}"/></div>
+        <div><label>DOC (diário)</label><input id="lDOC" type="number" value="${config.limites.DOC.diario}"/></div>
+      </div>
+      <button class="btn" type="submit">Salvar</button>
+    </form>`;
+}
+function salvarConfiguracoes(){
+  config.tarifas.PIX = parseFloat($("#tPIX").value||0);
+  config.tarifas.TED = parseFloat($("#tTED").value||0);
+  config.tarifas.DOC = parseFloat($("#tDOC").value||0);
+  config.liquidacaoHora = parseInt($("#liqH").value||9);
+  config.limites.PIX.diurno = parseFloat($("#lPIXd").value||0);
+  config.limites.PIX.noturno = parseFloat($("#lPIXn").value||0);
+  config.limites.TED.diario = parseFloat($("#lTED").value||0);
+  config.limites.DOC.diario = parseFloat($("#lDOC").value||0);
+  alert("Configurações atualizadas.");
+  abrirDashboardAdmin();
+}
+
 // ===== Admin: Clientes (detalhe, editar, foto, senha) =====
 function abrirClientesAdmin(){
   $("#titulo").textContent="Clientes";
-  let html="<table class='table'><tr><th>Cliente</th><th>Conta</th><th>Saldo</th><th></th></tr>";
+  let html="<table class='table'><tr><th>Cliente</th><th>Conta</th><th>Saldo</th><th>Status</th><th></th></tr>";
   clientes.forEach((c,i)=>{
     html+=`<tr>
       <td><div class='media'><img class='avatar' src='${c.foto||""}' onerror="this.style.display='none'"/><div>${c.nome}<div style='opacity:.75;font-size:12px;'>${c.email}</div></div></div></td>
-      <td>${c.conta}</td><td>${moeda(c.saldo)}</td>
+      <td>${c.conta}</td><td>${moeda(c.saldo)}</td><td><span class='badge'>${c.status}</span></td>
       <td><span class='linklike' onclick='abrirClienteDetalhe(${i})'>Abrir</span></td>
     </tr>`;
   });
@@ -187,12 +242,19 @@ function abrirClienteDetalhe(i){
         <div class='label'>Conta</div><div class='value'>${c.conta}</div>
         <div class='label'>Saldo</div><div class='value'>${moeda(c.saldo)}</div>
         <button class='btn small' onclick='abrirEditarCliente(${i})'>Editar dados</button>
+        <button class='btn small' onclick='toggleBloqueio(${i})'>${c.status==='ATIVA'?'Bloquear':'Desbloquear'} conta</button>
       </div>
     </div>
     <h3 style='margin-top:20px;'>Extrato do Cliente</h3>
     ${renderExtratoTabela(c.extrato)}
     <p><br><span class='linklike' onclick='abrirClientesAdmin()'>◀ Voltar à lista</span></p>
   `;
+}
+function toggleBloqueio(i){
+  const c=clientes[i];
+  c.status = (c.status==='ATIVA') ? 'BLOQUEADA' : 'ATIVA';
+  alert(`Conta de ${c.nome} agora está: ${c.status}`);
+  abrirClienteDetalhe(i);
 }
 function uploadFoto(i, input){
   const file = input.files[0]; if(!file) return;
@@ -261,23 +323,30 @@ function salvarNovoClienteAdmin(){
   abrirClientesAdmin();
 }
 
-// ===== Admin: Transações =====
+// ===== Admin: Transações e liquidação =====
 function abrirTransacoesAdmin(){
   $("#titulo").textContent="Histórico de Transações";
   if(transacoes.length===0){ $("#conteudo").innerHTML="<p>Sem transações até o momento.</p>"; return; }
-  let html="<table class='table'><tr><th>Data/Hora</th><th>Tipo</th><th>De</th><th>Para</th><th>Valor</th><th>Status</th></tr>";
+  let html="<table class='table'><tr><th>Data/Hora</th><th>Tipo</th><th>De</th><th>Para</th><th>Valor</th><th>Status</th><th>Agendada p/</th></tr>";
   transacoes.slice().reverse().forEach(t=>{
     html+=`<tr>
       <td>${formatDate(new Date(t.data))}</td><td>${t.tipo}</td><td>${t.de}</td><td>${t.para}</td>
-      <td>${moeda(t.valor)}</td><td><span class='badge'>${t.status}</span></td>
+      <td>${moeda(t.valor)}</td><td><span class='badge'>${t.status}</span></td><td>${t.scheduledFor?formatDate(new Date(t.scheduledFor)):'-'}</td>
     </tr>`;
   });
-  html+="</table>"; $("#conteudo").innerHTML=html;
+  html+="</table>";
+  html+="<p><button class='btn small' onclick='forcarLiquidacao()'>Rodar liquidação agora</button></p>";
+  $("#conteudo").innerHTML=html;
+}
+function forcarLiquidacao(){
+  liquidarAgendadas(new Date());
+  alert("Liquidação executada.");
+  abrirTransacoesAdmin();
 }
 
 // ===== Cliente: dashboard =====
 function abrirDashboardCliente(){
-  $("#titulo").textContent="Infinity Fiber Digital — Cliente";
+  $("#titulo").textContent="Infinity Fiber Digital — Cliente (v5.0)";
   const foto = usuarioLogado.foto ? `<img class='avatar' src='${usuarioLogado.foto}'/>` : `<div class='avatar'></div>`;
   $("#conteudo").innerHTML=`
     <div class='media' style='justify-content:center;'>${foto}<div>
@@ -295,7 +364,7 @@ function abrirDashboardCliente(){
     </div>`;
 }
 
-// ===== Cliente: perfil (ver/atualizar selfie) =====
+// ===== Cliente: perfil =====
 async function abrirPerfilCliente(){
   $("#titulo").textContent="Meu Perfil";
   $("#conteudo").innerHTML=`
@@ -305,6 +374,7 @@ async function abrirPerfilCliente(){
         <div class='label'>E-mail</div><div class='value'>${usuarioLogado.email}</div>
         <div class='label'>CPF</div><div class='value'>${usuarioLogado.cpf}</div>
         <div class='label'>Pix</div><div class='value'>${usuarioLogado.pix||'-'}</div>
+        <div class='label'>Status</div><div class='value'>${usuarioLogado.status}</div>
       </div>
       <div class='col'>
         <div class='label'>Biometria (selfie)</div>
@@ -349,8 +419,9 @@ function capturarSelfiePerfil(){
   abrirPerfilCliente();
 }
 
-// ===== Cliente: transferência com verificação facial (simulada) =====
+// ===== Cliente: transferência com verificação facial (simulada) + limites + tarifas =====
 function abrirTransferenciaCliente(){
+  if(usuarioLogado.status!=="ATIVA"){ alert("Conta bloqueada."); return; }
   $("#titulo").textContent="Transferência";
   $("#conteudo").innerHTML=`
     <form class="form" onsubmit="event.preventDefault(); prepararVerificacaoFacial();">
@@ -364,6 +435,7 @@ function abrirTransferenciaCliente(){
       <div><label>Destinatário (email cadastrado)</label><input id="destEmail" required /></div>
       <div><label>Valor (R$)</label><input id="valor" type="number" required /></div>
       <div><label>Descrição (opcional)</label><textarea id="descricao"></textarea></div>
+      <p class="label">Tarifas atuais: PIX ${moeda(config.tarifas.PIX)}, TED ${moeda(config.tarifas.TED)}, DOC ${moeda(config.tarifas.DOC)}</p>
       <button class="btn" type="submit">Continuar</button>
       <p id="mensagem"></p>
     </form>`;
@@ -405,6 +477,24 @@ function capturarVerif(){
   fecharVerif();
   enviarTransferenciaComVerificacao();
 }
+
+function registrarUsoLimite(cliente, tipo, valor){
+  const key = diaChave();
+  cliente.usoLimites[key] = cliente.usoLimites[key] || {PIX:0,TED:0,DOC:0};
+  cliente.usoLimites[key][tipo] += valor;
+}
+function dentroDosLimites(cliente, tipo, valor){
+  const key = diaChave();
+  const usado = (cliente.usoLimites[key]?.[tipo]||0);
+  if(tipo==="PIX"){
+    const lim = isNoturno(hora()) ? config.limites.PIX.noturno : config.limites.PIX.diurno;
+    return (usado + valor) <= lim;
+  }
+  if(tipo==="TED"){ return (usado + valor) <= config.limites.TED.diario; }
+  if(tipo==="DOC"){ return (usado + valor) <= config.limites.DOC.diario; }
+  return true;
+}
+
 function enviarTransferenciaComVerificacao(){
   const tipo=$("#tipo").value;
   const destEmail=$("#destEmail").value;
@@ -412,25 +502,51 @@ function enviarTransferenciaComVerificacao(){
   const descricao=$("#descricao").value;
   const msg=$("#mensagem");
   if(!(valor>0)){ msg.textContent="Informe um valor válido."; return; }
+  if(usuarioLogado.status!=="ATIVA"){ msg.textContent="Conta bloqueada."; return; }
   if(usuarioLogado.saldo < valor){ msg.textContent="Saldo insuficiente."; return; }
+  if(!dentroDosLimites(usuarioLogado, tipo, valor)){
+    msg.textContent="Valor excede o limite permitido para hoje/horário."; return;
+  }
   const destinatario=clientes.find(c=>c.email===destEmail);
   if(!destinatario){ msg.textContent="Destinatário não encontrado."; return; }
   if(destinatario.email===usuarioLogado.email){ msg.textContent="Não é possível transferir para si mesmo."; return; }
-  const agora=new Date(); let status="concluída";
+  if(destinatario.status!=="ATIVA"){ msg.textContent="Destinatário com conta bloqueada."; return; }
+
+  const agora=new Date(); let status="concluída"; let scheduledFor=null;
+  const tarifa = config.tarifas[tipo]||0;
+
   if(tipo==="PIX"){
-    usuarioLogado.saldo -= valor; destinatario.saldo += valor;
+    usuarioLogado.saldo -= (valor + tarifa);
+    destinatario.saldo += valor;
+    cofreAgencia += tarifa;
   } else {
-    const hora=agora.getHours();
-    const diaUtil = isBusinessDay(agora); 
-    const permitido = diaUtil && ((tipo==="TED" && hora<17) || (tipo==="DOC" && hora<22));
-    if(permitido){ usuarioLogado.saldo -= valor; destinatario.saldo += valor; }
-    else { status = "agendada"; }
+    const h=hora(agora);
+    const permitido = isBusinessDay(agora) && ((tipo==="TED" && h<17) || (tipo==="DOC" && h<22));
+    if(permitido){
+      usuarioLogado.saldo -= (valor + tarifa);
+      destinatario.saldo += valor;
+      cofreAgencia += tarifa;
+    } else {
+      status = "agendada";
+      const d= nextBusinessDay(agora);
+      d.setHours(config.liquidacaoHora,0,0,0);
+      scheduledFor = d.toISOString();
+      // (Simplificação) Não bloqueamos o saldo até liquidação.
+    }
   }
-  const registro={ data:agora.toISOString(), tipo, valor, de:usuarioLogado.email, para:destinatario.email, status, descricao };
+
+  registrarUsoLimite(usuarioLogado, tipo, valor);
+  const registro={ data:agora.toISOString(), tipo, valor, de:usuarioLogado.email, para:destinatario.email, status, descricao, scheduledFor, tarifa };
   transacoes.push(registro);
   usuarioLogado.extrato.push({...registro});
-  if(status==="concluída"){ destinatario.extrato.push({...registro}); }
-  msg.textContent = status==="concluída" ? `✅ Reconhecimento facial verificado. ${tipo} de ${moeda(valor)} realizado.` : `✅ Reconhecimento facial verificado. ${tipo} agendado para o próximo dia útil.`;
+
+  if(status==="concluída"){
+    destinatario.extrato.push({...registro});
+  }
+
+  msg.textContent = status==="concluída"
+    ? `✅ Facial OK. ${tipo} de ${moeda(valor)} realizado. Tarifa: ${moeda(tarifa)}.`
+    : `✅ Facial OK. ${tipo} agendado para ${formatDate(new Date(scheduledFor))}. Tarifa será cobrada na liquidação.`;
 }
 
 // ===== Cliente: extrato =====
@@ -438,6 +554,36 @@ function abrirExtratoCliente(){
   $("#titulo").textContent="Extrato";
   $("#conteudo").innerHTML = renderExtratoTabela(usuarioLogado.extrato);
 }
+
+// ===== Liquidação automática (agendadas) =====
+function liquidarAgendadas(now){
+  transacoes.forEach(t=>{
+    if(t.status==="agendada" && t.scheduledFor){
+      const when = new Date(t.scheduledFor);
+      if(now>=when){
+        const de = clientes.find(c=>c.email===t.de);
+        const para = clientes.find(c=>c.email===t.para);
+        if(de && para && de.status==="ATIVA" && para.status==="ATIVA"){
+          const tarifa = config.tarifas[t.tipo]||0;
+          if(de.saldo < (t.valor + tarifa)){
+            // saldo insuficiente -> reagenda para próximo dia útil
+            const d= nextBusinessDay(when); d.setHours(config.liquidacaoHora,0,0,0);
+            t.scheduledFor = d.toISOString();
+          } else {
+            de.saldo -= (t.valor + tarifa);
+            para.saldo += t.valor;
+            cofreAgencia += tarifa;
+            t.status="concluída";
+            t.data = new Date().toISOString();
+            para.extrato.push({...t});
+          }
+        }
+      }
+    }
+  });
+}
+// Rodar liquidação a cada 60s para demonstração
+setInterval(()=> liquidarAgendadas(new Date()), 60000);
 
 // ===== Inicialização =====
 window.onload=function(){ inicializarClientes(); };
