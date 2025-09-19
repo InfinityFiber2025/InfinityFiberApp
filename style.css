@@ -8,6 +8,8 @@ body {
 .btn { background:#00e5ff; color:#002233; border:none; padding:12px 20px; border-radius:12px; cursor:pointer; font-weight:700; margin:10px; }
 .btn.small { padding:8px 12px; font-size:14px; }
 .btn.ghost { background:transparent; border:1px solid #00e5ff; color:#00e5ff; }
+.btn.warn { background:#ffb703; color:#001a42; }
+.btn.danger { background:#e63946; color:white; }
 .btn:hover { filter:brightness(1.1); }
 .topbar { display:flex; align-items:center; background:#001a4288; padding:10px; backdrop-filter: blur(6px); border-bottom:1px solid rgba(255,255,255,.08); }
 .back-btn { background:none; border:none; color:#fff; font-size:20px; cursor:pointer; margin-right:10px; }
@@ -25,6 +27,9 @@ ul li { padding:10px; background:#123; border-radius:8px; margin-bottom:8px; }
 .table { width:100%; border-collapse:collapse; margin-top:12px; background:#0b1c3a; border-radius:12px; overflow:hidden;}
 .table th,.table td { border-bottom:1px solid rgba(255,255,255,.08); padding:10px; text-align:left; }
 .badge { padding:2px 8px; border-radius:999px; background:#003b8e; font-size:12px; }
+.badge.ok { background:#2a9d8f; }
+.badge.warn { background:#ffb703; color:#001a42; }
+.badge.danger { background:#e63946; }
 input[disabled] { opacity:.8; }
 .row { display:flex; flex-wrap:wrap; gap:16px; }
 .col { flex:1 1 260px; background:#0b1c3a; border:1px solid rgba(255,255,255,.08); border-radius:16px; padding:16px; }
