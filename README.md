@@ -1,23 +1,19 @@
-# Infinity Fiber App (Cliente) — React + Vite + Tailwind + PWA
 
-Tema: **cinza/preto** com azul de destaque (Infinity Fiber).
 
-## Rodar local
-```bash
-npm install
-npm run dev
-```
+## Deploy no GitHub Pages
+1. Instale dependências:
+   ```bash
+   npm install
+   ```
 
-## Build
-```bash
-npm run build
-npm run preview
-```
+2. Rode o build:
+   ```bash
+   npm run build
+   ```
 
-## Estrutura
-- `public/db_simulado.json` e `public/transactions_simulado.json`
-- `src/pages/AppClienteDashboardMVP.jsx` — dashboard do cliente
-- `src/App.jsx` — carrega o dashboard
-- `tailwind.config.js` — paleta e tema
+3. Publique no GitHub Pages (branch gh-pages):
+   ```bash
+   npm run deploy
+   ```
 
-Ajuste a paleta em `tailwind.config.js` se quiser alterar o azul de destaque.
+Certifique-se que no GitHub Pages a fonte está configurada para **branch `gh-pages`**.

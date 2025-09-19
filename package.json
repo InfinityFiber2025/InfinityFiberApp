@@ -1,0 +1,16 @@
+{
+  "name": "infinity-fiber-app",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "gh-pages": "^6.1.1"
+  },
+  "homepage": "https://infinityfiber2025.github.io/InfinityFiberApp/"
+}
