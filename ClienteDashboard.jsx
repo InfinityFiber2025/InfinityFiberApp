@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 export default function ClienteDashboard() {
   const [db, setDb] = useState(null)
   useEffect(() => {
-    fetch('/db_simulado.json').then(r => r.json()).then(setDb)
+    fetch('/InfinityFiberApp/db_simulado.json').then(r => r.json()).then(setDb)
   }, [])
 
   if (!db) return <div className="min-h-screen bg-infinity-bg text-infinity-text flex items-center justify-center">Carregando...</div>

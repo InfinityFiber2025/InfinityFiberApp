@@ -1,20 +1,14 @@
-# Infinity Fiber App — Deploy Corrigido
+# Infinity Fiber App — Cliente + Admin + Cofre + Deploy Automático
 
-Agora com `base: '/InfinityFiberApp/'` no vite.config.js para rodar no GitHub Pages.
+## Funcionalidades
+- Clientes iniciam com R$ 200.000,00
+- Cofre do Banco inicia com R$ 37,2 bilhões
+- Admin visualiza cofre + saldos de clientes
 
-## Rodar localmente
-```bash
-npm install
-npm run dev
-```
+## Deploy Automático
+- Workflow em `.github/workflows/deploy.yml`
+- Sempre que fizer `git push main`, o GitHub gera o build e publica no `gh-pages`.
 
-## Build e Deploy
-```bash
-npm run build
-npm run deploy
-```
-
-Depois configure o GitHub Pages para usar **branch gh-pages / root**.
-
-App disponível em:
-https://infinityfiber2025.github.io/InfinityFiberApp/
+## Como acessar
+Depois de configurar o Pages:
+👉 https://infinityfiber2025.github.io/InfinityFiberApp/

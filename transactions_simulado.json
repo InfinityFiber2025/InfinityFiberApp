@@ -7,7 +7,7 @@
       "direction": "debit",
       "description": "Pix para Maria",
       "amount": 120.0,
-      "dateISO": "2025-09-19T15:17:12.153051",
+      "dateISO": "2025-09-19T16:24:33.314130",
       "status": "approved"
     },
     {
@@ -17,7 +17,7 @@
       "direction": "debit",
       "description": "Pix para Aprovação (Admin)",
       "amount": 75.5,
-      "dateISO": "2025-09-19T15:17:12.153055",
+      "dateISO": "2025-09-19T16:24:33.314142",
       "status": "pending"
     }
   ]
