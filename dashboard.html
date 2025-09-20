@@ -4,6 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Infinity Fiber — Dashboard</title>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#00d1ff"/>
   <link rel="stylesheet" href="assets/style.css"/>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
   <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
@@ -61,9 +63,13 @@
     <label>Nome</label><input id="ncName"/><label>CPF</label><input id="ncCpf" placeholder="000.000.000-00"/><label>Saldo inicial (R$)</label><input id="ncBalance" type="number" value="0"/>
     <div class="row"><button id="ncSave" class="btn primary">Salvar</button><button id="ncCancel" class="btn ghost">Cancelar</button></div></div></div>
 
-  <div id="modalBio" class="modal hidden"><div class="modal-card"><h3>Biometria Digital + Verificação de Rosto</h3><video id="bioVideo" autoplay playsinline muted class="cam"></video><p id="bioStatus" class="muted small">Iniciando câmera...</p><div class="row"><button id="bioOk" class="btn primary" disabled>Confirmar</button><button id="bioNo" class="btn ghost">Cancelar</button></div></div></div>
+  <div id="modalBio" class="modal hidden"><div class="modal-card"><h3>Biometria Digital + Verificação de Rosto</h3>
+    <div class="cam-wrap"><video id="bioVideo" autoplay playsinline muted class="cam"></video><canvas id="bioCanvas" class="overlay"></canvas></div>
+    <p id="bioStatus" class="muted small">Iniciando câmera...</p><div class="row"><button id="bioOk" class="btn primary" disabled>Confirmar</button><button id="bioNo" class="btn ghost">Cancelar</button></div></div></div>
 
-  <div id="modalFace" class="modal hidden"><div class="modal-card"><h3>Biometria Facial</h3><video id="faceVideo" autoplay playsinline muted class="cam"></video><p id="faceStatus" class="muted small">Iniciando câmera...</p><div class="row"><button id="faceOk" class="btn primary" disabled>Confirmar</button><button id="faceNo" class="btn ghost">Cancelar</button></div></div></div>
+  <div id="modalFace" class="modal hidden"><div class="modal-card"><h3>Biometria Facial</h3>
+    <div class="cam-wrap"><video id="faceVideo" autoplay playsinline muted class="cam"></video><canvas id="faceCanvas" class="overlay"></canvas></div>
+    <p id="faceStatus" class="muted small">Iniciando câmera...</p><div class="row"><button id="faceOk" class="btn primary" disabled>Confirmar</button><button id="faceNo" class="btn ghost">Cancelar</button></div></div></div>
 
   <div id="modalVault" class="modal hidden"><div class="modal-card"><h3>Cofre Bancário</h3><div id="modalVaultAmount" class="stat-big">R$ 0,00</div><p class="muted small">Saldo atual do cofre.</p><button id="vaultClose" class="btn">Fechar</button></div></div>
 

@@ -4,6 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>Infinity Fiber — Login</title>
+  <link rel="manifest" href="manifest.json"/>
+  <meta name="theme-color" content="#00d1ff"/>
   <link rel="stylesheet" href="assets/style.css"/>
 </head>
 <body class="login-bg">
@@ -24,6 +26,7 @@
     <p id="loginMsg" class="muted small"></p>
   </div>
 <script>
+if('serviceWorker' in navigator){ navigator.serviceWorker.register('service-worker.js'); }
 const CREDS = { admin:{u:'DanielKascher',p:'K@scher123'}, treasurer:{u:'Tesoureiro',p:'Cofre123'} };
 document.getElementById('loginBtn').addEventListener('click',()=>{
   const role=document.getElementById('role').value;

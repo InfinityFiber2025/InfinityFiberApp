@@ -1,1 +1,23 @@
-const CACHE_VERSION='projetoinfinityapp-v20';self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE_VERSION).then(c=>c.addAll(['./','./index.html'])));self.skipWaiting();});self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.map(k=>k!==CACHE_VERSION&&caches.delete(k)))));self.clients.claim();});self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).then(r=>{const c=r.clone();caches.open(CACHE_VERSION).then(cc=>cc.put(e.request,c));return r;}).catch(()=>caches.match(e.request)));});
+
+const CACHE_NAME = 'if-admin-v5';
+const ASSETS = [
+  './',
+  './index.html',
+  './dashboard.html',
+  './assets/style.css',
+  './assets/app.js',
+  './manifest.json',
+  './icons/icon-192.png',
+  './icons/icon-256.png',
+  './icons/icon-384.png',
+  './icons/icon-512.png'
+];
+self.addEventListener('install', e=>{
+  e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS)));
+});
+self.addEventListener('activate', e=>{
+  e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));
+});
+self.addEventListener('fetch', e=>{
+  e.respondWith(caches.match(e.request).then(r=> r || fetch(e.request)));
+});

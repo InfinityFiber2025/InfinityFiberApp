@@ -1,5 +1,5 @@
 
-const STORE_KEY='if_admin_state_v4';
+const STORE_KEY='if_admin_state_v5';
 const initialState = {
   bank: { vault: 37300000000.00 },
   clients: [
@@ -152,7 +152,7 @@ byId('fileImport').addEventListener('change', e=>{
 byId('btnLogout').addEventListener('click', ()=>{ sessionStorage.removeItem('if_role'); location.href='index.html'; });
 if(role==='admin'){ document.querySelector('[data-tab=\"home\"]').click(); } else { document.querySelector('[data-tab=\"vault\"]').click(); }
 
-// ---- Webcam + face-api.js ----
+// ---- Webcam + face-api.js + bounding box + timeout ----
 async function ensureModels(){
   if(window._if_models_loaded) return true;
   const base = 'https://justadudewhohacks.github.io/face-api.js/models';
@@ -165,11 +165,23 @@ async function startCamera(videoEl){
   await new Promise(res=> videoEl.onloadedmetadata = res);
   return stream;
 }
+function drawBox(canvas, det){
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  if(!det) return;
+  const {x,y,width,height} = det.box;
+  const scaleX = canvas.width / canvas.videoWidth || 1;
+  const scaleY = canvas.height / canvas.videoHeight || 1;
+  ctx.strokeStyle = '#00d1ff';
+  ctx.lineWidth = 3;
+  ctx.strokeRect(x*scaleX, y*scaleY, width*scaleX, height*scaleY);
+}
 async function biometricWithCamera(kind){
   const isAdmin = (kind==='bio');
   if(!(await ensureModels())) return false;
   const modal = byId(isAdmin? 'modalBio':'modalFace');
   const video = byId(isAdmin? 'bioVideo':'faceVideo');
+  const canvas = byId(isAdmin? 'bioCanvas':'faceCanvas');
   const status = byId(isAdmin? 'bioStatus':'faceStatus');
   const okBtn = byId(isAdmin? 'bioOk':'faceOk');
   const noBtn = byId(isAdmin? 'bioNo':'faceNo');
@@ -178,19 +190,27 @@ async function biometricWithCamera(kind){
   let stream;
   try{ stream = await startCamera(video); status.textContent='Câmera ativa. Buscando rosto...'; }
   catch(e){ status.textContent='Não foi possível acessar a câmera.'; return false; }
-  let stop=false; const opts=new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:0.5});
+  // ensure canvas matches video box
+  const W = video.clientWidth || 360, H = 220; canvas.width=W; canvas.height=H;
+  let stop=false; const start=Date.now(); const TIMEOUT=25000;
+  const opts=new faceapi.TinyFaceDetectorOptions({inputSize:224,scoreThreshold:0.5});
   async function loop(){ if(stop) return;
-    try{ const r = await faceapi.detectSingleFace(video, opts);
-      if(r){ status.textContent='Rosto detectado ✅'; okBtn.disabled=false; } else { status.textContent='Buscando rosto...'; okBtn.disabled=true; }
+    try{
+      const det = await faceapi.detectSingleFace(video, opts);
+      drawBox(canvas, det);
+      if(det){ status.textContent='Rosto detectado ✅'; okBtn.disabled=false; }
+      else { status.textContent='Buscando rosto...'; okBtn.disabled=true; }
     }catch(e){ status.textContent='Erro na detecção.'; }
+    if(Date.now()-start > TIMEOUT){ cleanup(false, true); return; }
     requestAnimationFrame(loop);
   } loop();
   return new Promise(resolve=>{
-    okBtn.onclick = ()=> cleanup(true);
-    noBtn.onclick = ()=> cleanup(false);
-    function cleanup(val){
+    okBtn.onclick = ()=> cleanup(true, false);
+    noBtn.onclick = ()=> cleanup(false, false);
+    function cleanup(val, timedOut){
       stop=true; if(stream){ stream.getTracks().forEach(t=>t.stop()); }
       modal.classList.add('hidden'); okBtn.onclick=null; noBtn.onclick=null;
+      if(timedOut) alert('Tempo esgotado sem detectar rosto. Operação cancelada.');
       resolve(val);
     }
   });
