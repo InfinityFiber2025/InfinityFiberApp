@@ -1,17 +1,14 @@
-Infinity Fiber — Demo static package
+Infinity Fiber — Simulação dinâmica
+Gerado em 2025-09-20T12:03:27.926859Z
 
-This is a small demo that simulates a digital bank with two areas:
- - Client app (route: #/app) — shows client dashboard and simple demo actions.
- - Admin panel (route: #/admin) — shows clients, bank vault and pending transactions.
+Como usar:
+ - Extraia o conteúdo e faça upload dos arquivos para o seu repositório GitHub (branch main, root).
+ - Ou abra localmente com um servidor estático, ex: python -m http.server 8000
 
-How to use locally:
- - unzip and open index.html in a browser (no server necessary).
- - or run a simple static server (recommended) e.g. `python -m http.server` in the folder.
+Páginas:
+ - index.html  -> tela inicial (links para cliente e admin)
+ - cliente.html -> app do cliente (simulado)
+ - dashboard.html -> painel admin (simulado)
 
-Admin demo credentials:
- - username: DanielKascher
- - password: K@scher123
-
-Notes:
- - This is a static demo (no real backend). Data lives inside app.js (demoData).
- - You can edit demoData in app.js to add clients, balances and transactions.
+Admin demo login: DanielKascher / K@scher123 (simulação)
+Dados dos clientes são fictícios e apenas para demonstração.
