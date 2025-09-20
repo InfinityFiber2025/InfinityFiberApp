@@ -1,6 +1,5 @@
-Protótipo v4.5 — Infinity Fiber Digital
-Novidades:
-- Administrador pode criar e gerenciar clientes direto do painel do banco.
-- Nova opção "➕ Criar novo cliente" em Gerenciar Clientes (Admin).
-- Cadastro de cliente gera conta sequencial, agência 0001, senha automática.
-- Relatórios (Admin) mantido como área em branco para evoluir depois.
+InfinityFiber v10.3 - Admin + Cliente + Biometria
+Instruções:
+1. npm install
+2. npm start
+3. npm run export:web para gerar web-build.
