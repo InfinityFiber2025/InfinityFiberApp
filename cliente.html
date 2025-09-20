@@ -1,13 +1,20 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Infinity Fiber - Cliente</title><link rel="stylesheet" href="assets/style.css"></head><body>
 <header><div class="brand">Infinity Fiber — App Cliente</div></header>
 <main id="app">
-  <section class="welcome"><h2>Bem-vindo ao App</h2><p>Clique em "Simular login" para entrar como DanielKascher (demo)</p><button id="loginBtn" class="btn">Simular login</button></section>
+  <section class="welcome"><h2>Bem-vindo ao App</h2><p>Simule login como DanielKascher (demo)</p><button id="loginBtn" class="btn">Simular login</button></section>
+
   <section id="dashboard" class="hidden">
     <h3>Olá, <span id="clientName"></span></h3>
     <div>Saldo: <strong id="clientBalance"></strong></div>
     <h4>Últimas transações</h4>
     <ul id="txList"></ul>
+
+    <h4>Nova transação (Pix)</h4>
+    <label>Destinatário (user)</label><input id="destUser" placeholder="ex: gustavo"/>
+    <label>Valor (R$)</label><input id="txAmount" type="number" value="200000" />
+    <div class="row"><button id="sendTx" class="btn">Enviar Pix (simular)</button></div>
+    <p class="muted">Ao enviar, transação ficará como <strong>pending</strong> e aparecerá no painel admin para aprovação.</p>
   </section>
 </main>
-<script src="assets/cliente.js"></script>
+<script src="assets/interactive.js"></script>
 </body></html>
