@@ -9,6 +9,7 @@
 npm install
 npm run build
 npm run deploy
-```
+```Atualizado em 20/09
+
 
 Depois configure GitHub Pages para usar **gh-pages / root**.
