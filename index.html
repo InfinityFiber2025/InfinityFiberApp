@@ -1,9 +1,38 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Infinity Fiber — Banco Admin (Login)</title><link rel="stylesheet" href="assets/style.css"/></head>
-<body class="login-bg"><div class="login-card"><div class="logo">∞</div><h1>BANCO ADMIN</h1>
-<label>Usuário</label><input id="user" placeholder="DanielKascher"/>
-<label>Senha</label><input id="pass" type="password" placeholder="••••••••"/>
-<button id="loginBtn" class="btn primary">Entrar</button><p id="loginMsg" class="muted small"></p></div>
-<script>const USER='DanielKascher',PASS='K@scher123';document.getElementById('loginBtn').addEventListener('click',()=>{const u=document.getElementById('user').value.trim();const p=document.getElementById('pass').value;if(u===USER&&p===PASS){sessionStorage.setItem('if_admin_ok','1');window.location.href='dashboard.html';}else{document.getElementById('loginMsg').textContent='Usuário ou senha inválidos';}});</script>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Infinity Fiber — Login</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+</head>
+<body class="login-bg">
+  <div class="login-card">
+    <div class="logo">∞</div>
+    <h1>INFINITY FIBER</h1>
+    <p class="muted">Acesse com seu perfil</p>
+    <label>Perfil</label>
+    <select id="role">
+      <option value="admin">Administrador</option>
+      <option value="treasurer">Tesoureiro</option>
+    </select>
+    <label>Usuário</label>
+    <input id="user" placeholder="DanielKascher ou Tesoureiro"/>
+    <label>Senha</label>
+    <input id="pass" type="password" placeholder="••••••••"/>
+    <button id="loginBtn" class="btn primary">Entrar</button>
+    <p id="loginMsg" class="muted small"></p>
+  </div>
+<script>
+const CREDS = { admin:{u:'DanielKascher',p:'K@scher123'}, treasurer:{u:'Tesoureiro',p:'Cofre123'} };
+document.getElementById('loginBtn').addEventListener('click',()=>{
+  const role=document.getElementById('role').value;
+  const u=document.getElementById('user').value.trim();
+  const p=document.getElementById('pass').value;
+  if(u===CREDS[role].u && p===CREDS[role].p){
+    sessionStorage.setItem('if_role', role);
+    location.href='dashboard.html';
+  } else { document.getElementById('loginMsg').textContent='Credenciais inválidas'; }
+});
+</script>
 </body></html>

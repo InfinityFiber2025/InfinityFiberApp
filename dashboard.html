@@ -1,19 +1,70 @@
 <!doctype html>
-<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Infinity Fiber — Dashboard Admin</title><link rel="stylesheet" href="assets/style.css"/></head>
-<body><header class="topbar"><div class="brand">∞ Infinity Fiber — Admin</div>
-<nav><a href="#" id="navHome" class="active">Início</a><a href="#" id="navClients">Clientes</a><a href="#" id="navTx">Transações</a></nav></header>
-<main class="container">
-<section id="viewHome" class="view"><div class="cards">
-<div class="card stat"><div class="stat-big" id="statClients">0</div><div class="stat-label">Clientes</div></div>
-<div class="card stat"><div class="stat-big" id="statTotal">R$ 0,00</div><div class="stat-label">Saldo total</div></div>
-<div class="card stat"><div class="stat-big" id="statPending">0</div><div class="stat-label">Pendentes</div></div>
-</div><div class="card"><h3>Relatórios</h3><p class="muted">Em breve</p></div></section>
-<section id="viewClients" class="view hidden"><div class="card"><h3>Gestão de Clientes</h3>
-<table class="table"><thead><tr><th>Nome</th><th>CPF</th><th>Saldo</th><th>Status</th></tr></thead><tbody id="clientsTbody"></tbody></table>
-<button id="btnNewClient" class="btn">Cadastrar novo cliente</button></div></section>
-<section id="viewTx" class="view hidden"><div class="card"><h3>Transações pendentes</h3><ul id="pendingList" class="list"></ul></div></section>
-</main>
-<div id="modalClient" class="modal hidden"><div class="modal-card"><h3>Novo cliente</h3><label>Nome</label><input id="ncName"/><label>CPF</label><input id="ncCpf" placeholder="000.000.000-00"/><label>Saldo inicial (R$)</label><input id="ncBalance" type="number" value="0"/><div class="row"><button id="ncSave" class="btn primary">Salvar</button><button id="ncCancel" class="btn ghost">Cancelar</button></div></div></div>
-<div id="modalBio" class="modal hidden"><div class="modal-card"><h3>Autenticação Biométrica</h3><div class="finger">🔒</div><div class="row"><button id="bioOk" class="btn primary">Aprovar</button><button id="bioNo" class="btn ghost">Recusar</button></div></div></div>
-<script src="assets/dashboard.js"></script></body></html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Infinity Fiber — Dashboard</title>
+  <link rel="stylesheet" href="assets/style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand"><span>∞</span> Infinity Fiber</div>
+    <nav id="menu">
+      <a href="#" data-tab="home" class="active">🏠 Dashboard</a>
+      <a href="#" data-tab="clients" class="role-admin">👤 Clientes</a>
+      <a href="#" data-tab="tx" class="role-admin">💸 Transações</a>
+      <a href="#" data-tab="vault" class="role-treasurer">🏦 Cofre</a>
+    </nav>
+    <div class="spacer"></div>
+    <button id="btnExport" class="btn small">Exportar JSON</button>
+    <label class="btn small filelabel">Importar JSON <input type="file" id="fileImport" accept="application/json" hidden/></label>
+    <button id="btnLogout" class="btn ghost small">Sair</button>
+  </aside>
+
+  <main class="content">
+    <header class="topbar"><div id="roleBadge" class="badge">Perfil</div></header>
+
+    <section id="view-home" class="view">
+      <div class="cards">
+        <div class="card stat"><div class="stat-title">Clientes</div><div class="stat-big" id="statClients">0</div></div>
+        <div class="card stat">
+          <div class="stat-title">Saldo total</div>
+          <div class="row-between"><div class="stat-big" id="statTotal">R$ 0,00</div><button id="btnVault" class="btn xsmall">Cofre Bancário</button></div>
+        </div>
+        <div class="card stat role-admin"><div class="stat-title">Pendentes</div><div class="stat-big" id="statPending">0</div></div>
+      </div>
+      <div class="card"><div class="row-between"><h3>Saldos por cliente</h3></div><canvas id="chartBalances" height="120"></canvas></div>
+    </section>
+
+    <section id="view-clients" class="view hidden">
+      <div class="card">
+        <div class="row-between"><h3>Gestão de Clientes</h3><button id="btnNewClient" class="btn small role-admin">Novo</button></div>
+        <table class="table"><thead><tr><th>Nome</th><th>CPF</th><th>Saldo</th><th>Status</th></tr></thead><tbody id="clientsTbody"></tbody></table>
+      </div>
+    </section>
+
+    <section id="view-tx" class="view hidden">
+      <div class="card"><h3>Transações pendentes</h3><ul id="pendingList" class="list"></ul></div>
+      <div class="card"><h3>Aguardando Cofre</h3><ul id="awaitingList" class="list"></ul></div>
+    </section>
+
+    <section id="view-vault" class="view hidden">
+      <div class="card"><div class="row-between"><h3>Cofre Bancário</h3><div id="vaultAmount" class="badge"></div></div>
+        <h4>Transações aguardando cofre</h4><ul id="vaultWaiting" class="list"></ul>
+      </div>
+    </section>
+  </main>
+
+  <div id="modalClient" class="modal hidden"><div class="modal-card"><h3>Novo cliente</h3>
+    <label>Nome</label><input id="ncName"/><label>CPF</label><input id="ncCpf" placeholder="000.000.000-00"/><label>Saldo inicial (R$)</label><input id="ncBalance" type="number" value="0"/>
+    <div class="row"><button id="ncSave" class="btn primary">Salvar</button><button id="ncCancel" class="btn ghost">Cancelar</button></div></div></div>
+
+  <div id="modalBio" class="modal hidden"><div class="modal-card"><h3>Biometria Digital</h3><div class="finger">🔒</div><div class="row"><button id="bioOk" class="btn primary">Aprovar</button><button id="bioNo" class="btn ghost">Recusar</button></div></div></div>
+
+  <div id="modalFace" class="modal hidden"><div class="modal-card"><h3>Biometria Facial</h3><div class="face">🙂📷</div><p class="muted small">Simulação de reconhecimento facial</p><div class="row"><button id="faceOk" class="btn primary">Reconhecer</button><button id="faceNo" class="btn ghost">Cancelar</button></div></div></div>
+
+  <div id="modalVault" class="modal hidden"><div class="modal-card"><h3>Cofre Bancário</h3><div id="modalVaultAmount" class="stat-big">R$ 0,00</div><p class="muted small">Saldo atual do cofre.</p><button id="vaultClose" class="btn">Fechar</button></div></div>
+
+  <script src="assets/app.js"></script>
+</body></html>
