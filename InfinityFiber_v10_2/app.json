@@ -1,0 +1,29 @@
+{
+  "expo": {
+    "name": "Infinity Fiber Bank",
+    "slug": "infinity-fiber-app",
+    "version": "10.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0A0E2A"
+    },
+    "userInterfaceStyle": "light",
+    "android": {
+      "package": "com.infinityfiber.bank",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "ios": {
+      "bundleIdentifier": "com.infinityfiber.bank"
+    },
+    "web": {
+      "bundler": "metro",
+      "favicon": "./assets/favicon.png"
+    }
+  }
+}

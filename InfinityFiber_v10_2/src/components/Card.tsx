@@ -1,0 +1,4 @@
+
+import React, { ReactNode } from 'react'; import { View, StyleSheet } from 'react-native';
+export default function Card({ children }: {children: ReactNode}) { return <View style={styles.card}>{children}</View>; }
+const styles = StyleSheet.create({ card:{backgroundColor:'#fff',borderRadius:18,padding:16,shadowColor:'#000',shadowOpacity:0.05,shadowRadius:8,elevation:2,marginBottom:12,borderWidth:1,borderColor:'#F0F2F7'} });
