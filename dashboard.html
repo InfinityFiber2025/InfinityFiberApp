@@ -1,18 +1,19 @@
-<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Infinity Fiber - Admin</title><link rel="stylesheet" href="assets/style.css"></head><body>
-<header><div class="brand">Infinity Fiber — Painel Admin</div></header>
-<main>
-  <section class="stats">
-    <div>Clientes: <span id="clientsCount"></span></div>
-    <div>Cofre do Banco: <span id="bankVault"></span></div>
-  </section>
-  <section>
-    <h3>Transações pendentes</h3>
-    <ul id="pendingList"></ul>
-  </section>
-  <section>
-    <h3>Clientes</h3>
-    <table id="clientsTable"><thead><tr><th>Nome</th><th>Saldo</th><th>Pix</th></tr></thead><tbody></tbody></table>
-  </section>
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Infinity Fiber — Dashboard Admin</title><link rel="stylesheet" href="assets/style.css"/></head>
+<body><header class="topbar"><div class="brand">∞ Infinity Fiber — Admin</div>
+<nav><a href="#" id="navHome" class="active">Início</a><a href="#" id="navClients">Clientes</a><a href="#" id="navTx">Transações</a></nav></header>
+<main class="container">
+<section id="viewHome" class="view"><div class="cards">
+<div class="card stat"><div class="stat-big" id="statClients">0</div><div class="stat-label">Clientes</div></div>
+<div class="card stat"><div class="stat-big" id="statTotal">R$ 0,00</div><div class="stat-label">Saldo total</div></div>
+<div class="card stat"><div class="stat-big" id="statPending">0</div><div class="stat-label">Pendentes</div></div>
+</div><div class="card"><h3>Relatórios</h3><p class="muted">Em breve</p></div></section>
+<section id="viewClients" class="view hidden"><div class="card"><h3>Gestão de Clientes</h3>
+<table class="table"><thead><tr><th>Nome</th><th>CPF</th><th>Saldo</th><th>Status</th></tr></thead><tbody id="clientsTbody"></tbody></table>
+<button id="btnNewClient" class="btn">Cadastrar novo cliente</button></div></section>
+<section id="viewTx" class="view hidden"><div class="card"><h3>Transações pendentes</h3><ul id="pendingList" class="list"></ul></div></section>
 </main>
-<script src="assets/interactive.js"></script>
-</body></html>
+<div id="modalClient" class="modal hidden"><div class="modal-card"><h3>Novo cliente</h3><label>Nome</label><input id="ncName"/><label>CPF</label><input id="ncCpf" placeholder="000.000.000-00"/><label>Saldo inicial (R$)</label><input id="ncBalance" type="number" value="0"/><div class="row"><button id="ncSave" class="btn primary">Salvar</button><button id="ncCancel" class="btn ghost">Cancelar</button></div></div></div>
+<div id="modalBio" class="modal hidden"><div class="modal-card"><h3>Autenticação Biométrica</h3><div class="finger">🔒</div><div class="row"><button id="bioOk" class="btn primary">Aprovar</button><button id="bioNo" class="btn ghost">Recusar</button></div></div></div>
+<script src="assets/dashboard.js"></script></body></html>

@@ -1,35 +1,23 @@
 [
   {
     "id": 1,
-    "name": "Daniel Kascher (admin)",
-    "user": "DanielKascher",
-    "cpf": "100.200.300-11",
-    "bank": "Banco Demo",
-    "agency": "3857-1",
-    "account": "107977-8",
-    "pix": "daniel@demo",
-    "balance": 200000.0
+    "name": "Gustavo Caldas Braga",
+    "cpf": "111.111.111-11",
+    "active": true,
+    "balance": 200000
   },
   {
     "id": 2,
-    "name": "Gustavo C. Braga",
-    "user": "gustavo",
-    "cpf": "400.500.600-22",
-    "bank": "Santander Demo",
-    "agency": "3752",
-    "account": "01074998-7",
-    "pix": "gustavo@demo",
-    "balance": 500000.0
+    "name": "Maria Thereza Caldas Braga",
+    "cpf": "222.222.222-22",
+    "active": true,
+    "balance": 200000
   },
   {
     "id": 3,
-    "name": "Maria T. Braga",
-    "user": "maria",
-    "cpf": "700.800.900-33",
-    "bank": "Banco Demo",
-    "agency": "315-8",
-    "account": "55194-5",
-    "pix": "maria@demo",
-    "balance": 300000.0
+    "name": "Daniel Braga Kascher",
+    "cpf": "333.333.333-33",
+    "active": true,
+    "balance": 200000
   }
 ]

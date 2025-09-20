@@ -1,12 +1,9 @@
 <!doctype html>
-<html lang="pt-BR">
-<head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>Infinity Fiber - Interactive Demo</title>
-<link rel="stylesheet" href="assets/style.css"></head>
-<body>
-<div class="splash">
-  <img src="assets/logo.svg" alt="Infinity Fiber" class="logo">
-  <h1>Infinity Fiber</h1>
-  <p>Ambiente interativo - Demo</p>
-  <div class="buttons"><a href="cliente.html" class="btn">Entrar como Cliente</a> <a href="dashboard.html" class="btn ghost">Painel Admin</a></div>
-</div>
+<html lang="pt-BR"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Infinity Fiber — Banco Admin (Login)</title><link rel="stylesheet" href="assets/style.css"/></head>
+<body class="login-bg"><div class="login-card"><div class="logo">∞</div><h1>BANCO ADMIN</h1>
+<label>Usuário</label><input id="user" placeholder="DanielKascher"/>
+<label>Senha</label><input id="pass" type="password" placeholder="••••••••"/>
+<button id="loginBtn" class="btn primary">Entrar</button><p id="loginMsg" class="muted small"></p></div>
+<script>const USER='DanielKascher',PASS='K@scher123';document.getElementById('loginBtn').addEventListener('click',()=>{const u=document.getElementById('user').value.trim();const p=document.getElementById('pass').value;if(u===USER&&p===PASS){sessionStorage.setItem('if_admin_ok','1');window.location.href='dashboard.html';}else{document.getElementById('loginMsg').textContent='Usuário ou senha inválidos';}});</script>
 </body></html>

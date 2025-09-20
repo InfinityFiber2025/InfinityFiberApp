@@ -1,35 +1,26 @@
 [
   {
     "id": 101,
-    "from": 2,
-    "fromName": "Gustavo C. Braga",
-    "to": 3,
-    "toName": "Maria T. Braga",
-    "amount": 200000.0,
+    "from": 1,
+    "to": 2,
+    "amount": 200000,
     "status": "pending",
-    "type": "pix",
     "desc": "Pix pendente 1"
   },
   {
     "id": 102,
-    "from": 3,
-    "fromName": "Maria T. Braga",
-    "to": 2,
-    "toName": "Gustavo C. Braga",
-    "amount": 200000.0,
+    "from": 2,
+    "to": 3,
+    "amount": 200000,
     "status": "pending",
-    "type": "pix",
     "desc": "Pix pendente 2"
   },
   {
     "id": 103,
-    "from": 2,
-    "fromName": "Gustavo C. Braga",
+    "from": 3,
     "to": 1,
-    "toName": "Daniel Kascher (admin)",
-    "amount": 200000.0,
+    "amount": 200000,
     "status": "pending",
-    "type": "pix",
     "desc": "Pix pendente 3"
   }
 ]
