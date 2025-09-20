@@ -2,21 +2,21 @@
   {
     "id": 1,
     "name": "Gustavo Caldas Braga",
-    "cpf": "111.111.111-11",
+    "cpf": "006.259.017-03",
     "active": true,
     "balance": 200000
   },
   {
     "id": 2,
     "name": "Maria Thereza Caldas Braga",
-    "cpf": "222.222.222-22",
+    "cpf": "088.197.847-77",
     "active": true,
     "balance": 200000
   },
   {
     "id": 3,
     "name": "Daniel Braga Kascher",
-    "cpf": "333.333.333-33",
+    "cpf": "053.792.926-66",
     "active": true,
     "balance": 200000
   }

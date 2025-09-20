@@ -1,41 +1,21 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Infinity Fiber — Login</title>
-  <link rel="manifest" href="manifest.json"/>
-  <meta name="theme-color" content="#00d1ff"/>
-  <link rel="stylesheet" href="assets/style.css"/>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Infinity Fiber — Admin</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#00d1ff">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{bg:'#0f1014',panel:'#161821',ink:'#e9e9ee',muted:'#9aa0a6',accent:'#00d1ff'}}}}</script>
+  <link rel="stylesheet" href="assets/style.css">
+  <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
 </head>
-<body class="login-bg">
-  <div class="login-card">
-    <div class="logo">∞</div>
-    <h1>INFINITY FIBER</h1>
-    <p class="muted">Acesse com seu perfil</p>
-    <label>Perfil</label>
-    <select id="role">
-      <option value="admin">Administrador</option>
-      <option value="treasurer">Tesoureiro</option>
-    </select>
-    <label>Usuário</label>
-    <input id="user" placeholder="DanielKascher ou Tesoureiro"/>
-    <label>Senha</label>
-    <input id="pass" type="password" placeholder="••••••••"/>
-    <button id="loginBtn" class="btn primary">Entrar</button>
-    <p id="loginMsg" class="muted small"></p>
-  </div>
-<script>
-if('serviceWorker' in navigator){ navigator.serviceWorker.register('service-worker.js'); }
-const CREDS = { admin:{u:'DanielKascher',p:'K@scher123'}, treasurer:{u:'Tesoureiro',p:'Cofre123'} };
-document.getElementById('loginBtn').addEventListener('click',()=>{
-  const role=document.getElementById('role').value;
-  const u=document.getElementById('user').value.trim();
-  const p=document.getElementById('pass').value;
-  if(u===CREDS[role].u && p===CREDS[role].p){
-    sessionStorage.setItem('if_role', role);
-    location.href='dashboard.html';
-  } else { document.getElementById('loginMsg').textContent='Credenciais inválidas'; }
-});
-</script>
-</body></html>
+<body class="bg-bg text-ink">
+  <div id="app" class="min-h-screen"></div>
+  <script>
+    if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js');}
+  </script>
+  <script type="module" src="assets/app.js"></script>
+</body>
+</html>
