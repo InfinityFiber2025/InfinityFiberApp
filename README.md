@@ -1,15 +1,17 @@
-# Infinity Fiber App — Deploy Automático
+Infinity Fiber — Demo static package
 
-## Como funciona
-- Workflow em `.github/workflows/deploy.yml`
-- Sempre que fizer `git push main`, o GitHub Actions gera o build e publica no `gh-pages`.
+This is a small demo that simulates a digital bank with two areas:
+ - Client app (route: #/app) — shows client dashboard and simple demo actions.
+ - Admin panel (route: #/admin) — shows clients, bank vault and pending transactions.
 
-## Deploy manual (se quiser)
-```bash
-npm install
-npm run build
-npm run deploy
-```Atualizado em 20/09
+How to use locally:
+ - unzip and open index.html in a browser (no server necessary).
+ - or run a simple static server (recommended) e.g. `python -m http.server` in the folder.
 
+Admin demo credentials:
+ - username: DanielKascher
+ - password: K@scher123
 
-Depois configure GitHub Pages para usar **gh-pages / root**.
+Notes:
+ - This is a static demo (no real backend). Data lives inside app.js (demoData).
+ - You can edit demoData in app.js to add clients, balances and transactions.
