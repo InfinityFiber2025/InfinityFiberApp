@@ -1,21 +1,145 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Infinity Fiber — Admin</title>
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#00d1ff">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>tailwind.config={theme:{extend:{colors:{bg:'#0f1014',panel:'#161821',ink:'#e9e9ee',muted:'#9aa0a6',accent:'#00d1ff'}}}}</script>
-  <link rel="stylesheet" href="assets/style.css">
-  <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Infinity Bank – Protótipo</title>
+  <style>
+    body { margin:0; font-family:sans-serif; background:#f9fafb; color:#111; }
+    .layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
+    .sidebar { background:#fff; border-right:1px solid #e5e7eb; padding:16px; display:flex; flex-direction:column; }
+    .sidebar h2 { font-size:16px; margin-bottom:20px; }
+    .sidebar button { background:none; border:none; padding:10px; text-align:left; width:100%; border-radius:8px; cursor:pointer; }
+    .sidebar button:hover { background:#f3f4f6; }
+    .content { padding:16px; }
+    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+    .balance { font-size:28px; font-weight:bold; }
+    .quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; }
+    .quick { border:1px solid #e5e7eb; border-radius:10px; padding:12px; cursor:pointer; background:#f9fafb; }
+    .tx { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb; }
+    .green { color:#16a34a; font-weight:bold; }
+    .red { color:#dc2626; font-weight:bold; }
+    .modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; }
+    .modal-content { background:#fff; padding:20px; border-radius:12px; width:90%; max-width:400px; }
+    .bottom-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e5e7eb; display:grid; grid-template-columns:repeat(4,1fr); }
+    .bottom-nav button { padding:10px; border:none; background:none; font-size:12px; }
+    @media(max-width:768px){
+      .layout { grid-template-columns:1fr; }
+      .sidebar { display:none; }
+      .bottom-nav { display:grid; }
+    }
+  </style>
 </head>
-<body class="bg-bg text-ink">
-  <div id="app" class="min-h-screen"></div>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Infinity Bank</h2>
+      <button>Painel</button>
+      <button>Cartões</button>
+      <button>Transações</button>
+      <button>Investimentos</button>
+      <button>Configurações</button>
+    </aside>
+
+    <main class="content">
+      <div class="card">
+        <h3>Saldo Total Disponível 
+          <button id="toggleSaldo">👁️</button>
+        </h3>
+        <div class="balance" id="saldo">R$ 12.847,32</div>
+        <div style="margin-top:8px; display:flex; gap:10px;">
+          <div class="card" style="flex:1;">
+            <div>Conta Corrente</div>
+            <div id="cc">R$ 8.234,50</div>
+          </div>
+          <div class="card" style="flex:1;">
+            <div>Poupança</div>
+            <div id="pp">R$ 4.612,82</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Ações Rápidas</h3>
+        <div class="quick-grid">
+          <div class="quick">Transferir</div>
+          <div class="quick">PIX</div>
+          <div class="quick">Contas</div>
+          <div class="quick">Cartão</div>
+          <div class="quick">Investir</div>
+          <div class="quick" onclick="abrirCofre()">Cofre Bancário</div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Transações Recentes</h3>
+        <div class="tx"><span>Amazon Brasil</span><span class="red">- R$ 89,90</span></div>
+        <div class="tx"><span>Salário – Empresa XYZ</span><span class="green">+ R$ 5.200,00</span></div>
+        <div class="tx"><span>Uber</span><span class="red">- R$ 23,50</span></div>
+      </div>
+
+      <div class="card">
+        <h3>Investimentos</h3>
+        <div class="tx"><span>Poupança Digital Infinity</span><span class="green">R$ 4.612,82</span></div>
+        <div class="tx"><span>CDB Pós-fixado</span><span class="green">R$ 2.500,00</span></div>
+        <div class="tx"><span>Fundo Multimercado</span><span class="red">R$ 1.800,00</span></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="bottom-nav">
+    <button>Painel</button>
+    <button>Transações</button>
+    <button>Invest.</button>
+    <button>Perfil</button>
+  </div>
+
+  <!-- Modal Cofre -->
+  <div class="modal" id="modalCofre">
+    <div class="modal-content">
+      <h3>Cofre Bancário</h3>
+      <p>Olhe para a câmera para validar sua identidade.</p>
+      <video id="video" autoplay style="width:100%; border-radius:8px;"></video>
+      <div style="margin-top:10px; text-align:right;">
+        <button onclick="fecharCofre()">Cancelar</button>
+        <button onclick="aprovarCofre()">Aprovar</button>
+      </div>
+      <p id="status" style="color:green; display:none;">Aprovação concluída!</p>
+    </div>
+  </div>
+
   <script>
-    if('serviceWorker' in navigator){navigator.serviceWorker.register('service-worker.js');}
+    const saldo = document.getElementById('saldo');
+    const cc = document.getElementById('cc');
+    const pp = document.getElementById('pp');
+    let visivel = true;
+    document.getElementById('toggleSaldo').onclick = () => {
+      visivel = !visivel;
+      if(visivel){
+        saldo.textContent = 'R$ 12.847,32';
+        cc.textContent = 'R$ 8.234,50';
+        pp.textContent = 'R$ 4.612,82';
+      } else {
+        saldo.textContent = '••••••';
+        cc.textContent = '••••';
+        pp.textContent = '••••';
+      }
+    };
+
+    function abrirCofre(){
+      document.getElementById('modalCofre').style.display = 'flex';
+      if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
+        navigator.mediaDevices.getUserMedia({video:true}).then(stream=>{
+          document.getElementById('video').srcObject = stream;
+        }).catch(()=>alert('Não foi possível acessar a câmera'));
+      }
+    }
+    function fecharCofre(){
+      document.getElementById('modalCofre').style.display='none';
+    }
+    function aprovarCofre(){
+      document.getElementById('status').style.display='block';
+    }
   </script>
-  <script type="module" src="assets/app.js"></script>
 </body>
 </html>
