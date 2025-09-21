@@ -3,194 +3,82 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Infinity Bank - Painel</title>
+<title>Infinity Fiber - Painel</title>
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ffffff">
+<meta name="theme-color" content="#7c3aed">
 <style>
-:root{--bg:#f3f4f6;--card:#fff;--muted:#6b7280;--accent:#2563eb}
+:root{--bg:#f3f4f6;--card:#fff;--muted:#6b7280;--accent:#7c3aed}
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
-.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#fff;position:sticky;top:0;z-index:10;border-bottom:1px solid #e5e7eb}
-.logo{display:flex;gap:10px;align-items:center}
-.logo img{width:36px;height:36px;border-radius:8px}
-.container{padding:16px}
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
+.header img{width:36px}
+.container{padding:16px;margin-bottom:60px}
 .card{background:var(--card);border-radius:14px;box-shadow:0 6px 18px rgba(10,20,40,.06);padding:16px;margin-bottom:16px}
-.balanceCard{background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff}
+.balanceCard{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
 .balance{font-size:28px;font-weight:800}
-.sub{display:flex;gap:12px;margin-top:10px}
-.sub>div{flex:1;background:rgba(255,255,255,.08);border-radius:10px;padding:10px}
-.quickGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.quickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
 .quick{padding:14px;border-radius:12px;color:#fff;text-align:center;font-weight:800;cursor:pointer}
 .q1{background:#16a34a}.q2{background:#2563eb}.q3{background:#f59e0b}.q4{background:#9333ea}.q5{background:#0ea5e9}.q6{background:#dc2626}
-.tx{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f5}
-.green{color:#16a34a;font-weight:800}.red{color:#dc2626;font-weight:800}
-/* Cards section */
-.card-card{border-radius:14px;padding:18px;color:#fff;box-shadow:0 8px 20px rgba(10,20,40,0.08);margin-bottom:16px;position:relative;overflow:hidden}
-.card-card .top{display:flex;align-items:center;gap:12px}
-.card-card .logo2{width:56px;height:56px;border-radius:8px;background:#fff;padding:8px;display:flex;align-items:center;justify-content:center}
-.card-card .bank-name{font-size:18px;font-weight:800}
-.card-card .card-number{margin-top:18px;font-size:20px;letter-spacing:4px;font-weight:700}
-.card-card .card-footer{margin-top:12px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,0.9);font-weight:700}
-.bg-credit{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
-.bg-debit{background:linear-gradient(135deg,#06b6d4,#0ea5e9)}
-.small-eye{cursor:pointer;opacity:0.95;background:rgba(255,255,255,0.08);padding:6px 8px;border-radius:8px}
-/* bottom nav */
 .navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0}
 .navitem{display:flex;flex-direction:column;align-items:center;font-size:12px;color:#374151;text-decoration:none}
 .navitem.active{color:var(--accent);font-weight:800}
+/* Modal */
+.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
+.modal-content{background:#fff;padding:20px;border-radius:14px;max-width:320px;text-align:center}
+.modal-content h3{margin-top:0}
+.closeBtn{margin-top:16px;padding:8px 12px;background:#7c3aed;color:#fff;border:none;border-radius:8px;cursor:pointer}
 </style>
 </head>
 <body>
 <header class="header">
-  <div class="logo"><img src="icons/banks/santander.png"><strong>Infinity Bank</strong></div>
+  <div style="display:flex;align-items:center;gap:10px"><img src="icons/logo.png"><strong>Infinity Fiber Bank</strong></div>
   <button onclick="logout()" style="background:#ef4444;color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer">Sair</button>
 </header>
 
-<main class="container" id="view">
-  <!-- Home view injected by JS -->
-</main>
-
-<nav class="navbar">
-  <a href="#" class="navitem active" data-tab="home">🏠<span>Painel</span></a>
-  <a href="#" class="navitem" data-tab="tx">💳<span>Transações</span></a>
-  <a href="#" class="navitem" data-tab="invest">📈<span>Invest.</span></a>
-  <a href="#" class="navitem" data-tab="profile">👤<span>Perfil</span></a>
-</nav>
-
-<script>
-if(sessionStorage.getItem('loggedIn')!=='1'){ window.location.replace('index.html'); }
-
-function logout(){ sessionStorage.removeItem('loggedIn'); location.href='index.html'; }
-
-// state
-let transactions=[{title:'Depósito Inicial',amount:10000},{title:'Pagamento Energia',amount:-320},{title:'PIX Recebido',amount:850}];
-let investments=[{title:'Poupança Digital Infinity',value:5000},{title:'CDB Pós-fixado',value:3000},{title:'Fundo Multimercado',value:2000}];
-const cards=[
- {id:'card-cc',type:'credit',bankId:'santander',bankName:'Santander',holder:'Cliente Demo',number:'1234123412341234',valid:'12/28'},
- {id:'card-db',type:'debit',bankId:'bb',bankName:'Banco do Brasil',holder:'Cliente Demo',number:'5678567856785678',valid:'10/27'}
-];
-
-// helpers
-function maskNumber(n){return '•••• •••• •••• '+n.slice(-4)}
-function formatNumber(n){return n.replace(/(.{4})/g,'$1 ').trim()}
-function setActive(tab){ document.querySelectorAll('.navitem').forEach(a=>a.classList.toggle('active', a.dataset.tab===tab)); }
-
-// views
-function renderHome(){
-  setActive('home');
-  const el = document.getElementById('view');
-  el.innerHTML = `
+<main class="container">
   <section class="card balanceCard">
     <div>Saldo Total Disponível</div>
     <div class="balance">R$ 37.000.000,00</div>
-    <div class="sub"><div><div>Conta Corrente</div><strong>R$ 30.000.000,00</strong></div><div><div>Poupança</div><strong>R$ 7.000.000,00</strong></div></div>
   </section>
-
   <section class="card">
     <h3>Ações Rápidas</h3>
     <div class="quickGrid">
-      <div class="quick q1" onclick="alert('Transferir (simulação)')">Transferir</div>
-      <div class="quick q2" onclick="alert('PIX (simulação)')">PIX</div>
-      <div class="quick q3" onclick="alert('Contas (simulação)')">Contas</div>
-      <div class="quick q4" onclick="renderCardsView()">Cartão</div>
-      <div class="quick q5" onclick="renderInvest()">Investir</div>
-      <div class="quick q6" onclick="alert('Cofre (simulação)')">Cofre</div>
+      <div class="quick q1" onclick="openModal('Transferir valores')">Transferir</div>
+      <div class="quick q2" onclick="openModal('Área PIX – enviar/receber')">PIX</div>
+      <div class="quick q3" onclick="openModal('Pagamento de contas')">Contas</div>
+      <div class="quick q4" onclick="openModal('Gerenciar cartões')">Cartão</div>
+      <div class="quick q5" onclick="openModal('Investimentos disponíveis')">Investir</div>
+      <div class="quick q6" onclick="openModal('Cofre Bancário – alta segurança')">Cofre</div>
     </div>
   </section>
-
   <section class="card">
     <h3>Transações Recentes</h3>
-    <div id="txList"></div>
-  </section>`;
+    <div>- Depósito Inicial: + R$ 10.000</div>
+    <div>- Pagamento Energia: - R$ 320</div>
+    <div>- PIX Recebido: + R$ 850</div>
+  </section>
+</main>
 
-  const list = document.getElementById('txList');
-  transactions.forEach(tx=>{
-    const d=document.createElement('div'); d.className='tx';
-    d.innerHTML = `<div>${tx.title}</div><div class="${tx.amount>=0?'green':'red'}">${tx.amount>=0?'+':'-'} R$ ${Math.abs(tx.amount).toLocaleString('pt-BR')}</div>`;
-    list.appendChild(d);
-  });
-}
+<nav class="navbar">
+  <a href="#" class="navitem active">🏠<span>Painel</span></a>
+  <a href="#" class="navitem">💳<span>Transações</span></a>
+  <a href="#" class="navitem">📈<span>Invest.</span></a>
+  <a href="#" class="navitem">👤<span>Perfil</span></a>
+</nav>
 
-function renderCardsView(){
-  setActive('home');
-  const el = document.getElementById('view');
-  el.innerHTML = `<section class="card"><h3>Meus Cartões</h3><div id="cardsArea"></div></section>`;
-  const area=document.getElementById('cardsArea');
-  cards.forEach(c=>{
-    const div = document.createElement('div');
-    div.className='card-card '+(c.type==='credit'?'bg-credit':'bg-debit');
-    div.innerHTML = `
-      <div class="top">
-        <div class="logo2"><img src="icons/banks/${c.bankId}.png" style="width:100%"></div>
-        <div><div class="bank-name">${c.bankName}</div><div style="opacity:.9;font-size:12px">Cartão ${c.type==='credit'?'de Crédito':'de Débito'}</div></div>
-      </div>
-      <div class="card-number" id="${c.id}-num">${maskNumber(c.number)}</div>
-      <div class="card-footer"><div><div style="font-size:12px">Nome no Cartão</div><div>${c.holder}</div></div><div style="text-align:right"><div style="font-size:12px">Válido até</div><div>${c.valid}</div></div></div>
-      <div style="position:absolute;top:12px;right:12px"><div class="small-eye" data-card="${c.id}">👁️</div></div>`;
-    area.appendChild(div);
-  });
-  document.querySelectorAll('.small-eye').forEach(b=>b.addEventListener('click', e=>{
-    const id=e.currentTarget.dataset.card; const obj=cards.find(x=>x.id===id); const el=document.getElementById(id+'-num');
-    if(!obj._shown){ el.textContent = formatNumber(obj.number); obj._shown=true; e.currentTarget.textContent='🙈'; }
-    else { el.textContent = maskNumber(obj.number); obj._shown=false; e.currentTarget.textContent='👁️'; }
-  }));
-}
+<div class="modal" id="modal">
+  <div class="modal-content">
+    <h3 id="modalTitle"></h3>
+    <p>Simulação de funcionalidade.</p>
+    <button class="closeBtn" onclick="closeModal()">Fechar</button>
+  </div>
+</div>
 
-function renderTx(){
-  setActive('tx');
-  const el = document.getElementById('view');
-  el.innerHTML = `<section class="card"><h3>Extrato e Transações</h3><div id="txList2"></div></section>`;
-  const list = document.getElementById('txList2');
-  transactions.forEach(tx=>{
-    const d=document.createElement('div'); d.className='tx';
-    d.innerHTML = `<div>${tx.title}</div><div class="${tx.amount>=0?'green':'red'}">${tx.amount>=0?'+':'-'} R$ ${Math.abs(tx.amount).toLocaleString('pt-BR')}</div>`;
-    list.appendChild(d);
-  });
-}
-
-function renderInvest(){
-  setActive('invest');
-  const el = document.getElementById('view');
-  el.innerHTML = `<section class="card"><h3>Investimentos</h3><div id="invList"></div></section>`;
-  const list=document.getElementById('invList');
-  investments.forEach(inv=>{
-    const d=document.createElement('div'); d.className='tx';
-    d.innerHTML = `<div>${inv.title}</div><div>R$ ${inv.value.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>`;
-    list.appendChild(d);
-  });
-}
-
-function renderProfile(){
-  setActive('profile');
-  const el = document.getElementById('view');
-  el.innerHTML = `<section class="card"><h3>Informações do Perfil</h3>
-  <div style="display:grid;grid-template-columns:1fr;gap:8px;margin-top:8px">
-    <input class="input" placeholder="Nome completo" value="Daniel Kascher">
-    <input class="input" placeholder="E-mail" value="daniel@example.com">
-    <input class="input" placeholder="Telefone" value="(11) 99999-9999">
-    <input class="input" placeholder="CPF" value="000.000.000-00">
-    <button style="padding:10px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-weight:800;cursor:pointer">Salvar Alterações</button>
-  </div></section>`;
-}
-
-// bottom nav events
-document.querySelectorAll('.navitem').forEach(a=>a.addEventListener('click', (e)=>{
-  e.preventDefault();
-  const tab = e.currentTarget.dataset.tab;
-  if(tab==='home') renderHome();
-  if(tab==='tx') renderTx();
-  if(tab==='invest') renderInvest();
-  if(tab==='profile') renderProfile();
-}));
-
-// investments auto variation
-setInterval(()=>{
-  investments = investments.map(i=>{ i.value = +(i.value*(1+(Math.random()*0.06-0.03))).toFixed(2); return i; });
-  const invList=document.getElementById('invList'); if(invList) renderInvest();
-},4000);
-
-// initial
-renderHome();
+<script>
+if(sessionStorage.getItem('loggedIn')!=='1'){window.location.replace('index.html');}
+function logout(){sessionStorage.removeItem('loggedIn');location.href='index.html';}
+function openModal(txt){document.getElementById('modalTitle').innerText=txt;document.getElementById('modal').style.display='flex';}
+function closeModal(){document.getElementById('modal').style.display='none';}
 </script>
 </body>
 </html>
