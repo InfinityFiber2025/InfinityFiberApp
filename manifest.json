@@ -1,1 +1,9 @@
-{"name":"Infinity Bank Final","short_name":"InfinityBank","start_url":".","display":"standalone"}
+{
+ "name":"Infinity Bank Completo",
+ "short_name":"InfinityBank",
+ "start_url":".",
+ "display":"standalone",
+ "background_color":"#ffffff",
+ "theme_color":"#2563eb",
+ "icons":[{"src":"icons/banks/santander.png","sizes":"192x192","type":"image/png"}]
+}

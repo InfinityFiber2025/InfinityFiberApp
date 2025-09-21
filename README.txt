@@ -1,1 +1,1 @@
-Versão final do protótipo Infinity Bank.
+Protótipo completo Infinity Bank: login, splash, saldo, transações, investimentos dinâmicos e cartões estilizados.

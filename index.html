@@ -1,1 +1,62 @@
-<html><body><h1>Infinity Bank Final</h1><p>Protótipo com login, splash, saldo, transações, investimentos e cartões estilizados.</p></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinity Bank - Completo</title>
+<link rel="manifest" href="manifest.json">
+<style>
+body{margin:0;font-family:sans-serif;background:#f3f4f6;color:#111}
+.center{display:flex;align-items:center;justify-content:center}
+#splash{position:fixed;inset:0;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;display:none;flex-direction:column;align-items:center;justify-content:center;z-index:1200}
+#splash img{width:120px;animation:pop 1s ease-in-out infinite alternate}
+@keyframes pop{from{transform:scale(1)}to{transform:scale(1.12)}}
+#loginScreen{position:fixed;inset:0;background:#f3f4f6;display:flex;align-items:center;justify-content:center;z-index:1300}
+.loginBox{background:#fff;padding:20px;border-radius:12px;width:320px;box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:8px}
+.btn{background:#2563eb;color:#fff;padding:10px;border:none;border-radius:8px;margin-top:12px;cursor:pointer;width:100%}
+.small{font-size:13px;color:#666}
+.layout{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.sidebar{background:#fff;border-right:1px solid #e6edf3;padding:18px;display:flex;flex-direction:column;gap:12px;align-items:center}
+.sidebar img{width:64px}
+.nav button{background:none;border:none;padding:10px;border-radius:8px;text-align:left;font-weight:700;cursor:pointer;width:100%}
+.content{padding:18px}
+.card{background:#fff;border-radius:12px;padding:14px;margin-bottom:16px;box-shadow:0 6px 18px rgba(20,30,60,0.06)}
+.balanceCard{background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;padding:18px;border-radius:12px}
+.balance{font-size:26px;font-weight:800}
+.quickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:12px}
+.quick{padding:14px;border-radius:10px;color:#fff;text-align:center;font-weight:700;cursor:pointer}
+.q1{background:#16a34a}.q2{background:#2563eb}.q3{background:#f59e0b}.q4{background:#9333ea}.q5{background:#0ea5e9}.q6{background:#dc2626}
+.tx{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid #eef2f5}
+.green{color:#16a34a}.red{color:#dc2626}
+.card-card{border-radius:14px;padding:18px;color:#fff;box-shadow:0 8px 20px rgba(10,20,40,0.08);margin-bottom:16px;position:relative;overflow:hidden}
+.card-card .top{display:flex;align-items:center;gap:12px}
+.card-card .logo{width:56px;height:56px;border-radius:8px;background:#fff;padding:8px;display:flex;align-items:center;justify-content:center}
+.card-card .bank-name{font-size:18px;font-weight:800}
+.card-card .card-number{margin-top:18px;font-size:20px;letter-spacing:4px;font-weight:700}
+.card-card .card-footer{margin-top:12px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,0.9);font-weight:700}
+.bg-credit{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
+.bg-debit{background:linear-gradient(135deg,#06b6d4,#0ea5e9)}
+.small-eye{cursor:pointer;opacity:0.95;background:rgba(255,255,255,0.08);padding:6px 8px;border-radius:8px}
+@media(max-width:768px){.layout{grid-template-columns:1fr}.sidebar{display:none}}
+</style>
+</head>
+<body>
+<div id="splash" class="center"><img src="icons/banks/santander.png"><h1>Bem-vindo ao Infinity Bank</h1></div>
+<div id="loginScreen"><div class="loginBox"><h2>Entrar</h2><input id="inputUser" class="input" placeholder="Usuário"><input id="inputPass" type="password" class="input" placeholder="Senha"><button id="btnLogin" class="btn">Entrar</button><p class="small">Usuário: <b>Danielalkascher</b><br>Senha: <b>K@scher123</b></p></div></div>
+<div id="app" style="display:none"><div class="layout"><aside class="sidebar"><img src="icons/banks/santander.png"><div class="nav"><button>Painel</button><button>Cartões</button><button>Transações</button><button>Investimentos</button></div></aside><main class="content"><div class="card balanceCard"><div>Saldo Total Disponível</div><div class="balance" id="saldo">R$ 37.000.000,00</div></div><div class="card"><h3>Ações Rápidas</h3><div class="quickGrid"><div class="quick q1">Transferir</div><div class="quick q2">PIX</div><div class="quick q3">Contas</div><div class="quick q4">Cartão</div><div class="quick q5">Investir</div><div class="quick q6">Cofre</div></div></div><div class="card"><h3>Transações Recentes</h3><div id="transactions"></div></div><div class="card"><h3>Investimentos</h3><div id="investments"></div></div><div class="card"><h3>Meus Cartões</h3><div id="cardsArea"></div></div></main></div></div>
+<script>
+const LOGIN_USER="Danielalkascher",LOGIN_PASS="K@scher123";
+document.getElementById("btnLogin").onclick=()=>{const u=document.getElementById("inputUser").value.trim();const p=document.getElementById("inputPass").value;if(u===LOGIN_USER&&p===LOGIN_PASS){document.getElementById("loginScreen").style.display="none";document.getElementById("splash").style.display="flex";setTimeout(()=>{document.getElementById("splash").style.display="none";document.getElementById("app").style.display="block";renderTransactions();renderInvestments();renderCards();},10000)}else alert("Usuário ou senha inválidos")};
+let transactions=[{title:"Depósito Inicial",amount:10000},{title:"Pagamento Energia",amount:-320},{title:"PIX Recebido",amount:850}];
+function renderTransactions(){const el=document.getElementById("transactions");el.innerHTML="";transactions.forEach(tx=>{const d=document.createElement("div");d.className="tx";d.innerHTML=`<div>${tx.title}</div><div class="${tx.amount>=0?"green":"red"}">${tx.amount>=0?"+":"-"} R$ ${Math.abs(tx.amount).toLocaleString("pt-BR")}</div>`;el.appendChild(d)})}
+let investments=[{title:"Poupança Digital Infinity",value:5000},{title:"CDB Pós-fixado",value:3000},{title:"Fundo Multimercado",value:2000}];
+function renderInvestments(){const el=document.getElementById("investments");el.innerHTML="";investments.forEach(inv=>{const d=document.createElement("div");d.className="tx";d.innerHTML=`<div>${inv.title}</div><div>R$ ${inv.value.toLocaleString("pt-BR",{minimumFractionDigits:2})}</div>`;el.appendChild(d)})}
+setInterval(()=>{investments=investments.map(i=>{i.value=+(i.value*(1+(Math.random()*0.06-0.03))).toFixed(2);return i});renderInvestments()},4000);
+const cards=[{id:"card-cc",type:"credit",bankId:"santander",bankName:"Santander",holder:"Cliente Demo",number:"1234123412341234",valid:"12/28"},{id:"card-db",type:"debit",bankId:"bb",bankName:"Banco do Brasil",holder:"Cliente Demo",number:"5678567856785678",valid:"10/27"}];
+function maskNumber(num){return"•••• •••• •••• "+num.slice(-4)}
+function formatNumber(num){return num.replace(/(.{4})/g,"$1 ").trim()}
+function renderCards(){const area=document.getElementById("cardsArea");area.innerHTML="";cards.forEach(c=>{const div=document.createElement("div");div.className="card-card "+(c.type==="credit"?"bg-credit":"bg-debit");div.innerHTML=`<div class="top"><div class="logo"><img src="icons/banks/${c.bankId}.png" style="width:100%"></div><div><div class="bank-name">${c.bankName}</div><div style="opacity:0.9;font-size:12px">Cartão ${c.type==="credit"?"de Crédito":"de Débito"}</div></div></div><div class="card-number" id="${c.id}-num">${maskNumber(c.number)}</div><div class="card-footer"><div><div style="font-size:12px">Nome no Cartão</div><div>${c.holder}</div></div><div style="text-align:right"><div style="font-size:12px">Válido até</div><div>${c.valid}</div></div></div><div style="position:absolute;top:12px;right:12px"><div class="small-eye" data-card="${c.id}">👁️</div></div>`;area.appendChild(div)});document.querySelectorAll(".small-eye").forEach(btn=>{btn.onclick=e=>{const id=e.currentTarget.getAttribute("data-card");const obj=cards.find(x=>x.id===id);const el=document.getElementById(id+"-num");if(!obj._shown){el.textContent=formatNumber(obj.number);obj._shown=true;e.currentTarget.textContent="🙈"}else{el.textContent=maskNumber(obj.number);obj._shown=false;e.currentTarget.textContent="👁️"}}})}
+</script>
+</body>
+</html>
