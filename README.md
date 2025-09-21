@@ -1,13 +1,13 @@
-# Infinity Bank – Protótipo
+# Infinity Bank – PWA Protótipo
 
-Este é um protótipo em **HTML + CSS + JS** para testes de interface do Infinity Bank.
+Este repositório contém uma versão **PWA** do protótipo do Infinity Bank.
 
 ## Como usar
-1. Baixe/clonar o repositório.
-2. Abra `index.html` no navegador (PC ou mobile).
-3. Pode ser hospedado diretamente no **GitHub Pages**.
+1. Faça deploy no GitHub Pages.
+2. Abra no navegador (Chrome, Edge, Safari).
+3. No celular, use **Adicionar à tela inicial** para instalar como app.
 
-## GitHub Pages
-- Vá em **Settings > Pages**.
-- Configure a branch `main` e a pasta `/ (root)`.
-- O site ficará disponível em `https://SEU-USUARIO.github.io/NOME-DO-REPO/`.
+## Arquivos
+- `index.html` → interface principal.
+- `manifest.json` → configura nome, ícones e cores do PWA.
+- `service-worker.js` → cache offline simples.

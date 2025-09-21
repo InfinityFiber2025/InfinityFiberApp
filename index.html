@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Infinity Bank – Protótipo</title>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#111111"/>
   <style>
     body { margin:0; font-family:sans-serif; background:#f9fafb; color:#111; }
     .layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
@@ -109,6 +111,10 @@
   </div>
 
   <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW fail', err));
+    }
+
     const saldo = document.getElementById('saldo');
     const cc = document.getElementById('cc');
     const pp = document.getElementById('pp');
