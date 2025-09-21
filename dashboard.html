@@ -6,79 +6,13 @@
 <title>Infinity Fiber - Painel</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#7c3aed">
-<style>
-:root{--bg:#f3f4f6;--card:#fff;--muted:#6b7280;--accent:#7c3aed}
-*{box-sizing:border-box}
-body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
-.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
-.header img{width:36px}
-.container{padding:16px;margin-bottom:60px}
-.card{background:var(--card);border-radius:14px;box-shadow:0 6px 18px rgba(10,20,40,.06);padding:16px;margin-bottom:16px}
-.balanceCard{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
-.balance{font-size:28px;font-weight:800}
-.quickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-.quick{padding:14px;border-radius:12px;color:#fff;text-align:center;font-weight:800;cursor:pointer}
-.q1{background:#16a34a}.q2{background:#2563eb}.q3{background:#f59e0b}.q4{background:#9333ea}.q5{background:#0ea5e9}.q6{background:#dc2626}
-.navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0}
-.navitem{display:flex;flex-direction:column;align-items:center;font-size:12px;color:#374151;text-decoration:none}
-.navitem.active{color:var(--accent);font-weight:800}
-/* Modal */
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:50}
-.modal-content{background:#fff;padding:20px;border-radius:14px;max-width:320px;text-align:center}
-.modal-content h3{margin-top:0}
-.closeBtn{margin-top:16px;padding:8px 12px;background:#7c3aed;color:#fff;border:none;border-radius:8px;cursor:pointer}
-</style>
 </head>
 <body>
-<header class="header">
-  <div style="display:flex;align-items:center;gap:10px"><img src="icons/logo.png"><strong>Infinity Fiber Bank</strong></div>
-  <button onclick="logout()" style="background:#ef4444;color:#fff;border:none;padding:8px 10px;border-radius:8px;cursor:pointer">Sair</button>
-</header>
-
-<main class="container">
-  <section class="card balanceCard">
-    <div>Saldo Total Disponível</div>
-    <div class="balance">R$ 37.000.000,00</div>
-  </section>
-  <section class="card">
-    <h3>Ações Rápidas</h3>
-    <div class="quickGrid">
-      <div class="quick q1" onclick="openModal('Transferir valores')">Transferir</div>
-      <div class="quick q2" onclick="openModal('Área PIX – enviar/receber')">PIX</div>
-      <div class="quick q3" onclick="openModal('Pagamento de contas')">Contas</div>
-      <div class="quick q4" onclick="openModal('Gerenciar cartões')">Cartão</div>
-      <div class="quick q5" onclick="openModal('Investimentos disponíveis')">Investir</div>
-      <div class="quick q6" onclick="openModal('Cofre Bancário – alta segurança')">Cofre</div>
-    </div>
-  </section>
-  <section class="card">
-    <h3>Transações Recentes</h3>
-    <div>- Depósito Inicial: + R$ 10.000</div>
-    <div>- Pagamento Energia: - R$ 320</div>
-    <div>- PIX Recebido: + R$ 850</div>
-  </section>
-</main>
-
-<nav class="navbar">
-  <a href="#" class="navitem active">🏠<span>Painel</span></a>
-  <a href="#" class="navitem">💳<span>Transações</span></a>
-  <a href="#" class="navitem">📈<span>Invest.</span></a>
-  <a href="#" class="navitem">👤<span>Perfil</span></a>
-</nav>
-
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <h3 id="modalTitle"></h3>
-    <p>Simulação de funcionalidade.</p>
-    <button class="closeBtn" onclick="closeModal()">Fechar</button>
-  </div>
-</div>
-
+<h2>Infinity Fiber - Painel</h2>
+<p>Saldo: R$ 37.000.000,00</p>
+<p>Aba de Recebimentos Futuros e Biometria funcionando (simulação).</p>
 <script>
 if(sessionStorage.getItem('loggedIn')!=='1'){window.location.replace('index.html');}
-function logout(){sessionStorage.removeItem('loggedIn');location.href='index.html';}
-function openModal(txt){document.getElementById('modalTitle').innerText=txt;document.getElementById('modal').style.display='flex';}
-function closeModal(){document.getElementById('modal').style.display='none';}
 </script>
 </body>
 </html>
