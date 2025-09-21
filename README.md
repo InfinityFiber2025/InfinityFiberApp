@@ -1,14 +1,19 @@
-# Infinity Bank – PWA Protótipo
+# Infinity Bank – PWA Protótipo (Cores vivas + Bolsa dinâmica)
 
-Versão **PWA** do protótipo do Infinity Bank, já com ícones personalizados.
+Inclui:
+- Cores vivas nos cards
+- Logo do banco
+- Transações dinâmicas
+- Investimentos variando automaticamente (simulação bolsa)
+- Suporte PWA
 
 ## Como usar
-1. Faça deploy no GitHub Pages.
-2. Abra no navegador (Chrome, Edge, Safari).
-3. No celular, use **Adicionar à tela inicial** para instalar como app com ícone próprio.
+1. Deploy no GitHub Pages.
+2. Abrir no navegador (PC ou Mobile).
+3. No celular: **Adicionar à tela inicial** para instalar como app.
 
-## Arquivos
-- `index.html` → interface principal.
-- `manifest.json` → configura nome, cores e ícones do PWA.
-- `service-worker.js` → cache offline simples.
-- `icons/` → ícones usados no app (192x192 e 512x512).
+Arquivos:
+- `index.html`
+- `manifest.json`
+- `service-worker.js`
+- `icons/`

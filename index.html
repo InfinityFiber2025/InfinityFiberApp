@@ -7,24 +7,31 @@
   <link rel="manifest" href="manifest.json">
   <meta name="theme-color" content="#111111"/>
   <style>
-    body { margin:0; font-family:sans-serif; background:#f9fafb; color:#111; }
+    body { margin:0; font-family:sans-serif; background:#f0f2f5; color:#111; }
     .layout { display:grid; grid-template-columns:240px 1fr; min-height:100vh; }
-    .sidebar { background:#fff; border-right:1px solid #e5e7eb; padding:16px; display:flex; flex-direction:column; }
-    .sidebar h2 { font-size:16px; margin-bottom:20px; }
-    .sidebar button { background:none; border:none; padding:10px; text-align:left; width:100%; border-radius:8px; cursor:pointer; }
+    .sidebar { background:#fff; border-right:1px solid #e5e7eb; padding:16px; display:flex; flex-direction:column; align-items:center; }
+    .sidebar img { width:80px; margin-bottom:20px; }
+    .sidebar button { background:none; border:none; padding:10px; text-align:left; width:100%; border-radius:8px; cursor:pointer; font-weight:bold; }
     .sidebar button:hover { background:#f3f4f6; }
     .content { padding:16px; }
-    .card { background:#fff; border:1px solid #e5e7eb; border-radius:12px; padding:16px; margin-bottom:16px; }
+    .card { background:#fff; border-radius:12px; padding:16px; margin-bottom:16px; box-shadow:0 2px 6px rgba(0,0,0,0.1); }
+    .balance-card { background:linear-gradient(135deg, #2563eb, #1e3a8a); color:white; }
     .balance { font-size:28px; font-weight:bold; }
     .quick-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:10px; }
-    .quick { border:1px solid #e5e7eb; border-radius:10px; padding:12px; cursor:pointer; background:#f9fafb; }
+    .quick { border-radius:10px; padding:16px; cursor:pointer; color:white; text-align:center; font-weight:bold; }
+    .quick:nth-child(1){ background:#16a34a; }
+    .quick:nth-child(2){ background:#2563eb; }
+    .quick:nth-child(3){ background:#f59e0b; }
+    .quick:nth-child(4){ background:#9333ea; }
+    .quick:nth-child(5){ background:#0ea5e9; }
+    .quick:nth-child(6){ background:#dc2626; }
     .tx { display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid #e5e7eb; }
     .green { color:#16a34a; font-weight:bold; }
     .red { color:#dc2626; font-weight:bold; }
     .modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); display:none; align-items:center; justify-content:center; }
     .modal-content { background:#fff; padding:20px; border-radius:12px; width:90%; max-width:400px; }
     .bottom-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:#fff; border-top:1px solid #e5e7eb; display:grid; grid-template-columns:repeat(4,1fr); }
-    .bottom-nav button { padding:10px; border:none; background:none; font-size:12px; }
+    .bottom-nav button { padding:10px; border:none; background:none; font-size:12px; font-weight:bold; }
     @media(max-width:768px){
       .layout { grid-template-columns:1fr; }
       .sidebar { display:none; }
@@ -35,7 +42,7 @@
 <body>
   <div class="layout">
     <aside class="sidebar">
-      <h2>Infinity Bank</h2>
+      <img src="icons/icon-192.png" alt="Logo Infinity Bank">
       <button>Painel</button>
       <button>Cartões</button>
       <button>Transações</button>
@@ -44,19 +51,19 @@
     </aside>
 
     <main class="content">
-      <div class="card">
+      <div class="card balance-card">
         <h3>Saldo Total Disponível 
-          <button id="toggleSaldo">👁️</button>
+          <button id="toggleSaldo" style="background:none;border:none;color:white;cursor:pointer;">👁️</button>
         </h3>
-        <div class="balance" id="saldo">R$ 12.847,32</div>
+        <div class="balance" id="saldo">R$ 25.000,00</div>
         <div style="margin-top:8px; display:flex; gap:10px;">
-          <div class="card" style="flex:1;">
+          <div class="card" style="flex:1; background:#1e40af; color:white;">
             <div>Conta Corrente</div>
-            <div id="cc">R$ 8.234,50</div>
+            <div id="cc">R$ 15.000,00</div>
           </div>
-          <div class="card" style="flex:1;">
+          <div class="card" style="flex:1; background:#1e40af; color:white;">
             <div>Poupança</div>
-            <div id="pp">R$ 4.612,82</div>
+            <div id="pp">R$ 10.000,00</div>
           </div>
         </div>
       </div>
@@ -75,16 +82,12 @@
 
       <div class="card">
         <h3>Transações Recentes</h3>
-        <div class="tx"><span>Amazon Brasil</span><span class="red">- R$ 89,90</span></div>
-        <div class="tx"><span>Salário – Empresa XYZ</span><span class="green">+ R$ 5.200,00</span></div>
-        <div class="tx"><span>Uber</span><span class="red">- R$ 23,50</span></div>
+        <div id="transactions"></div>
       </div>
 
       <div class="card">
         <h3>Investimentos</h3>
-        <div class="tx"><span>Poupança Digital Infinity</span><span class="green">R$ 4.612,82</span></div>
-        <div class="tx"><span>CDB Pós-fixado</span><span class="green">R$ 2.500,00</span></div>
-        <div class="tx"><span>Fundo Multimercado</span><span class="red">R$ 1.800,00</span></div>
+        <div id="investments"></div>
       </div>
     </main>
   </div>
@@ -96,7 +99,6 @@
     <button>Perfil</button>
   </div>
 
-  <!-- Modal Cofre -->
   <div class="modal" id="modalCofre">
     <div class="modal-content">
       <h3>Cofre Bancário</h3>
@@ -115,6 +117,7 @@
       navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW fail', err));
     }
 
+    // Saldos toggle
     const saldo = document.getElementById('saldo');
     const cc = document.getElementById('cc');
     const pp = document.getElementById('pp');
@@ -122,9 +125,9 @@
     document.getElementById('toggleSaldo').onclick = () => {
       visivel = !visivel;
       if(visivel){
-        saldo.textContent = 'R$ 12.847,32';
-        cc.textContent = 'R$ 8.234,50';
-        pp.textContent = 'R$ 4.612,82';
+        saldo.textContent = 'R$ 25.000,00';
+        cc.textContent = 'R$ 15.000,00';
+        pp.textContent = 'R$ 10.000,00';
       } else {
         saldo.textContent = '••••••';
         cc.textContent = '••••';
@@ -132,6 +135,52 @@
       }
     };
 
+    // Transações
+    const transactions = [
+      { title: "Depósito Inicial", amount: 10000 },
+      { title: "Pagamento Energia", amount: -320 },
+      { title: "PIX Recebido", amount: 850 }
+    ];
+    const txContainer = document.getElementById('transactions');
+    function renderTransactions(){
+      txContainer.innerHTML = "";
+      transactions.forEach(tx => {
+        const div = document.createElement('div');
+        div.className = "tx";
+        div.innerHTML = `<span>${tx.title}</span><span class="${tx.amount>0?'green':'red'}">${tx.amount>0?'+':'-'} R$ ${Math.abs(tx.amount).toLocaleString()}</span>`;
+        txContainer.appendChild(div);
+      });
+    }
+    renderTransactions();
+
+    // Investimentos dinâmicos
+    let investments = [
+      { title: "Poupança Digital Infinity", value: 5000 },
+      { title: "CDB Pós-fixado", value: 3000 },
+      { title: "Fundo Multimercado", value: 2000 }
+    ];
+    const invContainer = document.getElementById('investments');
+    function renderInvestments(){
+      invContainer.innerHTML = "";
+      investments.forEach(inv => {
+        const div = document.createElement('div');
+        div.className = "tx";
+        div.innerHTML = `<span>${inv.title}</span><span>R$ ${inv.value.toFixed(2)}</span>`;
+        invContainer.appendChild(div);
+      });
+    }
+    function updateInvestments(){
+      investments = investments.map(inv => {
+        let change = (Math.random()*0.06 - 0.03);
+        inv.value = inv.value * (1+change);
+        return inv;
+      });
+      renderInvestments();
+    }
+    renderInvestments();
+    setInterval(updateInvestments, 5000);
+
+    // Cofre
     function abrirCofre(){
       document.getElementById('modalCofre').style.display = 'flex';
       if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
