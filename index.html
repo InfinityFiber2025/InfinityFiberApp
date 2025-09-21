@@ -117,7 +117,6 @@
       navigator.serviceWorker.register('service-worker.js').catch(err => console.log('SW fail', err));
     }
 
-    // Saldos toggle
     const saldo = document.getElementById('saldo');
     const cc = document.getElementById('cc');
     const pp = document.getElementById('pp');
@@ -135,7 +134,6 @@
       }
     };
 
-    // Transações
     const transactions = [
       { title: "Depósito Inicial", amount: 10000 },
       { title: "Pagamento Energia", amount: -320 },
@@ -153,7 +151,6 @@
     }
     renderTransactions();
 
-    // Investimentos dinâmicos
     let investments = [
       { title: "Poupança Digital Infinity", value: 5000 },
       { title: "CDB Pós-fixado", value: 3000 },
@@ -180,7 +177,6 @@
     renderInvestments();
     setInterval(updateInvestments, 5000);
 
-    // Cofre
     function abrirCofre(){
       document.getElementById('modalCofre').style.display = 'flex';
       if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
