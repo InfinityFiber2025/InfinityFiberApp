@@ -1,1 +1,1 @@
-Versão regenerada para garantir o download.
+Login corrigido para usuário DanielKascher e senha K@scher123.

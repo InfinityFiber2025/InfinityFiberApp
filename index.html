@@ -1,1 +1,36 @@
-<html><body><h1>Infinity Bank Ready Fresh</h1><p>Versão de teste com login, splash, saldo e cartões.</p></body></html>
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinity Bank Login Fix</title>
+<style>
+body{margin:0;font-family:sans-serif;background:#f3f4f6;display:flex;align-items:center;justify-content:center;height:100vh}
+.loginBox{background:#fff;padding:20px;border-radius:12px;width:320px;box-shadow:0 8px 24px rgba(0,0,0,0.08)}
+.input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:8px}
+.btn{background:#2563eb;color:#fff;padding:10px;border:none;border-radius:8px;margin-top:12px;cursor:pointer;width:100%}
+.small{font-size:13px;color:#666}
+</style>
+</head>
+<body>
+<div class="loginBox">
+  <h2>Entrar</h2>
+  <input id="inputUser" class="input" placeholder="Usuário">
+  <input id="inputPass" type="password" class="input" placeholder="Senha">
+  <button id="btnLogin" class="btn">Entrar</button>
+  <p class="small">Usuário: <b>DanielKascher</b><br>Senha: <b>K@scher123</b></p>
+</div>
+<script>
+const LOGIN_USER="DanielKascher", LOGIN_PASS="K@scher123";
+document.getElementById("btnLogin").onclick=()=>{
+  const u=document.getElementById("inputUser").value.trim();
+  const p=document.getElementById("inputPass").value;
+  if(u===LOGIN_USER && p===LOGIN_PASS){
+    alert("Login bem-sucedido!");
+  } else {
+    alert("Usuário ou senha inválidos");
+  }
+};
+</script>
+</body>
+</html>
