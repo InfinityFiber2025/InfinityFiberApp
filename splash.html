@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinity Bank - Bem-vindo</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#1e3a8a">
+<style>
+body{margin:0;height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2563eb,#1e3a8a);color:#fff;font-family:system-ui,-apple-system,Segoe UI,Roboto}
+.wrap{display:flex;flex-direction:column;align-items:center}
+.logo{width:120px;height:120px;border-radius:28px;background:#fff;display:flex;align-items:center;justify-content:center;animation:pop 1s ease-in-out infinite alternate}
+.logo img{width:80px;height:80px}
+h1{margin:14px 0 6px 0}
+p{opacity:.9}
+@keyframes pop{from{transform:scale(1)}to{transform:scale(1.12)}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="logo"><img src="icons/banks/santander.png" alt="logo"></div>
+  <h1>Bem-vindo ao Infinity Bank</h1>
+  <p>Carregando seu painel...</p>
+</div>
+<script>
+if(sessionStorage.getItem('loggedIn')!=='1'){ window.location.replace('index.html'); }
+setTimeout(()=>{ window.location.replace('dashboard.html'); }, 10000);
+</script>
+</body>
+</html>

@@ -3,34 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Infinity Bank Login Fix</title>
+<title>Infinity Bank - Login</title>
+<link rel="manifest" href="manifest.json">
 <style>
-body{margin:0;font-family:sans-serif;background:#f3f4f6;display:flex;align-items:center;justify-content:center;height:100vh}
-.loginBox{background:#fff;padding:20px;border-radius:12px;width:320px;box-shadow:0 8px 24px rgba(0,0,0,0.08)}
-.input{width:100%;padding:10px;border-radius:8px;border:1px solid #ddd;margin-top:8px}
-.btn{background:#2563eb;color:#fff;padding:10px;border:none;border-radius:8px;margin-top:12px;cursor:pointer;width:100%}
-.small{font-size:13px;color:#666}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f3f4f6;height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:#fff;width:340px;padding:22px;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
+h2{margin:0 0 12px 0}
+.input{width:100%;padding:10px;border-radius:10px;border:1px solid #e5e7eb;margin-top:8px}
+.btn{width:100%;padding:12px;border:none;border-radius:10px;background:#2563eb;color:#fff;font-weight:700;margin-top:14px;cursor:pointer}
+.small{color:#6b7280;font-size:13px;margin-top:8px}
 </style>
 </head>
 <body>
-<div class="loginBox">
+<div class="box">
   <h2>Entrar</h2>
-  <input id="inputUser" class="input" placeholder="Usuário">
-  <input id="inputPass" type="password" class="input" placeholder="Senha">
-  <button id="btnLogin" class="btn">Entrar</button>
-  <p class="small">Usuário: <b>DanielKascher</b><br>Senha: <b>K@scher123</b></p>
+  <input id="user" class="input" placeholder="Usuário">
+  <input id="pass" class="input" type="password" placeholder="Senha">
+  <button class="btn" id="loginBtn">Entrar</button>
+  <div class="small">Usuário: <b>DanielKascher</b><br>Senha: <b>K@scher123</b></div>
 </div>
 <script>
-const LOGIN_USER="DanielKascher", LOGIN_PASS="K@scher123";
-document.getElementById("btnLogin").onclick=()=>{
-  const u=document.getElementById("inputUser").value.trim();
-  const p=document.getElementById("inputPass").value;
-  if(u===LOGIN_USER && p===LOGIN_PASS){
-    alert("Login bem-sucedido!");
+const U="DanielKascher", P="K@scher123";
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+  const u = document.getElementById('user').value.trim();
+  const p = document.getElementById('pass').value;
+  if(u===U && p===P){
+    sessionStorage.setItem('loggedIn','1');
+    window.location.href='splash.html';
   } else {
-    alert("Usuário ou senha inválidos");
+    alert('Usuário ou senha inválidos');
   }
-};
+});
 </script>
 </body>
 </html>
