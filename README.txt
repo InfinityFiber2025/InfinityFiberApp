@@ -1,1 +1,1 @@
-Protótipo completo Infinity Bank: login, splash, saldo, transações, investimentos dinâmicos e cartões estilizados.
+Versão regenerada para garantir o download.
