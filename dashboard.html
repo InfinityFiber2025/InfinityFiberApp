@@ -6,13 +6,354 @@
 <title>Infinity Fiber - Painel</title>
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#7c3aed">
+<style>
+:root{--bg:#f6f7fb;--card:#fff;--muted:#6b7280;--accent:#7c3aed}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:var(--bg);color:#111}
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;background:#fff;border-bottom:1px solid #e5e7eb}
+.header img{width:36px}
+.container{padding:16px;margin-bottom:90px}
+.card{background:var(--card);border-radius:14px;box-shadow:0 6px 18px rgba(10,20,40,.06);padding:16px;margin-bottom:16px}
+.balanceCard{background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff}
+.balance{font-size:28px;font-weight:800}
+.quickGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.quick{padding:14px;border-radius:12px;color:#fff;text-align:center;font-weight:800;cursor:pointer}
+.q1{background:#16a34a}.q2{background:#2563eb}.q3{background:#f59e0b}.q4{background:#9333ea}.q5{background:#0ea5e9}.q6{background:#dc2626}
+.tx{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #eef2f5}
+.green{color:#16a34a;font-weight:800}.red{color:#dc2626;font-weight:800}
+/* cards */
+.card-card{border-radius:14px;padding:18px;color:#fff;box-shadow:0 8px 20px rgba(10,20,40,0.08);margin-bottom:16px;position:relative;overflow:hidden}
+.card-card .top{display:flex;align-items:center;gap:12px}
+.card-card .logo2{width:56px;height:56px;border-radius:8px;background:#fff;padding:8px;display:flex;align-items:center;justify-content:center}
+.card-card .bank-name{font-size:18px;font-weight:800}
+.card-card .card-number{margin-top:18px;font-size:20px;letter-spacing:4px;font-weight:700}
+.card-card .card-footer{margin-top:12px;display:flex;justify-content:space-between;align-items:center;color:rgba(255,255,255,0.9);font-weight:700}
+.bg-credit{background:linear-gradient(135deg,#8b5cf6,#7c3aed)}
+.bg-debit{background:linear-gradient(135deg,#06b6d4,#0ea5e9)}
+.small-eye{cursor:pointer;opacity:0.95;background:rgba(255,255,255,0.08);padding:6px 8px;border-radius:8px}
+/* bottom nav */
+.navbar{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:1px solid #e5e7eb;display:flex;justify-content:space-around;padding:8px 0}
+.navitem{display:flex;flex-direction:column;align-items:center;font-size:12px;color:#374151;text-decoration:none}
+.navitem.active{color:var(--accent);font-weight:800}
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;z-index:60}
+.modal .box{background:#fff;padding:18px;border-radius:14px;width:95%;max-width:460px}
+.input{width:100%;padding:10px;border-radius:10px;border:1px solid #e5e7eb;margin-top:8px}
+.btn{padding:10px 12px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer}
+.link{padding:8px 10px;border:1px solid #e5e7eb;border-radius:10px;background:#fff;color:#111;cursor:pointer}
+.video{width:100%;background:#000;border-radius:10px}
+.pill{display:inline-block;padding:6px 10px;border-radius:999px;border:1px solid #e5e7eb;background:#fff}
+.list{margin-top:8px}
+.item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid #eef2f5}
+</style>
 </head>
 <body>
-<h2>Infinity Fiber - Painel</h2>
-<p>Saldo: R$ 37.000.000,00</p>
-<p>Aba de Recebimentos Futuros e Biometria funcionando (simulação).</p>
+<header class="header">
+  <div style="display:flex;align-items:center;gap:10px"><img src="icons/logo.png"><strong>Infinity Fiber Bank</strong></div>
+  <div style="display:flex;gap:8px">
+    <button class="link" onclick="openEnroll()">Reconhecimento Facial</button>
+    <button onclick="logout()" class="btn" style="background:#ef4444">Sair</button>
+  </div>
+</header>
+
+<main class="container" id="view">
+  <section class="card balanceCard">
+    <div>Saldo Total Disponível</div>
+    <div class="balance">R$ 37.000.000,00</div>
+  </section>
+
+  <section class="card">
+    <h3>Ações Rápidas</h3>
+    <div class="quickGrid">
+      <div class="quick q1" onclick="openTransfer()">Transferir</div>
+      <div class="quick q2" onclick="openPix()">PIX</div>
+      <div class="quick q3" onclick="openBills()">Contas</div>
+      <div class="quick q4" onclick="openCards()">Cartão</div>
+      <div class="quick q5" onclick="renderTab('invest')">Investir</div>
+      <div class="quick q6" onclick="openVault()">Cofre</div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h3>Transações Recentes</h3>
+    <div id="txList" class="list"></div>
+  </section>
+</main>
+
+<nav class="navbar">
+  <a href="#" class="navitem active" data-tab="home">🏠<span>Painel</span></a>
+  <a href="#" class="navitem" data-tab="tx">💳<span>Transações</span></a>
+  <a href="#" class="navitem" data-tab="invest">📈<span>Invest.</span></a>
+  <a href="#" class="navitem" data-tab="future">📅<span>Futuros</span></a>
+  <a href="#" class="navitem" data-tab="profile">👤<span>Perfil</span></a>
+</nav>
+
+<!-- Modals -->
+<div id="mTransfer" class="modal"><div class="box">
+  <h3>Programar Transferência</h3>
+  <label>Cliente Origem</label>
+  <select id="tfClient" class="input"></select>
+  <label>Destinatário</label>
+  <input id="tfTo" class="input" placeholder="Nome do destinatário">
+  <label>Valor (R$)</label>
+  <input id="tfAmount" class="input" type="number" value="1000">
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:12px">
+    <button class="link" onclick="closeModal('mTransfer')">Cancelar</button>
+    <button class="btn" onclick="submitTransfer()">Programar</button>
+  </div>
+  <p class="small">Transferências acima de R$ 3.000 exigem reconhecimento facial.</p>
+</div></div>
+
+<div id="mSimple" class="modal"><div class="box">
+  <h3 id="simpleTitle">Área</h3>
+  <p>Simulação de funcionalidade.</p>
+  <div style="display:flex;gap:8px;justify-content:flex-end">
+    <button class="btn" onclick="closeModal('mSimple')">Fechar</button>
+  </div>
+</div></div>
+
+<div id="mVault" class="modal"><div class="box">
+  <h3>Cofre Bancário</h3>
+  <p id="vaultMsg">Para abrir o Cofre é necessário reconhecimento facial.</p>
+  <div style="display:flex;gap:8px;justify-content:flex-end">
+    <button class="link" onclick="closeModal('mVault')">Cancelar</button>
+    <button class="btn" onclick="ensureBiometric(()=>{document.getElementById('vaultMsg').textContent='Acesso ao Cofre liberado (simulação).';})">Reconhecimento Facial</button>
+  </div>
+</div></div>
+
+<div id="mEnroll" class="modal"><div class="box">
+  <h3 id="bioTitle">Reconhecimento Facial</h3>
+  <video id="bioVideo" autoplay class="video"></video>
+  <canvas id="bioCanvas" style="display:none"></canvas>
+  <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+    <button class="link" onclick="closeEnroll()">Cancelar</button>
+    <button class="btn" id="bioAction">Capturar</button>
+  </div>
+  <p id="bioInfo" style="margin-top:8px;color:#16a34a;display:none">Biometria cadastrada com sucesso.</p>
+</div></div>
+
 <script>
 if(sessionStorage.getItem('loggedIn')!=='1'){window.location.replace('index.html');}
+
+// ----- State -----
+let clients = [{id:'c1', name:'Cliente A', email:'a@example.com', cpf:'', ag:'', cc:'', pix:''}];
+let transactions = [{title:'Depósito Inicial', amount:10000},{title:'Pagamento Energia', amount:-320},{title:'PIX Recebido', amount:850}];
+let investments = [{title:'Poupança Digital Infinity', value:5000},{title:'CDB Pós-fixado', value:3000},{title:'Fundo Multimercado', value:2000}];
+let futures = [{id:1, desc:'Parcela Empréstimo', value:15000, date:'2025-10-15'}];
+const LIMIT_BIO = 3000;
+
+// initial home tx list
+function renderHome(){
+  const list=document.getElementById('txList'); if(!list) return; list.innerHTML='';
+  transactions.forEach(tx=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML = `<div>${tx.title}</div><div class="${tx.amount>=0?'green':'red'}">${tx.amount>=0?'+':'-'} R$ ${Math.abs(tx.amount).toLocaleString('pt-BR')}</div>`;
+    list.appendChild(d);
+  });
+}
+renderHome();
+
+// bottom nav
+document.querySelectorAll('.navitem').forEach(a=>a.addEventListener('click', (e)=>{
+  e.preventDefault();
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
+  e.currentTarget.classList.add('active');
+  renderTab(e.currentTarget.dataset.tab);
+}));
+
+function renderTab(tab){
+  const main=document.getElementById('view');
+  if(tab==='home'){ location.reload(); return; }
+  if(tab==='tx'){
+    main.innerHTML = `<section class="card"><h3>Extrato</h3><div id="tx"></div></section>`;
+    const el=document.getElementById('tx'); el.innerHTML=''; transactions.forEach(tx=>{
+      const d=document.createElement('div'); d.className='item';
+      d.innerHTML = `<div>${tx.title}</div><div class="${tx.amount>=0?'green':'red'}">${tx.amount>=0?'+':'-'} R$ ${Math.abs(tx.amount).toLocaleString('pt-BR')}</div>`;
+      el.appendChild(d);
+    });
+  }
+  if(tab==='invest'){
+    main.innerHTML = `<section class="card"><h3>Investimentos</h3><div id="inv"></div></section>`;
+    const el=document.getElementById('inv'); el.innerHTML=''; investments.forEach(inv=>{
+      const d=document.createElement('div'); d.className='item';
+      d.innerHTML = `<div>${inv.title}</div><div>R$ ${inv.value.toLocaleString('pt-BR',{minimumFractionDigits:2})}</div>`;
+      el.appendChild(d);
+    });
+  }
+  if(tab==='future'){
+    main.innerHTML = `<section class="card"><h3>Recebimentos Futuros</h3>
+      <div id="ftList"></div>
+      <div class="card" style="margin-top:12px">
+        <h4>Novo recebimento</h4>
+        <input id="ftDesc" class="input" placeholder="Descrição">
+        <input id="ftVal" class="input" type="number" placeholder="Valor (R$)">
+        <input id="ftDate" class="input" type="date">
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+          <button class="link" onclick="renderTab('future')">Cancelar</button>
+          <button class="btn" onclick="addFuture()">Adicionar</button>
+        </div>
+      </div>
+    </section>`;
+    renderFutures();
+  }
+  if(tab==='profile'){
+    main.innerHTML = `<section class="card"><h3>Clientes</h3>
+      <div id="clList"></div>
+      <div class="card" style="margin-top:12px">
+        <h4>Novo cliente</h4>
+        <input id="clName" class="input" placeholder="Nome completo">
+        <input id="clEmail" class="input" placeholder="E-mail">
+        <input id="clCPF" class="input" placeholder="CPF (opcional)">
+        <input id="clAg" class="input" placeholder="Agência">
+        <input id="clCc" class="input" placeholder="Conta corrente">
+        <input id="clPix" class="input" placeholder="Pix (chave)">
+        <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
+          <button class="link" onclick="renderTab('profile')">Cancelar</button>
+          <button class="btn" onclick="addClient()">Cadastrar</button>
+        </div>
+      </div>
+    </section>`;
+    renderClients();
+  }
+}
+
+// futures helpers
+function renderFutures(){
+  const el=document.getElementById('ftList'); el.innerHTML='';
+  futures.forEach(f=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML = `<div>${f.desc} <span class="pill">${f.date}</span></div><div class="green">+ R$ ${f.value.toLocaleString('pt-BR')}</div>`;
+    el.appendChild(d);
+  });
+}
+function addFuture(){
+  const desc=document.getElementById('ftDesc').value.trim();
+  const val=Number(document.getElementById('ftVal').value);
+  const date=document.getElementById('ftDate').value;
+  if(!desc || !val || !date){ alert('Preencha descrição, valor e data.'); return; }
+  futures.unshift({id:Date.now(),desc:desc,value:val,date:date});
+  renderTab('future');
+}
+
+// clients helpers
+function renderClients(){
+  const el=document.getElementById('clList'); el.innerHTML='';
+  clients.forEach(c=>{
+    const d=document.createElement('div'); d.className='item';
+    d.innerHTML = `<div>${c.name} <span class="pill">${c.email||''}</span></div><div class="link" onclick="openTransfer('${c.id}')">Transferir</div>`;
+    el.appendChild(d);
+  });
+}
+function addClient(){
+  const name=document.getElementById('clName').value.trim();
+  const email=document.getElementById('clEmail').value.trim();
+  const cpf=document.getElementById('clCPF').value.trim();
+  const ag=document.getElementById('clAg').value.trim();
+  const cc=document.getElementById('clCc').value.trim();
+  const pix=document.getElementById('clPix').value.trim();
+  if(!name){ alert('Informe o nome'); return; }
+  clients.unshift({id:'c'+Date.now(), name, email, cpf, ag, cc, pix});
+  renderTab('profile');
+}
+
+// simple modals
+function openPix(){ openSimple('Área PIX – enviar/receber'); }
+function openBills(){ openSimple('Pagamento de contas'); }
+function openCards(){ openSimple('Gerenciar cartões'); }
+function openSimple(title){ document.getElementById('simpleTitle').textContent = title; openModal('mSimple'); }
+
+function openTransfer(clientId){
+  // fill clients in select
+  const sel=document.getElementById('tfClient'); sel.innerHTML='';
+  clients.forEach(c=>{ const opt=document.createElement('option'); opt.value=c.id; opt.text=(c.name||'Cliente'); sel.appendChild(opt); });
+  if(clientId){ sel.value = clientId; }
+  openModal('mTransfer');
+}
+function submitTransfer(){
+  const from=document.getElementById('tfClient').value;
+  const to=document.getElementById('tfTo').value || 'Destino X';
+  const amount=Number(document.getElementById('tfAmount').value||0);
+  if(!from || amount<=0){ alert('Selecione cliente e valor válido.'); return; }
+  const doSend=()=>{
+    transactions.unshift({title:`Transferência - ${to}`, amount:-amount});
+    closeModal('mTransfer'); renderTab('tx');
+    alert('Transferência concluída (simulação).');
+  };
+  if(amount>LIMIT_BIO){
+    ensureBiometric(()=>{ doSend(); });
+  } else {
+    doSend();
+  }
+}
+
+// modal helpers
+function openModal(id){ document.getElementById(id).style.display='flex'; }
+function closeModal(id){ document.getElementById(id).style.display='none'; }
+
+// biometric enroll/verify (simulate)
+let mediaStream=null;
+function openEnroll(){
+  const title = document.getElementById('bioTitle');
+  const action = document.getElementById('bioAction');
+  const info = document.getElementById('bioInfo');
+  info.style.display='none';
+  if(localStorage.getItem('bioImage')){
+    title.textContent = 'Reconhecimento Facial (Validar)';
+  } else {
+    title.textContent = 'Reconhecimento Facial (Cadastrar)';
+  }
+  action.textContent='Capturar';
+  openModal('mEnroll');
+  navigator.mediaDevices.getUserMedia({video:{facingMode:'user'}}).then(s=>{
+    mediaStream = s;
+    document.getElementById('bioVideo').srcObject=s;
+  }).catch(()=>{ alert('Não foi possível acessar a câmera'); closeEnroll(); });
+  action.onclick = ()=>{
+    const video=document.getElementById('bioVideo');
+    const canvas=document.getElementById('bioCanvas');
+    canvas.width=video.videoWidth||320; canvas.height=video.videoHeight||240;
+    const ctx=canvas.getContext('2d'); ctx.drawImage(video,0,0,canvas.width,canvas.height);
+    const data=canvas.toDataURL('image/png');
+    if(!localStorage.getItem('bioImage')){
+      localStorage.setItem('bioImage', data);
+      info.style.display='block'; info.textContent='Biometria cadastrada com sucesso.';
+    } else {
+      info.style.display='block'; info.textContent='Reconhecimento compatível. Você pode prosseguir.';
+    }
+  };
+}
+function closeEnroll(){
+  closeModal('mEnroll');
+  if(mediaStream){ mediaStream.getTracks().forEach(t=>t.stop()); mediaStream=null; }
+}
+function ensureBiometric(onSuccess){
+  if(!localStorage.getItem('bioImage')){
+    openEnroll();
+    const info=document.getElementById('bioInfo');
+    const observer = new MutationObserver(()=>{
+      if(info.style.display==='block' && info.textContent.includes('cadastrada')){
+        closeEnroll(); if(onSuccess) onSuccess(); observer.disconnect();
+      }
+    });
+    observer.observe(info, {attributes:true,childList:true,subtree:true});
+  } else {
+    openEnroll();
+    const info=document.getElementById('bioInfo');
+    const observer = new MutationObserver(()=>{
+      if(info.style.display==='block' && info.textContent.includes('compatível')){
+        closeEnroll(); if(onSuccess) onSuccess(); observer.disconnect();
+      }
+    });
+    observer.observe(info, {attributes:true,childList:true,subtree:true});
+  }
+}
+
+// investments auto change
+setInterval(()=>{
+  investments = investments.map(i=>{ i.value = +(i.value*(1+(Math.random()*0.06-0.03))).toFixed(2); return i; });
+},4000);
+
+function logout(){ sessionStorage.removeItem('loggedIn'); location.href='index.html'; }
 </script>
 </body>
 </html>
