@@ -12,7 +12,7 @@ Inclui:
 2. Abrir no navegador (PC ou Mobile).
 3. No celular: **Adicionar à tela inicial** para instalar como app.
 # Teste de deploy
-
+Teste de deploy
 Arquivos:
 - `index.html`
 - `manifest.json`
