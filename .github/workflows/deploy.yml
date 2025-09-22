@@ -1,17 +1,16 @@
-name: Build and Deploy
+name: Deploy Vite App to GitHub Pages
 
 on:
   push:
     branches:
-      - main  # dispara sempre que fizer push na branch main
+      - main
 
 permissions:
-  contents: write  # dá permissão para o bot commitar na branch gh-pages
+  contents: write # dá permissão para o bot commitar na branch gh-pages
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -27,8 +26,8 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist   # 👈 garante que a pasta dist vai para gh-pages
+          publish_dir: ./dist
