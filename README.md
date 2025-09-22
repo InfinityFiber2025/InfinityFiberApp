@@ -18,3 +18,4 @@ Arquivos:
 - `manifest.json`
 - `service-worker.js`
 - `icons/`
+Teste de deploy
