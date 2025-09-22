@@ -1,0 +1,15 @@
+{
+  "bankVault": 37200000000.0,
+  "clients": [
+    {
+      "id": "c1",
+      "name": "João Silva",
+      "balance": 200000.0
+    },
+    {
+      "id": "c2",
+      "name": "Maria Oliveira",
+      "balance": 200000.0
+    }
+  ]
+}

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Infinity Fiber Bank - Login</title>
+<link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkluZmluaXR5IEZpYmVyIEJhbmsgKEJpb21ldHJpYSBGdWxsKSIsCiAgInNob3J0X25hbWUiOiAiSW5maW5pdHlGaWJlciIsCiAgInN0YXJ0X3VybCI6ICJpbmRleC5odG1sIiwKICAiZGlzcGxheSI6ICJzdGFuZGFsb25lIiwKICAiYmFja2dyb3VuZF9jb2xvciI6ICIjZmZmZmZmIiwKICAidGhlbWVfY29sb3IiOiAiIzdjM2FlZCIsCiAgImljb25zIjogW3sic3JjIjoiaWNvbnMvbG9nby5wbmciLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dCn0=">
+<style>
+body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial;background:#f3f4f6;height:100vh;display:flex;align-items:center;justify-content:center}
+.box{background:#fff;width:340px;padding:22px;border-radius:14px;box-shadow:0 10px 28px rgba(0,0,0,.08)}
+h2{text-align:center;margin:8px 0}
+.input{width:100%;padding:10px;border-radius:10px;border:1px solid #e5e7eb;margin-top:8px}
+.btn{width:100%;padding:12px;border:none;border-radius:10px;background:linear-gradient(135deg,#2563eb,#7c3aed);color:#fff;font-weight:700;margin-top:14px;cursor:pointer}
+.small{color:#6b7280;font-size:13px;margin-top:8px;text-align:center}
+.logo{display:flex;justify-content:center;margin-bottom:10px}
+.logo img{width:90px}
+</style>
+</head>
+<body>
+<div class="box">
+  <div class="logo"><img src="/InfinityFiberApp/assets/logo-df9cb391.png" alt="logo"></div>
+  <h2>Entrar</h2>
+  <input id="user" class="input" placeholder="Usuário">
+  <input id="pass" class="input" type="password" placeholder="Senha">
+  <button class="btn" id="loginBtn">Entrar</button>
+  <div class="small">Usuário: <b>DanielKascher</b><br>Senha: <b>K@scher123</b></div>
+</div>
+<script>
+const U="DanielKascher", P="K@scher123";
+document.getElementById('loginBtn').addEventListener('click', ()=>{
+  const u=document.getElementById('user').value.trim();
+  const p=document.getElementById('pass').value;
+  if(u===U && p===P){
+    sessionStorage.setItem('loggedIn','1');
+    window.location.href='splash.html';
+  } else {
+    alert('Usuário ou senha inválidos');
+  }
+});
+</script>
+</body>
+</html>
