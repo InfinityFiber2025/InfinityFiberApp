@@ -19,3 +19,7 @@ Arquivos:
 - `service-worker.js`
 - `icons/`
 Teste de deploy
+## 🌍 Deploy
+
+O app está publicado em:  
+👉 [InfinityFiberApp](https://infinityfiber2025.github.io/InfinityFiberApp/)
