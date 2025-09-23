@@ -1,4 +1,6 @@
-# 🌐 InfinityFiberApp
+# 🌐 InfinityFiberApp  
+
+[![Build and Deploy](https://github.com/InfinityFiber2025/InfinityFiberApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/InfinityFiber2025/InfinityFiberApp/actions)  
 
 Aplicação bancária protótipo com **cores dinâmicas, transações simuladas e suporte PWA**.
 
@@ -48,4 +50,3 @@ O app está publicado em:
 ---
 
 ✍️ Desenvolvido para testes e prototipagem.
-
