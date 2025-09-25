@@ -25,11 +25,11 @@ function LoginForm({ onLogin }) {
 }
 
 function DashboardCliente() {
-  return <h2>Dashboard do Cliente (demo simplificado)</h2>;
+  return <h2>Dashboard do Cliente</h2>;
 }
 
 function AdminPanel() {
-  return <h2>Módulo Administrador (demo simplificado)</h2>;
+  return <h2>Módulo Administrador</h2>;
 }
 
 export default function App() {

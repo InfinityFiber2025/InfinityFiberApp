@@ -4,7 +4,7 @@ echo "🔧 Corrigindo InfinityFiberApp e forçando deploy no GitHub Pages..."
 # Garantir que está no diretório do projeto
 cd "$(dirname "$0")"
 
-# Substituir App.jsx corrigido (se já estiver salvo em src/App.jsx, só faz commit)
+# Verifica se App.jsx existe
 if [ ! -f src/App.jsx ]; then
   echo "❌ ERRO: src/App.jsx não encontrado!"
   exit 1
