@@ -1,52 +1,43 @@
-# 🌐 InfinityFiberApp  
+# InfinityFiberApp 🚀
 
-[![Build and Deploy](https://github.com/InfinityFiber2025/InfinityFiberApp/actions/workflows/deploy.yml/badge.svg)](https://github.com/InfinityFiber2025/InfinityFiberApp/actions)  
+Aplicação React + Vite + Tailwind para simulação bancária com login, dashboard do cliente, cofre protegido por biometria e módulo administrador.
 
-Aplicação bancária protótipo com **cores dinâmicas, transações simuladas e suporte PWA**.
+## 🛠️ Rodando localmente
 
----
+```bash
+npm install
+npm run dev
+```
 
-## ✨ Funcionalidades
+O projeto rodará em `http://localhost:5173`.
 
-- 🎨 Cores vivas nos cards  
-- 🏦 Logo do banco  
-- 🔄 Transações dinâmicas  
-- 📈 Investimentos variando automaticamente *(simulação de bolsa)*  
-- 📱 Suporte PWA (instalável no celular ou desktop)
+## 📦 Build para produção
 
----
+```bash
+npm run build
+```
 
-## 🚀 Como usar
+Os arquivos prontos ficam em `/dist`.
 
-1. O app está publicado no GitHub Pages (link abaixo).  
-2. Basta abrir no navegador (PC ou Mobile).  
-3. No celular, use a opção **“Adicionar à tela inicial”** para instalar como aplicativo.  
+## 🚀 Deploy Automático no GitHub Pages
 
----
+Este projeto já possui **workflow GitHub Actions** em `.github/workflows/deploy.yml`.  
+Ao fazer push na branch `main`, o deploy roda automaticamente e publica em `gh-pages`.
 
-## 📂 Estrutura principal
+Ative o GitHub Pages no repositório:
 
-- `index.html` → página inicial  
-- `manifest.json` → configuração PWA  
-- `service-worker.js` → suporte offline  
-- `icons/` → ícones do app  
-- `assets/` → recursos adicionais  
+- Vá em **Settings → Pages**
+- Configure a branch `gh-pages`
 
----
+O app ficará disponível em:
 
-## 🌍 Deploy
-
-O app está publicado em:  
-👉 [InfinityFiberApp](https://infinityfiber2025.github.io/InfinityFiberApp/)
+```
+https://SEU_USUARIO.github.io/InfinityFiberApp/
+```
 
 ---
 
-## ⚙️ Tecnologias
+### 👤 Usuários de teste
 
-- [Vite](https://vitejs.dev/) + React  
-- GitHub Actions (CI/CD)  
-- GitHub Pages (deploy automático)
-
----
-
-✍️ Desenvolvido para testes e prototipagem.
+- Cliente: `DanielKascher / K@scher123`
+- Admin: `admin / admin`
